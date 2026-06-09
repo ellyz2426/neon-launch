@@ -1,0 +1,101 @@
+{
+  "element": {
+    "sourceTag": "container",
+    "type": "custom",
+    "children": [
+      {
+        "sourceTag": "text",
+        "type": "custom",
+        "children": [
+          "THROTTLE"
+        ],
+        "properties": {
+          "fontsize": "9",
+          "color": "#ff6633"
+        },
+        "dataUid": "uid-2"
+      },
+      {
+        "sourceTag": "text",
+        "type": "custom",
+        "children": [
+          "||||||||||||........"
+        ],
+        "properties": {
+          "name": "throttle-bar",
+          "fontsize": "10",
+          "fontweight": "bold",
+          "color": "#ff6633"
+        },
+        "dataUid": "uid-3"
+      },
+      {
+        "sourceTag": "text",
+        "type": "custom",
+        "children": [
+          "80%"
+        ],
+        "properties": {
+          "name": "throttle-pct",
+          "fontsize": "12",
+          "fontweight": "bold",
+          "color": "#ffcc00"
+        },
+        "dataUid": "uid-4"
+      }
+    ],
+    "properties": {
+      "flexdirection": "column",
+      "gap": "3",
+      "padding": "6",
+      "backgroundcolor": "#0a0a1a80",
+      "borderradius": "6",
+      "bordercolor": "#ff6633",
+      "borderwidth": "1"
+    },
+    "dataUid": "uid-1"
+  },
+  "classes": {},
+  "ranges": {
+    "uid-1": {
+      "start": {
+        "line": 0,
+        "column": 0
+      },
+      "end": {
+        "line": 4,
+        "column": 12
+      }
+    },
+    "uid-2": {
+      "start": {
+        "line": 1,
+        "column": 2
+      },
+      "end": {
+        "line": 1,
+        "column": 52
+      }
+    },
+    "uid-3": {
+      "start": {
+        "line": 2,
+        "column": 2
+      },
+      "end": {
+        "line": 2,
+        "column": 103
+      }
+    },
+    "uid-4": {
+      "start": {
+        "line": 3,
+        "column": 2
+      },
+      "end": {
+        "line": 3,
+        "column": 86
+      }
+    }
+  }
+}
