@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "sessionId": "3cf96f07-5e13-4067-9acd-919f5d2779bc",
+  "sessionId": "1cb19f4c-0536-445f-9825-dcea49f9320c",
   "workspaceRoot": "/home/hatch/workspace/neon-launch",
-  "pid": 3122,
+  "pid": 594,
   "port": 8081,
   "localUrl": "http://localhost:8081/",
   "networkUrls": [
@@ -16,8 +16,8 @@
     "status": "connected",
     "connected": true,
     "connectedClientCount": 1,
-    "lastTransitionAt": "2026-06-09T18:42:14.437Z"
+    "lastTransitionAt": "2026-06-09T19:22:48.878Z"
   },
-  "registeredAt": "2026-06-09T18:38:05.435Z",
-  "updatedAt": "2026-06-09T18:42:14.441Z"
+  "registeredAt": "2026-06-09T19:22:34.032Z",
+  "updatedAt": "2026-06-09T19:22:48.880Z"
 }

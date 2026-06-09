@@ -31,6 +31,8 @@ import {
   InputComponent,
   Follower,
   FollowBehavior,
+  ScreenSpace,
+  AssetManager,
 } from '@iwsdk/core';
 
 // ============================================================================
@@ -792,6 +794,97 @@ class ParticlePool {
 }
 
 // ============================================================================
+// ASSET LOADER -- Kenney Space Kit GLB models
+// ============================================================================
+
+interface LoadedModels {
+  rocketTopA: Group; rocketTopB: Group;
+  rocketSidesA: Group; rocketSidesB: Group;
+  rocketFinsA: Group; rocketFinsB: Group;
+  rocketFuelA: Group; rocketFuelB: Group;
+  rocketBaseA: Group; rocketBaseB: Group;
+  platformLarge: Group; platformCenter: Group;
+  supportsHigh: Group; supportsLow: Group;
+  stairs: Group;
+  terrain: Group;
+  structureDetailed: Group;
+  hangarLargeA: Group;
+  satelliteDishLarge: Group;
+  satelliteDish: Group;
+  rockLargeA: Group; rockLargeB: Group;
+  rocksSmallA: Group;
+  crater: Group;
+  pipeStraight: Group; pipeCorner: Group;
+  meteor: Group; meteorDetailed: Group;
+  barrel: Group;
+  machineGenerator: Group;
+}
+
+let loadedModels: LoadedModels | null = null;
+
+function applyNeonTint(model: Group, tintColor: Color, emissiveIntensity = 0.5) {
+  model.traverse((child) => {
+    if ((child as Mesh).isMesh) {
+      const mesh = child as Mesh;
+      const oldMat = mesh.material as MeshStandardMaterial;
+      const newMat = new MeshStandardMaterial({
+        color: oldMat.color ? oldMat.color.clone().lerp(tintColor, 0.3) : new Color(0x333355),
+        emissive: tintColor,
+        emissiveIntensity,
+        metalness: 0.7,
+        roughness: 0.2,
+      });
+      mesh.material = newMat;
+    }
+  });
+}
+
+async function preloadModels(): Promise<LoadedModels> {
+  const load = async (name: string): Promise<Group> => {
+    const gltf = await AssetManager.loadGLTF('./gltf/' + name + '.glb', name);
+    return gltf.scene.clone() as Group;
+  };
+
+  const [
+    rocketTopA, rocketTopB, rocketSidesA, rocketSidesB,
+    rocketFinsA, rocketFinsB, rocketFuelA, rocketFuelB,
+    rocketBaseA, rocketBaseB, platformLarge, platformCenter,
+    supportsHigh, supportsLow, stairs, terrain,
+    structureDetailed, hangarLargeA, satelliteDishLarge, satelliteDish,
+    rockLargeA, rockLargeB, rocksSmallA, crater,
+    pipeStraight, pipeCorner, meteor, meteorDetailed,
+    barrel, machineGenerator,
+  ] = await Promise.all([
+    load('rocket_topA'), load('rocket_topB'),
+    load('rocket_sidesA'), load('rocket_sidesB'),
+    load('rocket_finsA'), load('rocket_finsB'),
+    load('rocket_fuelA'), load('rocket_fuelB'),
+    load('rocket_baseA'), load('rocket_baseB'),
+    load('platform_large'), load('platform_center'),
+    load('supports_high'), load('supports_low'),
+    load('stairs'), load('terrain'),
+    load('structure_detailed'), load('hangar_largeA'),
+    load('satelliteDish_large'), load('satelliteDish'),
+    load('rock_largeA'), load('rock_largeB'),
+    load('rocks_smallA'), load('crater'),
+    load('pipe_straight'), load('pipe_corner'),
+    load('meteor'), load('meteor_detailed'),
+    load('barrel'), load('machine_generator'),
+  ]);
+
+  return {
+    rocketTopA, rocketTopB, rocketSidesA, rocketSidesB,
+    rocketFinsA, rocketFinsB, rocketFuelA, rocketFuelB,
+    rocketBaseA, rocketBaseB, platformLarge, platformCenter,
+    supportsHigh, supportsLow, stairs, terrain,
+    structureDetailed, hangarLargeA, satelliteDishLarge, satelliteDish,
+    rockLargeA, rockLargeB, rocksSmallA, crater,
+    pipeStraight, pipeCorner, meteor, meteorDetailed,
+    barrel, machineGenerator,
+  };
+}
+
+// ============================================================================
 // SCENE BUILDER
 // ============================================================================
 
@@ -816,38 +909,157 @@ function buildHolodeck(theme: ArenaTheme): Group {
   ceil.position.y = 8;
   env.add(ceil);
 
-  // Launch pad platform
-  const padGeo = new CylinderGeometry(1.5, 1.5, 0.1, 16);
-  const padMat = new MeshStandardMaterial({ color: 0x333344, emissive: new Color(theme.accent), emissiveIntensity: 0.3 });
-  const pad = new Mesh(padGeo, padMat);
-  pad.position.set(0, 0.05, -4);
-  env.add(pad);
+  // --- Kenney Space Kit: Launch Pad ---
+  if (loadedModels) {
+    // Central platform
+    const pad = loadedModels.platformLarge.clone();
+    pad.scale.setScalar(1.2);
+    pad.position.set(0, 0, -4);
+    applyNeonTint(pad, accentColor, 0.35);
+    env.add(pad);
 
-  // Pad edge glow
+    // Platform center piece
+    const padCenter = loadedModels.platformCenter.clone();
+    padCenter.scale.setScalar(1.0);
+    padCenter.position.set(0, 0.01, -4);
+    applyNeonTint(padCenter, accentColor, 0.5);
+    env.add(padCenter);
+
+    // Support structures
+    for (let i = 0; i < 4; i++) {
+      const angle = (i / 4) * Math.PI * 2 + Math.PI / 4;
+      const support = loadedModels.supportsHigh.clone();
+      support.scale.setScalar(0.8);
+      support.position.set(Math.cos(angle) * 2.5, 0, Math.sin(angle) * 2.5 - 4);
+      applyNeonTint(support, accentColor, 0.25);
+      env.add(support);
+    }
+
+    // Stairs access
+    const stairsModel = loadedModels.stairs.clone();
+    stairsModel.scale.setScalar(0.7);
+    stairsModel.position.set(2.0, 0, -3);
+    stairsModel.rotation.y = -Math.PI / 2;
+    applyNeonTint(stairsModel, accentColor, 0.2);
+    env.add(stairsModel);
+
+    // --- Environment: Hangars, Structures, Equipment ---
+    // Hangar
+    const hangar = loadedModels.hangarLargeA.clone();
+    hangar.scale.setScalar(1.0);
+    hangar.position.set(-8, 0, -6);
+    hangar.rotation.y = Math.PI / 4;
+    applyNeonTint(hangar, new Color(theme.wall), 0.15);
+    env.add(hangar);
+
+    // Mission control structure
+    const structure = loadedModels.structureDetailed.clone();
+    structure.scale.setScalar(0.9);
+    structure.position.set(7, 0, -8);
+    structure.rotation.y = -Math.PI / 3;
+    applyNeonTint(structure, accentColor, 0.2);
+    env.add(structure);
+
+    // Satellite dishes (tracking equipment)
+    const dish1 = loadedModels.satelliteDishLarge.clone();
+    dish1.scale.setScalar(0.8);
+    dish1.position.set(-5, 0, 4);
+    dish1.rotation.y = Math.PI / 6;
+    applyNeonTint(dish1, accentColor, 0.3);
+    env.add(dish1);
+
+    const dish2 = loadedModels.satelliteDish.clone();
+    dish2.scale.setScalar(0.6);
+    dish2.position.set(9, 0, 2);
+    dish2.rotation.y = -Math.PI / 4;
+    applyNeonTint(dish2, accentColor, 0.3);
+    env.add(dish2);
+
+    // Fuel pipe runs from hangar to pad
+    for (let i = 0; i < 5; i++) {
+      const pipe = loadedModels.pipeStraight.clone();
+      pipe.scale.setScalar(0.5);
+      pipe.position.set(-4 + i * 1.2, 0.1, -2);
+      applyNeonTint(pipe, new Color(theme.glow), 0.2);
+      env.add(pipe);
+    }
+    // Pipe corner at pad
+    const pipeC = loadedModels.pipeCorner.clone();
+    pipeC.scale.setScalar(0.5);
+    pipeC.position.set(1.5, 0.1, -2);
+    pipeC.rotation.y = Math.PI / 2;
+    applyNeonTint(pipeC, new Color(theme.glow), 0.2);
+    env.add(pipeC);
+
+    // Terrain chunks around the pad
+    const terrainPositions: [number, number, number][] = [
+      [-12, 0, -10], [12, 0, -10], [-10, 0, 6], [10, 0, 6],
+      [-14, 0, 0], [14, 0, 0],
+    ];
+    for (const [tx, ty, tz] of terrainPositions) {
+      const t = loadedModels.terrain.clone();
+      t.scale.setScalar(1.5);
+      t.position.set(tx, ty, tz);
+      t.rotation.y = Math.random() * Math.PI * 2;
+      applyNeonTint(t, new Color(theme.wall), 0.08);
+      env.add(t);
+    }
+
+    // Rocks and craters for terrain detail
+    const rockPositions: [number, number, number][] = [
+      [-6, 0, 7], [8, 0, 5], [-9, 0, -2], [11, 0, -4], [4, 0, 8],
+    ];
+    for (let i = 0; i < rockPositions.length; i++) {
+      const [rx, ry, rz] = rockPositions[i];
+      const rock = (i % 2 === 0 ? loadedModels.rockLargeA : loadedModels.rockLargeB).clone();
+      rock.scale.setScalar(0.4 + Math.random() * 0.3);
+      rock.position.set(rx, ry, rz);
+      rock.rotation.y = Math.random() * Math.PI * 2;
+      applyNeonTint(rock, accentColor, 0.1);
+      env.add(rock);
+    }
+
+    // Small rock clusters
+    for (let i = 0; i < 8; i++) {
+      const rs = loadedModels.rocksSmallA.clone();
+      rs.scale.setScalar(0.3 + Math.random() * 0.2);
+      rs.position.set((Math.random() - 0.5) * 20, 0, (Math.random() - 0.5) * 20);
+      rs.rotation.y = Math.random() * Math.PI * 2;
+      applyNeonTint(rs, new Color(theme.wall), 0.05);
+      env.add(rs);
+    }
+
+    // Crater
+    const craterModel = loadedModels.crater.clone();
+    craterModel.scale.setScalar(0.8);
+    craterModel.position.set(-3, 0, 8);
+    applyNeonTint(craterModel, new Color(theme.wall), 0.05);
+    env.add(craterModel);
+
+    // Barrels near hangar
+    for (let i = 0; i < 3; i++) {
+      const b = loadedModels.barrel.clone();
+      b.scale.setScalar(0.4);
+      b.position.set(-7 + i * 0.6, 0, -4.5);
+      applyNeonTint(b, new Color(theme.glow), 0.15);
+      env.add(b);
+    }
+
+    // Generator near mission control
+    const gen = loadedModels.machineGenerator.clone();
+    gen.scale.setScalar(0.6);
+    gen.position.set(5.5, 0, -7);
+    applyNeonTint(gen, accentColor, 0.2);
+    env.add(gen);
+  }
+
+  // Pad edge glow ring (always present as holodeck flourish)
   const padEdge = new Mesh(new TorusGeometry(1.5, 0.03, 8, 32), new MeshBasicMaterial({ color: accentColor, transparent: true, opacity: 0.8 }));
   padEdge.rotation.x = -Math.PI / 2;
   padEdge.position.set(0, 0.11, -4);
   env.add(padEdge);
 
-  // Support towers
-  for (let i = 0; i < 4; i++) {
-    const a = (i / 4) * Math.PI * 2 + Math.PI / 4;
-    const tower = new Group();
-    const tBody = new Mesh(new BoxGeometry(0.1, 3, 0.1), new MeshStandardMaterial({ color: 0x444466, emissive: accentColor, emissiveIntensity: 0.15 }));
-    tBody.position.y = 1.5;
-    tower.add(tBody);
-    const tEdge = new LineSegments(new EdgesGeometry(new BoxGeometry(0.1, 3, 0.1)), new LineBasicMaterial({ color: accentColor, transparent: true, opacity: 0.4 }));
-    tEdge.position.y = 1.5;
-    tower.add(tEdge);
-    // Top light
-    const tLight = new Mesh(new SphereGeometry(0.06, 8, 8), new MeshBasicMaterial({ color: 0xff3300, transparent: true, blending: AdditiveBlending }));
-    tLight.position.y = 3.1;
-    tower.add(tLight);
-    tower.position.set(Math.cos(a) * 2.2 + 0, 0, Math.sin(a) * 2.2 - 4);
-    env.add(tower);
-  }
-
-  // Floating decorations
+  // Floating decorations (holodeck aesthetic overlay)
   for (let i = 0; i < 14; i++) {
     const x = (Math.random() - 0.5) * 16;
     const y = 2 + Math.random() * 4;
@@ -958,59 +1170,112 @@ function buildRocket(skin: RocketSkin, stages: number): Group {
   const bodyColor = new Color(skin.body);
   const accentColor = new Color(skin.accent);
 
-  // Nose cone
-  const noseCone = new Mesh(new ConeGeometry(0.18, 0.6, 8), new MeshStandardMaterial({ color: bodyColor, emissive: accentColor, emissiveIntensity: 0.3 }));
-  noseCone.position.y = stages === 3 ? 3.2 : 2.6;
-  rocket.add(noseCone);
-  const noseEdge = new LineSegments(new EdgesGeometry(new ConeGeometry(0.18, 0.6, 8)), new LineBasicMaterial({ color: accentColor, transparent: true, opacity: 0.6 }));
-  noseEdge.position.copy(noseCone.position);
-  rocket.add(noseEdge);
+  if (loadedModels) {
+    // Kenney Space Kit modular rocket
+    // Use variant A or B based on skin index for variety
+    const useB = skin.name.includes('Gold') || skin.name.includes('Silver') || skin.name.includes('Chrome');
 
-  // Stage bodies
-  const stageHeights = stages === 3 ? [1.0, 0.8, 0.6] : [1.2, 1.0];
-  const stageRadii = stages === 3 ? [0.22, 0.2, 0.18] : [0.22, 0.18];
-  let yOff = stages === 3 ? 2.5 : 2.0;
+    // Nose cone
+    const nose = (useB ? loadedModels.rocketTopB : loadedModels.rocketTopA).clone();
+    nose.scale.setScalar(0.3);
+    const noseY = stages === 3 ? 2.0 : 1.6;
+    nose.position.y = noseY;
+    applyNeonTint(nose, accentColor, 0.5);
+    // Override base color for skin
+    nose.traverse((child) => {
+      if ((child as Mesh).isMesh) {
+        (child as Mesh).material = new MeshStandardMaterial({
+          color: bodyColor, emissive: accentColor, emissiveIntensity: 0.4, metalness: 0.5, roughness: 0.3,
+        });
+      }
+    });
+    rocket.add(nose);
 
-  for (let s = 0; s < stages; s++) {
-    const h = stageHeights[s];
-    const r = stageRadii[s];
-    const body = new Mesh(new CylinderGeometry(r, r, h, 8), new MeshStandardMaterial({ color: bodyColor, emissive: accentColor, emissiveIntensity: 0.15 }));
-    body.position.y = yOff;
-    rocket.add(body);
-    const bodyEdge = new LineSegments(new EdgesGeometry(new CylinderGeometry(r, r, h, 8)), new LineBasicMaterial({ color: accentColor, transparent: true, opacity: 0.5 }));
-    bodyEdge.position.copy(body.position);
-    rocket.add(bodyEdge);
-    // Stage separator ring
-    if (s < stages - 1) {
-      const ring = new Mesh(new TorusGeometry(r + 0.02, 0.015, 6, 16), new MeshBasicMaterial({ color: accentColor, transparent: true, opacity: 0.7 }));
-      ring.rotation.x = Math.PI / 2;
-      ring.position.y = yOff - h / 2;
-      rocket.add(ring);
+    // Stage bodies - use sides + fuel modules
+    const stageYPositions = stages === 3 ? [1.5, 1.0, 0.5] : [1.2, 0.6];
+    for (let s = 0; s < stages; s++) {
+      const sides = (s % 2 === 0 ? loadedModels.rocketSidesA : loadedModels.rocketSidesB).clone();
+      sides.scale.setScalar(0.3);
+      sides.position.y = stageYPositions[s];
+      sides.traverse((child) => {
+        if ((child as Mesh).isMesh) {
+          (child as Mesh).material = new MeshStandardMaterial({
+            color: bodyColor, emissive: accentColor, emissiveIntensity: 0.2, metalness: 0.5, roughness: 0.3,
+          });
+        }
+      });
+      rocket.add(sides);
+
+      // Fuel tank between stages
+      if (s < stages - 1) {
+        const fuel = (s % 2 === 0 ? loadedModels.rocketFuelA : loadedModels.rocketFuelB).clone();
+        fuel.scale.setScalar(0.3);
+        fuel.position.y = stageYPositions[s] - 0.3;
+        fuel.traverse((child) => {
+          if ((child as Mesh).isMesh) {
+            (child as Mesh).material = new MeshStandardMaterial({
+              color: bodyColor.clone().multiplyScalar(0.8), emissive: accentColor, emissiveIntensity: 0.15, metalness: 0.6, roughness: 0.4,
+            });
+          }
+        });
+        rocket.add(fuel);
+      }
     }
-    yOff -= h + 0.05;
+
+    // Fins
+    const fins = (useB ? loadedModels.rocketFinsB : loadedModels.rocketFinsA).clone();
+    const finsY = stages === 3 ? 0.2 : 0.15;
+    fins.scale.setScalar(0.3);
+    fins.position.y = finsY;
+    fins.traverse((child) => {
+      if ((child as Mesh).isMesh) {
+        (child as Mesh).material = new MeshStandardMaterial({
+          color: accentColor, emissive: accentColor, emissiveIntensity: 0.5, metalness: 0.7, roughness: 0.2,
+        });
+      }
+    });
+    rocket.add(fins);
+
+    // Engine base
+    const base = (useB ? loadedModels.rocketBaseB : loadedModels.rocketBaseA).clone();
+    base.scale.setScalar(0.3);
+    base.position.y = stages === 3 ? 0.0 : -0.1;
+    base.traverse((child) => {
+      if ((child as Mesh).isMesh) {
+        (child as Mesh).material = new MeshStandardMaterial({
+          color: new Color(0x666688), emissive: accentColor, emissiveIntensity: 0.2, metalness: 0.7, roughness: 0.3,
+        });
+      }
+    });
+    rocket.add(base);
+  } else {
+    // Fallback: procedural geometry if models not yet loaded
+    const noseCone = new Mesh(new ConeGeometry(0.18, 0.6, 8), new MeshStandardMaterial({ color: bodyColor, emissive: accentColor, emissiveIntensity: 0.3 }));
+    noseCone.position.y = stages === 3 ? 3.2 : 2.6;
+    rocket.add(noseCone);
+    const stageHeights = stages === 3 ? [1.0, 0.8, 0.6] : [1.2, 1.0];
+    const stageRadii = stages === 3 ? [0.22, 0.2, 0.18] : [0.22, 0.18];
+    let yOff = stages === 3 ? 2.5 : 2.0;
+    for (let s = 0; s < stages; s++) {
+      const h = stageHeights[s]; const r = stageRadii[s];
+      const body = new Mesh(new CylinderGeometry(r, r, h, 8), new MeshStandardMaterial({ color: bodyColor, emissive: accentColor, emissiveIntensity: 0.15 }));
+      body.position.y = yOff;
+      rocket.add(body);
+      yOff -= h + 0.05;
+    }
+    const nozzle = new Mesh(new ConeGeometry(0.15, 0.25, 8), new MeshStandardMaterial({ color: 0x666688, emissive: 0x333344, emissiveIntensity: 0.3 }));
+    nozzle.position.y = yOff + 0.05;
+    nozzle.rotation.x = Math.PI;
+    rocket.add(nozzle);
   }
 
-  // Nozzle
-  const nozzle = new Mesh(new ConeGeometry(0.15, 0.25, 8), new MeshStandardMaterial({ color: 0x666688, emissive: 0x333344, emissiveIntensity: 0.3 }));
-  nozzle.position.y = yOff + 0.05;
-  nozzle.rotation.x = Math.PI;
-  rocket.add(nozzle);
-
-  // Fins (4)
-  for (let i = 0; i < 4; i++) {
-    const a = (i / 4) * Math.PI * 2;
-    const fin = new Mesh(new BoxGeometry(0.02, 0.4, 0.2), new MeshStandardMaterial({ color: accentColor, emissive: accentColor, emissiveIntensity: 0.4 }));
-    fin.position.set(Math.cos(a) * 0.25, yOff + 0.3, Math.sin(a) * 0.25);
-    fin.rotation.y = a;
-    rocket.add(fin);
-  }
-
-  // Exhaust flame placeholder (invisible initially)
+  // Exhaust flame (works with both model and procedural rockets)
+  const flameYBase = stages === 3 ? -0.3 : -0.4;
   const flameGeo = new ConeGeometry(0.12, 0.8, 8);
   const flameMat = new MeshBasicMaterial({ color: new Color(skin.flame), transparent: true, blending: AdditiveBlending, opacity: 0 });
   const flame = new Mesh(flameGeo, flameMat);
   flame.rotation.x = Math.PI;
-  flame.position.y = yOff - 0.3;
+  flame.position.y = flameYBase;
   flame.name = 'flame';
   rocket.add(flame);
 
@@ -1018,7 +1283,7 @@ function buildRocket(skin: RocketSkin, stages: number): Group {
   const glowGeo = new SphereGeometry(0.2, 8, 8);
   const glowMat = new MeshBasicMaterial({ color: new Color(skin.flame), transparent: true, blending: AdditiveBlending, opacity: 0 });
   const glow = new Mesh(glowGeo, glowMat);
-  glow.position.y = yOff - 0.1;
+  glow.position.y = flameYBase + 0.2;
   glow.name = 'exhaustGlow';
   rocket.add(glow);
 
@@ -1137,28 +1402,49 @@ function buildStageDebris(skin: RocketSkin): Group {
   const bodyColor = new Color(skin.body);
   const accentColor = new Color(skin.accent);
 
-  // Cylinder body piece
-  const body = new Mesh(
-    new CylinderGeometry(0.2, 0.2, 0.6, 8),
-    new MeshStandardMaterial({ color: bodyColor, emissive: accentColor, emissiveIntensity: 0.2 })
-  );
-  debris.add(body);
+  if (loadedModels) {
+    // Use a Kenney rocket sides piece as debris
+    const piece = loadedModels.rocketSidesA.clone();
+    piece.scale.setScalar(0.35);
+    piece.traverse((child) => {
+      if ((child as Mesh).isMesh) {
+        const mat = new MeshStandardMaterial({
+          color: bodyColor, emissive: accentColor, emissiveIntensity: 0.3,
+          transparent: true, opacity: 0.8, metalness: 0.5, roughness: 0.3,
+        });
+        (child as Mesh).material = mat;
+      }
+    });
+    debris.add(piece);
 
-  // Edge glow
-  const edge = new LineSegments(
-    new EdgesGeometry(new CylinderGeometry(0.2, 0.2, 0.6, 8)),
-    new LineBasicMaterial({ color: accentColor, transparent: true, opacity: 0.5 })
-  );
-  debris.add(edge);
-
-  // Nozzle piece
-  const nozzle = new Mesh(
-    new ConeGeometry(0.12, 0.2, 8),
-    new MeshStandardMaterial({ color: 0x666688, emissive: 0x333344, emissiveIntensity: 0.2 })
-  );
-  nozzle.position.y = -0.4;
-  nozzle.rotation.x = Math.PI;
-  debris.add(nozzle);
+    // Add engine base piece
+    const nozzlePiece = loadedModels.rocketBaseA.clone();
+    nozzlePiece.scale.setScalar(0.3);
+    nozzlePiece.position.y = -0.4;
+    nozzlePiece.traverse((child) => {
+      if ((child as Mesh).isMesh) {
+        (child as Mesh).material = new MeshStandardMaterial({
+          color: new Color(0x666688), emissive: accentColor, emissiveIntensity: 0.2,
+          transparent: true, opacity: 0.8, metalness: 0.6, roughness: 0.3,
+        });
+      }
+    });
+    debris.add(nozzlePiece);
+  } else {
+    // Fallback procedural
+    const body = new Mesh(
+      new CylinderGeometry(0.2, 0.2, 0.6, 8),
+      new MeshStandardMaterial({ color: bodyColor, emissive: accentColor, emissiveIntensity: 0.2 })
+    );
+    debris.add(body);
+    const nozzle = new Mesh(
+      new ConeGeometry(0.12, 0.2, 8),
+      new MeshStandardMaterial({ color: 0x666688, emissive: 0x333344, emissiveIntensity: 0.2 })
+    );
+    nozzle.position.y = -0.4;
+    nozzle.rotation.x = Math.PI;
+    debris.add(nozzle);
+  }
 
   return debris;
 }
@@ -1178,6 +1464,15 @@ async function main() {
   });
 
   world.scene.fog = new Fog(0x050510, 5, 30);
+  world.scene.background = new Color(0x050510);
+
+  // Initialize AssetManager and preload Kenney models
+  AssetManager.init(world.renderer, world);
+  try {
+    loadedModels = await preloadModels();
+  } catch (e) {
+    console.warn('Failed to load some Kenney models, using procedural fallback:', e);
+  }
 
   const game = new GameStateManager();
   const audio = new AudioManager();
@@ -1289,6 +1584,7 @@ async function main() {
     game.themesUsed.add(game.themes[game.currentThemeIndex].name);
     const fogColor = new Color(game.themes[game.currentThemeIndex].fog);
     world.scene.fog = new Fog(fogColor.getHex(), 5, 30);
+    world.scene.background = fogColor.clone();
   }
 
   function setState(s: GameState) {
@@ -1493,6 +1789,9 @@ async function main() {
         const currentFog = baseFog.clone().lerp(spaceFog, skyDarken);
         if (world.scene.fog) {
           (world.scene.fog as Fog).color.copy(currentFog);
+        }
+        if (world.scene.background) {
+          (world.scene.background as Color).copy(currentFog);
         }
       } else {
         starfield.group.visible = false;
@@ -1815,9 +2114,24 @@ async function main() {
     return e;
   }
 
-  function createFollowerPanel(config: string, ox: number, oy: number, oz: number, w: number, h: number) {
+  function createFollowerPanel(config: string, ox: number, oy: number, oz: number, w: number, h: number, screenSpaceOpts?: { width: string; height: string; top?: string; bottom?: string; left?: string; right?: string; zOffset?: number }) {
     const e = world.createTransformEntity(undefined, { persistent: true });
     e.addComponent(PanelUI, { config, maxWidth: w, maxHeight: h });
+    // In browser mode: ScreenSpace handles CSS-like positioning.
+    // In XR mode: ScreenSpace auto-returns to world space, Follower takes over.
+    if (screenSpaceOpts) {
+      e.addComponent(ScreenSpace, {
+        width: screenSpaceOpts.width,
+        height: screenSpaceOpts.height,
+        top: screenSpaceOpts.top ?? 'auto',
+        bottom: screenSpaceOpts.bottom ?? 'auto',
+        left: screenSpaceOpts.left ?? 'auto',
+        right: screenSpaceOpts.right ?? 'auto',
+        zOffset: screenSpaceOpts.zOffset ?? 0.3,
+      });
+    }
+    // Follower still added -- in XR mode (when ScreenSpace returns to world space),
+    // the panel follows the player's head
     e.addComponent(Follower, {
       target: world.player.head,
       offsetPosition: [ox, oy, oz],
@@ -2102,6 +2416,36 @@ async function main() {
       };
       for (const [name, entity] of Object.entries(panelEntities)) {
         if (entity.object3D) entity.object3D.visible = vis[name] ?? false;
+      }
+
+      // ScreenSpace management: add/remove component based on visibility
+      // This prevents ScreenSpace from showing hidden panels in browser mode
+      const screenSpaceConfigs: Record<string, { width: string; height: string; top?: string; bottom?: string; left?: string; right?: string; zOffset?: number }> = {
+        hud: { width: '340px', height: 'auto', bottom: '16px', right: '16px', zOffset: 0.35 },
+        throttle: { width: '160px', height: 'auto', bottom: '16px', left: '16px', zOffset: 0.35 },
+        telemetry: { width: '200px', height: 'auto', bottom: '100px', left: '16px', zOffset: 0.35 },
+        altimeter: { width: '130px', height: 'auto', top: '16px', left: '16px', zOffset: 0.35 },
+        toast: { width: '360px', height: 'auto', top: '16px', left: '50%', zOffset: 0.3 },
+        countdown: { width: '180px', height: 'auto', top: '40vh', left: '50%', zOffset: 0.3 },
+        callout: { width: '360px', height: 'auto', top: '60px', left: '50%', zOffset: 0.3 },
+      };
+      for (const [name, cfg] of Object.entries(screenSpaceConfigs)) {
+        const entity = panelEntities[name];
+        if (!entity) continue;
+        const shouldShow = vis[name] ?? false;
+        const hasScreenSpace = entity.hasComponent?.(ScreenSpace) ?? false;
+        if (shouldShow && !hasScreenSpace) {
+          try {
+            entity.addComponent(ScreenSpace, {
+              width: cfg.width, height: cfg.height,
+              top: cfg.top ?? 'auto', bottom: cfg.bottom ?? 'auto',
+              left: cfg.left ?? 'auto', right: cfg.right ?? 'auto',
+              zOffset: cfg.zOffset ?? 0.3,
+            });
+          } catch {}
+        } else if (!shouldShow && hasScreenSpace) {
+          try { entity.removeComponent(ScreenSpace); } catch {}
+        }
       }
 
       // Update HUD
