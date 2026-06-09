@@ -1,0 +1,36 @@
+<container flexDirection="column" alignItems="center" gap="4" padding="16" backgroundColor="#0a0a1a" borderRadius="12" borderColor="#ffcc00" borderWidth="1">
+  <text fontSize="18" fontWeight="bold" color="#ffcc00">ACHIEVEMENTS</text>
+  <container flexDirection="column" gap="3" marginTop="4">
+    <container flexDirection="row" gap="6"><text name="ach-name-0" fontSize="9" color="#aaaacc">[ ] Liftoff!</text><text name="ach-desc-0" fontSize="8" color="#666688">Complete your first launch</text></container>
+    <container flexDirection="row" gap="6"><text name="ach-name-1" fontSize="9" color="#aaaacc">[ ] Suborbital</text><text name="ach-desc-1" fontSize="8" color="#666688">Reach 100km altitude</text></container>
+    <container flexDirection="row" gap="6"><text name="ach-name-2" fontSize="9" color="#aaaacc">[ ] Low Orbit</text><text name="ach-desc-2" fontSize="8" color="#666688">Reach 200km orbit</text></container>
+    <container flexDirection="row" gap="6"><text name="ach-name-3" fontSize="9" color="#aaaacc">[ ] Station Orbit</text><text name="ach-desc-3" fontSize="8" color="#666688">Reach 400km orbit</text></container>
+    <container flexDirection="row" gap="6"><text name="ach-name-4" fontSize="9" color="#aaaacc">[ ] High Orbit</text><text name="ach-desc-4" fontSize="8" color="#666688">Reach 800km orbit</text></container>
+    <container flexDirection="row" gap="6"><text name="ach-name-5" fontSize="9" color="#aaaacc">[ ] GEO Transfer</text><text name="ach-desc-5" fontSize="8" color="#666688">Reach 2000km altitude</text></container>
+    <container flexDirection="row" gap="6"><text name="ach-name-6" fontSize="9" color="#aaaacc">[ ] Deep Space</text><text name="ach-desc-6" fontSize="8" color="#666688">Reach 5000km altitude</text></container>
+    <container flexDirection="row" gap="6"><text name="ach-name-7" fontSize="9" color="#aaaacc">[ ] Escape!</text><text name="ach-desc-7" fontSize="8" color="#666688">Reach escape velocity</text></container>
+    <container flexDirection="row" gap="6"><text name="ach-name-8" fontSize="9" color="#aaaacc">[ ] Perfect Launch</text><text name="ach-desc-8" fontSize="8" color="#666688">Score 10000+</text></container>
+    <container flexDirection="row" gap="6"><text name="ach-name-9" fontSize="9" color="#aaaacc">[ ] Fuel Saver</text><text name="ach-desc-9" fontSize="8" color="#666688">Complete orbit with 20%+ fuel</text></container>
+    <container flexDirection="row" gap="6"><text name="ach-name-10" fontSize="9" color="#aaaacc">[ ] Speed Demon</text><text name="ach-desc-10" fontSize="8" color="#666688">Reach 8000 m/s</text></container>
+    <container flexDirection="row" gap="6"><text name="ach-name-11" fontSize="9" color="#aaaacc">[ ] Stage Master</text><text name="ach-desc-11" fontSize="8" color="#666688">3-stage separation</text></container>
+    <container flexDirection="row" gap="6"><text name="ach-name-12" fontSize="9" color="#aaaacc">[ ] Smooth Pilot</text><text name="ach-desc-12" fontSize="8" color="#666688">Keep angle under 10 degrees</text></container>
+    <container flexDirection="row" gap="6"><text name="ach-name-13" fontSize="9" color="#aaaacc">[ ] Veteran</text><text name="ach-desc-13" fontSize="8" color="#666688">Complete 10 launches</text></container>
+    <container flexDirection="row" gap="6"><text name="ach-name-14" fontSize="9" color="#aaaacc">[ ] Commander</text><text name="ach-desc-14" fontSize="8" color="#666688">Complete 50 launches</text></container>
+    <container flexDirection="row" gap="6"><text name="ach-name-15" fontSize="9" color="#aaaacc">[ ] Daily Pilot</text><text name="ach-desc-15" fontSize="8" color="#666688">Complete daily mission</text></container>
+    <container flexDirection="row" gap="6"><text name="ach-name-16" fontSize="9" color="#aaaacc">[ ] Streak x3</text><text name="ach-desc-16" fontSize="8" color="#666688">3-day daily streak</text></container>
+    <container flexDirection="row" gap="6"><text name="ach-name-17" fontSize="9" color="#aaaacc">[ ] Streak x7</text><text name="ach-desc-17" fontSize="8" color="#666688">7-day daily streak</text></container>
+    <container flexDirection="row" gap="6"><text name="ach-name-18" fontSize="9" color="#aaaacc">[ ] Mission Master</text><text name="ach-desc-18" fontSize="8" color="#666688">Complete all 8 missions</text></container>
+    <container flexDirection="row" gap="6"><text name="ach-name-19" fontSize="9" color="#aaaacc">[ ] Safe Landing</text><text name="ach-desc-19" fontSize="8" color="#666688">Crew mission under 3g</text></container>
+    <container flexDirection="row" gap="6"><text name="ach-name-20" fontSize="9" color="#aaaacc">[ ] Heavy Lifter</text><text name="ach-desc-20" fontSize="8" color="#666688">Complete station module</text></container>
+    <container flexDirection="row" gap="6"><text name="ach-name-21" fontSize="9" color="#aaaacc">[ ] Throttle Master</text><text name="ach-desc-21" fontSize="8" color="#666688">Use throttle to orbit</text></container>
+    <container flexDirection="row" gap="6"><text name="ach-name-22" fontSize="9" color="#aaaacc">[ ] Gravity Turn</text><text name="ach-desc-22" fontSize="8" color="#666688">Optimal trajectory</text></container>
+    <container flexDirection="row" gap="6"><text name="ach-name-23" fontSize="9" color="#aaaacc">[ ] Never Quit</text><text name="ach-desc-23" fontSize="8" color="#666688">5 missions no abort</text></container>
+    <container flexDirection="row" gap="6"><text name="ach-name-24" fontSize="9" color="#aaaacc">[ ] Fashionista</text><text name="ach-desc-24" fontSize="8" color="#666688">Unlock a rocket skin</text></container>
+    <container flexDirection="row" gap="6"><text name="ach-name-25" fontSize="9" color="#aaaacc">[ ] Explorer</text><text name="ach-desc-25" fontSize="8" color="#666688">Try all arena themes</text></container>
+    <container flexDirection="row" gap="6"><text name="ach-name-26" fontSize="9" color="#aaaacc">[ ] Cadet</text><text name="ach-desc-26" fontSize="8" color="#666688">Reach level 10</text></container>
+    <container flexDirection="row" gap="6"><text name="ach-name-27" fontSize="9" color="#aaaacc">[ ] Captain</text><text name="ach-desc-27" fontSize="8" color="#666688">Reach level 25</text></container>
+    <container flexDirection="row" gap="6"><text name="ach-name-28" fontSize="9" color="#aaaacc">[ ] Admiral</text><text name="ach-desc-28" fontSize="8" color="#666688">Reach level 50</text></container>
+    <container flexDirection="row" gap="6"><text name="ach-name-29" fontSize="9" color="#aaaacc">[ ] Full Burn</text><text name="ach-desc-29" fontSize="8" color="#666688">Launch at 100% throttle</text></container>
+  </container>
+  <text name="btn-back-ach" fontSize="12" color="#888888" backgroundColor="#111111" padding="6" borderRadius="4" borderColor="#888888" borderWidth="1" cursor="pointer" marginTop="6">BACK</text>
+</container>

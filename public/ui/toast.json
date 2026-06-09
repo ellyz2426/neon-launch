@@ -1,0 +1,55 @@
+{
+  "element": {
+    "sourceTag": "container",
+    "type": "custom",
+    "children": [
+      {
+        "sourceTag": "text",
+        "type": "custom",
+        "children": [
+          "Achievement unlocked!"
+        ],
+        "properties": {
+          "name": "toast-text",
+          "fontsize": "11",
+          "fontweight": "bold",
+          "color": "#ffcc00"
+        },
+        "dataUid": "uid-2"
+      }
+    ],
+    "properties": {
+      "flexdirection": "column",
+      "alignitems": "center",
+      "padding": "6",
+      "backgroundcolor": "#0a0a1a80",
+      "borderradius": "6",
+      "bordercolor": "#ffcc00",
+      "borderwidth": "1"
+    },
+    "dataUid": "uid-1"
+  },
+  "classes": {},
+  "ranges": {
+    "uid-1": {
+      "start": {
+        "line": 0,
+        "column": 0
+      },
+      "end": {
+        "line": 2,
+        "column": 12
+      }
+    },
+    "uid-2": {
+      "start": {
+        "line": 1,
+        "column": 2
+      },
+      "end": {
+        "line": 1,
+        "column": 102
+      }
+    }
+  }
+}

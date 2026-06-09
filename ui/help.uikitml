@@ -1,0 +1,26 @@
+<container flexDirection="column" alignItems="center" gap="6" padding="16" backgroundColor="#0a0a1a" borderRadius="12" borderColor="#6688aa" borderWidth="1">
+  <text fontSize="18" fontWeight="bold" color="#6688aa">HELP</text>
+  <container flexDirection="column" gap="3" marginTop="4">
+    <text fontSize="12" fontWeight="bold" color="#00ffff">Browser Controls:</text>
+    <text fontSize="9" color="#aaaacc">W/S or Up/Down - Throttle</text>
+    <text fontSize="9" color="#aaaacc">A/D or Left/Right - Angle</text>
+    <text fontSize="9" color="#aaaacc">Space - Stage Separation</text>
+    <text fontSize="9" color="#aaaacc">ESC/P - Abort Mission</text>
+    <text fontSize="12" fontWeight="bold" color="#00ffff" marginTop="4">VR Controls:</text>
+    <text fontSize="9" color="#aaaacc">Right Thumbstick Y - Throttle</text>
+    <text fontSize="9" color="#aaaacc">Right Thumbstick X - Angle</text>
+    <text fontSize="9" color="#aaaacc">A Button - Stage Separation</text>
+    <text fontSize="9" color="#aaaacc">B Button - Abort Mission</text>
+    <text fontSize="12" fontWeight="bold" color="#00ffff" marginTop="4">Gameplay:</text>
+    <text fontSize="9" color="#aaaacc">Control throttle and angle to reach orbit.</text>
+    <text fontSize="9" color="#aaaacc">Separate stages when fuel runs low.</text>
+    <text fontSize="9" color="#aaaacc">Each stage sheds mass and gives fuel.</text>
+    <text fontSize="9" color="#aaaacc">Use gravity turns for efficiency.</text>
+    <text fontSize="9" color="#aaaacc">Score = altitude + velocity + fuel bonus.</text>
+    <text fontSize="12" fontWeight="bold" color="#00ffff" marginTop="4">Fuel Types:</text>
+    <text fontSize="9" color="#aaaacc">Standard - Balanced thrust and burn rate</text>
+    <text fontSize="9" color="#aaaacc">High Thrust - More power, burns faster</text>
+    <text fontSize="9" color="#aaaacc">Efficient - Less power, burns slower</text>
+  </container>
+  <text name="btn-back-help" fontSize="12" color="#888888" backgroundColor="#111111" padding="6" borderRadius="4" borderColor="#888888" borderWidth="1" cursor="pointer" marginTop="6">BACK</text>
+</container>

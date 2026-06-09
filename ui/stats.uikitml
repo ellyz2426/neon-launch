@@ -1,0 +1,14 @@
+<container flexDirection="column" alignItems="center" gap="6" padding="16" backgroundColor="#0a0a1a" borderRadius="12" borderColor="#44ff44" borderWidth="1">
+  <text fontSize="18" fontWeight="bold" color="#44ff44">STATISTICS</text>
+  <container flexDirection="column" gap="4" marginTop="6">
+    <container flexDirection="row" gap="10"><text fontSize="10" color="#668888">Total Launches:</text><text name="stat-launches" fontSize="10" fontWeight="bold" color="#aaaacc">0</text></container>
+    <container flexDirection="row" gap="10"><text fontSize="10" color="#668888">Total Score:</text><text name="stat-score" fontSize="10" fontWeight="bold" color="#ffcc00">0</text></container>
+    <container flexDirection="row" gap="10"><text fontSize="10" color="#668888">Best Score:</text><text name="stat-best" fontSize="10" fontWeight="bold" color="#ffcc00">0</text></container>
+    <container flexDirection="row" gap="10"><text fontSize="10" color="#668888">Best Altitude:</text><text name="stat-altitude" fontSize="10" fontWeight="bold" color="#44ff44">0.0 km</text></container>
+    <container flexDirection="row" gap="10"><text fontSize="10" color="#668888">Missions Done:</text><text name="stat-missions" fontSize="10" fontWeight="bold" color="#aaaacc">0</text></container>
+    <container flexDirection="row" gap="10"><text fontSize="10" color="#668888">Level:</text><text name="stat-level" fontSize="10" fontWeight="bold" color="#00ffff">1 (Cadet)</text></container>
+    <container flexDirection="row" gap="10"><text fontSize="10" color="#668888">Daily Streak:</text><text name="stat-streak" fontSize="10" fontWeight="bold" color="#9966ff">0</text></container>
+    <container flexDirection="row" gap="10"><text fontSize="10" color="#668888">Achievements:</text><text name="stat-achievements" fontSize="10" fontWeight="bold" color="#ffcc00">0/30</text></container>
+  </container>
+  <text name="btn-back-stats" fontSize="12" color="#888888" backgroundColor="#111111" padding="6" borderRadius="4" borderColor="#888888" borderWidth="1" cursor="pointer" marginTop="8">BACK</text>
+</container>

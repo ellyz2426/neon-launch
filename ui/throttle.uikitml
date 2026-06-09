@@ -1,0 +1,5 @@
+<container flexDirection="column" gap="3" padding="6" backgroundColor="#0a0a1a80" borderRadius="6" borderColor="#ff6633" borderWidth="1">
+  <text fontSize="9" color="#ff6633">THROTTLE</text>
+  <text name="throttle-bar" fontSize="10" fontWeight="bold" color="#ff6633">||||||||||||........</text>
+  <text name="throttle-pct" fontSize="12" fontWeight="bold" color="#ffcc00">80%</text>
+</container>

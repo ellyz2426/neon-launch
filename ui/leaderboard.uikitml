@@ -1,0 +1,4 @@
+<container flexDirection="column" alignItems="center" gap="6" padding="16" backgroundColor="#0a0a1a" borderRadius="12" borderColor="#00ffff" borderWidth="1">
+  <text fontSize="18" fontWeight="bold" color="#00ffff">LEADERBOARD</text>
+  <text fontSize="10" color="#668888">Coming soon</text>
+</container>

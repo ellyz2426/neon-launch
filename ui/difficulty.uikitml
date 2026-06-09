@@ -1,0 +1,24 @@
+<container flexDirection="column" alignItems="center" gap="8" padding="16" backgroundColor="#0a0a1a" borderRadius="12" borderColor="#00ffff" borderWidth="1">
+  <text fontSize="18" fontWeight="bold" color="#00ffff">ROCKET CONFIG</text>
+  <text name="cfg-mission" fontSize="12" color="#88aacc">Mission: Low Orbit</text>
+  <text name="cfg-target" fontSize="10" color="#668888">Target: 200 km</text>
+  <container flexDirection="column" gap="4" marginTop="6">
+    <text fontSize="12" color="#aaaacc">Stages:</text>
+    <container flexDirection="row" gap="6">
+      <text name="btn-2stage" fontSize="11" color="#44ff44" backgroundColor="#001a00" padding="6" borderRadius="4" borderColor="#44ff44" borderWidth="1" cursor="pointer">2 STAGE</text>
+      <text name="btn-3stage" fontSize="11" color="#ffcc00" backgroundColor="#1a1a00" padding="6" borderRadius="4" borderColor="#ffcc00" borderWidth="1" cursor="pointer">3 STAGE</text>
+    </container>
+    <text name="cfg-stages" fontSize="10" color="#668888">2 stages</text>
+  </container>
+  <container flexDirection="column" gap="4" marginTop="4">
+    <text fontSize="12" color="#aaaacc">Fuel Type:</text>
+    <container flexDirection="row" gap="4">
+      <text name="btn-standard" fontSize="10" color="#44ff44" backgroundColor="#001a00" padding="5" borderRadius="4" borderColor="#44ff44" borderWidth="1" cursor="pointer">STANDARD</text>
+      <text name="btn-highthrust" fontSize="10" color="#ff6633" backgroundColor="#1a0a00" padding="5" borderRadius="4" borderColor="#ff6633" borderWidth="1" cursor="pointer">HIGH THRUST</text>
+      <text name="btn-efficient" fontSize="10" color="#4488ff" backgroundColor="#000a1a" padding="5" borderRadius="4" borderColor="#4488ff" borderWidth="1" cursor="pointer">EFFICIENT</text>
+    </container>
+    <text name="cfg-fuel" fontSize="10" color="#668888">standard</text>
+  </container>
+  <text name="btn-launch" fontSize="16" fontWeight="bold" color="#00ffff" backgroundColor="#002a2a" padding="10" borderRadius="8" borderColor="#00ffff" borderWidth="2" cursor="pointer" marginTop="8">LAUNCH</text>
+  <text name="btn-back-d" fontSize="11" color="#888888" backgroundColor="#111111" padding="5" borderRadius="4" borderColor="#888888" borderWidth="1" cursor="pointer">BACK</text>
+</container>

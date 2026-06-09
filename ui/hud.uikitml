@@ -1,0 +1,35 @@
+<container flexDirection="column" gap="3" padding="8" backgroundColor="#0a0a1a80" borderRadius="8" borderColor="#00ffff" borderWidth="1">
+  <text name="mission-label" fontSize="10" fontWeight="bold" color="#00ffff">Low Orbit</text>
+  <container flexDirection="row" gap="8">
+    <container flexDirection="column" gap="2">
+      <text fontSize="8" color="#668888">ALT</text>
+      <text name="alt-value" fontSize="12" fontWeight="bold" color="#44ff44">0.0 km</text>
+    </container>
+    <container flexDirection="column" gap="2">
+      <text fontSize="8" color="#668888">VEL</text>
+      <text name="vel-value" fontSize="12" fontWeight="bold" color="#ffcc00">0 m/s</text>
+    </container>
+    <container flexDirection="column" gap="2">
+      <text fontSize="8" color="#668888">FUEL</text>
+      <text name="fuel-value" fontSize="12" fontWeight="bold" color="#ff6633">100%</text>
+    </container>
+  </container>
+  <container flexDirection="row" gap="8">
+    <container flexDirection="column" gap="2">
+      <text fontSize="8" color="#668888">STAGE</text>
+      <text name="stage-value" fontSize="10" color="#aaaacc">1/2</text>
+    </container>
+    <container flexDirection="column" gap="2">
+      <text fontSize="8" color="#668888">ANGLE</text>
+      <text name="angle-value" fontSize="10" color="#aaaacc">0.0 deg</text>
+    </container>
+    <container flexDirection="column" gap="2">
+      <text fontSize="8" color="#668888">TIME</text>
+      <text name="time-value" fontSize="10" color="#aaaacc">0.0s</text>
+    </container>
+    <container flexDirection="column" gap="2">
+      <text fontSize="8" color="#668888">TARGET</text>
+      <text name="target-value" fontSize="10" color="#00ffff">200 km</text>
+    </container>
+  </container>
+</container>

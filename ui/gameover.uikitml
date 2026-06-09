@@ -1,0 +1,34 @@
+<container flexDirection="column" alignItems="center" gap="6" padding="16" backgroundColor="#0a0a1a" borderRadius="12" borderColor="#00ffff" borderWidth="1">
+  <text name="go-result" fontSize="20" fontWeight="bold" color="#00ffff">MISSION COMPLETE</text>
+  <text name="go-mission" fontSize="12" color="#88aacc">Low Orbit</text>
+  <container flexDirection="column" gap="3" marginTop="6">
+    <container flexDirection="row" gap="10">
+      <text fontSize="10" color="#668888">Max Altitude:</text>
+      <text name="go-altitude" fontSize="10" fontWeight="bold" color="#44ff44">0.0 km</text>
+    </container>
+    <container flexDirection="row" gap="10">
+      <text fontSize="10" color="#668888">Max Velocity:</text>
+      <text name="go-velocity" fontSize="10" fontWeight="bold" color="#ffcc00">0 m/s</text>
+    </container>
+    <container flexDirection="row" gap="10">
+      <text fontSize="10" color="#668888">Fuel Remaining:</text>
+      <text name="go-fuel" fontSize="10" fontWeight="bold" color="#ff6633">0%</text>
+    </container>
+    <container flexDirection="row" gap="10">
+      <text fontSize="10" color="#668888">Flight Time:</text>
+      <text name="go-time" fontSize="10" fontWeight="bold" color="#aaaacc">0.0s</text>
+    </container>
+    <container flexDirection="row" gap="10">
+      <text fontSize="10" color="#668888">Separations:</text>
+      <text name="go-stages" fontSize="10" fontWeight="bold" color="#aaaacc">0</text>
+    </container>
+    <container flexDirection="row" gap="10">
+      <text fontSize="10" color="#668888">Score:</text>
+      <text name="go-score" fontSize="14" fontWeight="bold" color="#ffcc00">0</text>
+    </container>
+  </container>
+  <container flexDirection="row" gap="8" marginTop="8">
+    <text name="btn-relaunch" fontSize="14" color="#00ffff" backgroundColor="#002a2a" padding="8" borderRadius="6" borderColor="#00ffff" borderWidth="1" cursor="pointer">RELAUNCH</text>
+    <text name="btn-menu" fontSize="14" color="#888888" backgroundColor="#111111" padding="8" borderRadius="6" borderColor="#888888" borderWidth="1" cursor="pointer">MENU</text>
+  </container>
+</container>
