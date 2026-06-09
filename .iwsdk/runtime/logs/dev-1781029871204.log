@@ -9,3 +9,9 @@
 
   ➜  Local:   http://localhost:8081/
   ➜  Network: http://198.19.0.2:8081/
+6:33:47 PM [vite] (client) page reload src/index.ts
+6:34:01 PM [vite] (client) page reload src/index.ts
+6:34:08 PM [vite] (client) page reload src/index.ts
+6:34:21 PM [vite] (client) page reload src/index.ts
+📝 UIKitML file change: ui/gameover.uikitml
+✅ UIKitML file recompiled: gameover.uikitml

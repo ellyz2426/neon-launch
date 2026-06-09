@@ -255,6 +255,56 @@
               "gap": "10"
             },
             "dataUid": "uid-20"
+          },
+          {
+            "sourceTag": "container",
+            "type": "custom",
+            "children": [
+              {
+                "sourceTag": "text",
+                "type": "custom",
+                "children": [
+                  "Grade:"
+                ],
+                "properties": {
+                  "fontsize": "10",
+                  "color": "#668888"
+                },
+                "dataUid": "uid-24"
+              },
+              {
+                "sourceTag": "text",
+                "type": "custom",
+                "children": [
+                  "F"
+                ],
+                "properties": {
+                  "name": "go-grade",
+                  "fontsize": "14",
+                  "fontweight": "bold",
+                  "color": "#9966ff"
+                },
+                "dataUid": "uid-25"
+              }
+            ],
+            "properties": {
+              "flexdirection": "row",
+              "gap": "10"
+            },
+            "dataUid": "uid-23"
+          },
+          {
+            "sourceTag": "text",
+            "type": "custom",
+            "children": [
+              "+0 XP"
+            ],
+            "properties": {
+              "name": "go-xp",
+              "fontsize": "10",
+              "color": "#44ddff"
+            },
+            "dataUid": "uid-26"
           }
         ],
         "properties": {
@@ -285,7 +335,7 @@
               "borderwidth": "1",
               "cursor": "pointer"
             },
-            "dataUid": "uid-24"
+            "dataUid": "uid-28"
           },
           {
             "sourceTag": "text",
@@ -304,7 +354,7 @@
               "borderwidth": "1",
               "cursor": "pointer"
             },
-            "dataUid": "uid-25"
+            "dataUid": "uid-29"
           }
         ],
         "properties": {
@@ -312,7 +362,7 @@
           "gap": "8",
           "margintop": "8"
         },
-        "dataUid": "uid-23"
+        "dataUid": "uid-27"
       }
     ],
     "properties": {
@@ -335,7 +385,7 @@
         "column": 0
       },
       "end": {
-        "line": 33,
+        "line": 38,
         "column": 12
       }
     },
@@ -365,7 +415,7 @@
         "column": 2
       },
       "end": {
-        "line": 28,
+        "line": 33,
         "column": 14
       }
     },
@@ -551,31 +601,71 @@
     },
     "uid-23": {
       "start": {
-        "line": 29,
-        "column": 2
+        "line": 28,
+        "column": 4
       },
       "end": {
-        "line": 32,
-        "column": 14
+        "line": 31,
+        "column": 16
       }
     },
     "uid-24": {
       "start": {
-        "line": 30,
-        "column": 4
+        "line": 29,
+        "column": 6
       },
       "end": {
-        "line": 30,
-        "column": 185
+        "line": 29,
+        "column": 55
       }
     },
     "uid-25": {
       "start": {
-        "line": 31,
+        "line": 30,
+        "column": 6
+      },
+      "end": {
+        "line": 30,
+        "column": 84
+      }
+    },
+    "uid-26": {
+      "start": {
+        "line": 32,
         "column": 4
       },
       "end": {
-        "line": 31,
+        "line": 32,
+        "column": 65
+      }
+    },
+    "uid-27": {
+      "start": {
+        "line": 34,
+        "column": 2
+      },
+      "end": {
+        "line": 37,
+        "column": 14
+      }
+    },
+    "uid-28": {
+      "start": {
+        "line": 35,
+        "column": 4
+      },
+      "end": {
+        "line": 35,
+        "column": 185
+      }
+    },
+    "uid-29": {
+      "start": {
+        "line": 36,
+        "column": 4
+      },
+      "end": {
+        "line": 36,
         "column": 177
       }
     }

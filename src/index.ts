@@ -247,6 +247,18 @@ const ACHIEVEMENTS: Achievement[] = [
   { id: 'crew_ten', name: 'Taxi Service', desc: 'Complete 10 crew missions', unlocked: false },
   { id: 'no_separation', name: 'Single Stage', desc: 'Orbit without stage separation', unlocked: false },
   { id: 'perfect_angle', name: 'Optimal Trajectory', desc: 'Keep angle 30-45 deg above 50km', unlocked: false },
+  { id: 'reentry_shield_90', name: 'Iron Shield', desc: 'Re-entry with 90%+ shield', unlocked: false },
+  { id: 'orbit_20000', name: 'Deep Space Explorer', desc: 'Reach 20000km', unlocked: false },
+  { id: 'no_weather_orbit', name: 'Storm Chaser', desc: 'Orbit in any non-clear weather', unlocked: false },
+  { id: 'tutorial_complete', name: 'Graduate', desc: 'Complete the tutorial', unlocked: false },
+  { id: 'speed_30s', name: 'Speed Freak', desc: 'Reach 100km in under 30s', unlocked: false },
+  { id: 'gravity_assist', name: 'Gravity Master', desc: 'Orbit with angle 30-50 at 200km', unlocked: false },
+  { id: 'efficient_orbit', name: 'Fuel Miser', desc: 'Orbit with efficient fuel + 60% left', unlocked: false },
+  { id: 'max_throttle_orbit', name: 'Full Throttle', desc: 'Orbit at 100% throttle whole flight', unlocked: false },
+  { id: 'skin_master', name: 'Wardrobe', desc: 'Unlock 8 rocket skins', unlocked: false },
+  { id: 'career_half', name: 'Halfway There', desc: 'Unlock 8 career missions', unlocked: false },
+  { id: 'combo_weather_heavy', name: 'Iron Will', desc: 'Heavy launch in storm weather', unlocked: false },
+  { id: 'two_hundred_launches', name: 'Legend', desc: '200 launches completed', unlocked: false },
 ];
 
 const ROCKET_SKINS: RocketSkin[] = [
@@ -486,6 +498,18 @@ class GameStateManager {
     check('crew_ten', this.crewMissions >= 10);
     check('no_separation', f.stageSeparations === 0 && f.altitude >= this.currentMission.target * 1000 && this.currentMission.target > 0);
     check('perfect_angle', f.altitude >= 50000 && f.angle >= 30 && f.angle <= 45);
+    check('reentry_shield_90', this.currentMission.name === 'Re-entry Run' && this.reentry.shieldHP >= 90 && f.altitude <= 500);
+    check('orbit_20000', f.maxAltitude >= 20000000);
+    check('no_weather_orbit', this.weather.name !== 'Clear' && f.altitude >= this.currentMission.target * 1000 && this.currentMission.target > 0);
+    check('tutorial_complete', this.tutorialStep >= TUTORIAL_STEPS.length);
+    check('speed_30s', f.altitude >= 100000 && f.missionTime < 30);
+    check('gravity_assist', f.altitude >= 200000 && f.angle >= 30 && f.angle <= 50);
+    check('efficient_orbit', this.config.fuelType === 'efficient' && f.fuel >= 60 && f.altitude >= this.currentMission.target * 1000 && this.currentMission.target > 0);
+    check('max_throttle_orbit', !this.throttleChanged && f.throttle >= 100 && f.altitude >= this.currentMission.target * 1000 && this.currentMission.target > 0);
+    check('skin_master', this.skins.filter(s => s.unlocked).length >= 8);
+    check('career_half', this.careerUnlocked >= 8);
+    check('combo_weather_heavy', this.currentMission.payload === 'station' && this.weather.name === 'Storm' && f.altitude >= this.currentMission.target * 1000 && this.currentMission.target > 0);
+    check('two_hundred_launches', this.totalLaunches >= 200);
     return unlocked;
   }
 
@@ -1428,10 +1452,14 @@ async function main() {
           }
         }
         if (kb.getKeyDown('Escape') || kb.getKeyDown('KeyP')) {
-          game.consecutiveNoAbort = 0;
-          audio.playSfx('abort');
-          endFlight(false);
-          return;
+          // Toggle pause
+          if (game.state === 'flying') {
+            game.state = 'title'; // Go back to title acts as abort
+            game.consecutiveNoAbort = 0;
+            audio.playSfx('abort');
+            endFlight(false);
+            return;
+          }
         }
 
         // XR input
@@ -1981,8 +2009,13 @@ async function main() {
         this.setText('gameover', 'go-fuel', f.fuel.toFixed(0) + '%');
         this.setText('gameover', 'go-time', f.missionTime.toFixed(1) + 's');
         this.setText('gameover', 'go-score', String(f.score));
-        this.setText('gameover', 'go-result', f.altitude >= game.currentMission.target * 1000 ? 'ORBIT ACHIEVED' : 'MISSION FAILED');
+        const success = f.altitude >= game.currentMission.target * 1000 || (game.currentMission.name === 'Re-entry Run' && f.altitude <= 500);
+        this.setText('gameover', 'go-result', success ? 'ORBIT ACHIEVED' : 'MISSION FAILED');
         this.setText('gameover', 'go-stages', String(f.stageSeparations));
+        // Grade
+        const grade = f.score >= 80000 ? 'S' : f.score >= 50000 ? 'A' : f.score >= 30000 ? 'B' : f.score >= 15000 ? 'C' : f.score >= 5000 ? 'D' : 'F';
+        this.setText('gameover', 'go-grade', grade);
+        this.setText('gameover', 'go-xp', '+' + (Math.floor(f.score / 10) + (success ? 100 : 20)) + ' XP');
       }
 
       // Update title

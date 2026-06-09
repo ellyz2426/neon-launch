@@ -26,6 +26,11 @@
       <text fontSize="10" color="#668888">Score:</text>
       <text name="go-score" fontSize="14" fontWeight="bold" color="#ffcc00">0</text>
     </container>
+    <container flexDirection="row" gap="10">
+      <text fontSize="10" color="#668888">Grade:</text>
+      <text name="go-grade" fontSize="14" fontWeight="bold" color="#9966ff">F</text>
+    </container>
+    <text name="go-xp" fontSize="10" color="#44ddff">+0 XP</text>
   </container>
   <container flexDirection="row" gap="8" marginTop="8">
     <text name="btn-relaunch" fontSize="14" color="#00ffff" backgroundColor="#002a2a" padding="8" borderRadius="6" borderColor="#00ffff" borderWidth="1" cursor="pointer">RELAUNCH</text>

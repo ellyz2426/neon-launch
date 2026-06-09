@@ -217,6 +217,25 @@
               "cursor": "pointer"
             },
             "dataUid": "uid-14"
+          },
+          {
+            "sourceTag": "text",
+            "type": "custom",
+            "children": [
+              "TUTORIAL"
+            ],
+            "properties": {
+              "name": "btn-tutorial",
+              "fontsize": "12",
+              "color": "#44ddff",
+              "backgroundcolor": "#001a22",
+              "padding": "6",
+              "borderradius": "6",
+              "bordercolor": "#44ddff",
+              "borderwidth": "1",
+              "cursor": "pointer"
+            },
+            "dataUid": "uid-15"
           }
         ],
         "properties": {
@@ -247,7 +266,7 @@
         "column": 0
       },
       "end": {
-        "line": 15,
+        "line": 16,
         "column": 12
       }
     },
@@ -287,7 +306,7 @@
         "column": 2
       },
       "end": {
-        "line": 14,
+        "line": 15,
         "column": 14
       }
     },
@@ -379,6 +398,16 @@
       "end": {
         "line": 13,
         "column": 177
+      }
+    },
+    "uid-15": {
+      "start": {
+        "line": 14,
+        "column": 4
+      },
+      "end": {
+        "line": 14,
+        "column": 185
       }
     }
   }
