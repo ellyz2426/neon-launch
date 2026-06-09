@@ -40,6 +40,7 @@
       <text name="go-break-diff" fontSize="8" color="#9966ff">Difficulty: x1.0</text>
       <text name="go-break-maxq" fontSize="8" color="#aaaacc">Max-Q: 0 kPa</text>
       <text name="go-break-maxg" fontSize="8" color="#ff4444">Max G: 0.0</text>
+      <text name="go-break-debris" fontSize="8" color="#ff8800"></text>
     </container>
   </container>
   <container flexDirection="row" gap="8" marginTop="8">

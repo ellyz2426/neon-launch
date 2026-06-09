@@ -1,0 +1,64 @@
+
+> neon-launch@1.0.0 dev:runtime
+> vite
+
+🚀 Generating initial UIKitML files for dev server...
+👁️  UIKitML file watcher started - monitoring for changes...
+
+  VITE v7.3.3  ready in 1578 ms
+
+  ➜  Local:   http://localhost:8081/
+  ➜  Network: http://198.19.0.2:8081/
+7:10:31 PM [vite] (client) page reload src/index.ts
+7:11:26 PM [vite] (client) page reload src/index.ts
+7:11:35 PM [vite] (client) page reload src/index.ts
+7:14:15 PM [vite] (client) page reload src/index.ts
+7:14:43 PM [vite] (client) page reload src/index.ts
+7:17:14 PM [vite] (client) page reload src/index.ts
+7:17:22 PM [vite] (client) page reload src/index.ts
+7:17:26 PM [vite] (client) page reload src/index.ts
+7:17:30 PM [vite] (client) page reload src/index.ts
+[browser] [PanelUISystem] Error loading panel for entity 10: TypeError: Failed to fetch
+[browser] [PanelUISystem] Error loading panel for entity 24: TypeError: Failed to fetch
+[browser] [PanelUISystem] Error loading panel for entity 19: TypeError: Failed to fetch
+[browser] [PanelUISystem] Error loading panel for entity 2: TypeError: Failed to fetch
+[browser] [PanelUISystem] Error loading panel for entity 7: TypeError: Failed to fetch
+[browser] [PanelUISystem] Error loading panel for entity 20: TypeError: Failed to fetch
+[browser] [PanelUISystem] Error loading panel for entity 5: TypeError: Failed to fetch
+[browser] [PanelUISystem] Error loading panel for entity 8: TypeError: Failed to fetch
+[browser] [PanelUISystem] Error loading panel for entity 12: TypeError: Failed to fetch
+[browser] [PanelUISystem] Error loading panel for entity 21: TypeError: Failed to fetch
+[browser] [PanelUISystem] Error loading panel for entity 9: TypeError: Failed to fetch
+[browser] [PanelUISystem] Error loading panel for entity 14: TypeError: Failed to fetch
+[browser] [PanelUISystem] Error loading panel for entity 11: TypeError: Failed to fetch
+[browser] [PanelUISystem] Error loading panel for entity 4: TypeError: Failed to fetch
+[browser] [PanelUISystem] Error loading panel for entity 25: TypeError: Failed to fetch
+[browser] [PanelUISystem] Error loading panel for entity 15: TypeError: Failed to fetch
+[browser] [PanelUISystem] Error loading panel for entity 23: TypeError: Failed to fetch
+[browser] [PanelUISystem] Error loading panel for entity 13: TypeError: Failed to fetch
+[browser] [PanelUISystem] Error loading panel for entity 16: TypeError: Failed to fetch
+[browser] [PanelUISystem] Error loading panel for entity 6: TypeError: Failed to fetch
+[browser] [PanelUISystem] Error loading panel for entity 17: TypeError: Failed to fetch
+[browser] [PanelUISystem] Error loading panel for entity 3: TypeError: Failed to fetch
+[browser] [PanelUISystem] Error loading panel for entity 18: TypeError: Failed to fetch
+[browser] [PanelUISystem] Error loading panel for entity 22: TypeError: Failed to fetch
+7:17:38 PM [vite] (client) page reload src/index.ts
+7:18:43 PM [vite] (client) page reload src/index.ts
+7:18:57 PM [vite] (client) page reload src/index.ts
+7:19:13 PM [vite] (client) page reload src/index.ts
+
+🥽 IWSDK Dev Summary (Development):
+  - Device: metaQuest3
+  - Runtime injected: 1116.7KB
+  - Activation mode: localhost
+  - AI: agent mode (WebSocket at /__iwer_mcp)
+  - Note: Runtime only activates on localhost/local networks
+
+
+🥽 IWSDK Dev Summary (Development):
+  - Device: metaQuest3
+  - Runtime injected: 1116.7KB
+  - Activation mode: localhost
+  - AI: agent mode (WebSocket at /__iwer_mcp)
+  - Note: Runtime only activates on localhost/local networks
+

@@ -82,6 +82,17 @@ interface StageDebris {
   life: number;
 }
 
+// Orbital debris for Debris Dodge mission
+interface OrbitalDebris {
+  group: Group;
+  orbitRadius: number;
+  orbitSpeed: number;
+  orbitPhase: number;
+  altitudeKm: number; // the altitude band this debris orbits at
+  hitRadius: number;
+  active: boolean;
+}
+
 interface RocketConfig {
   stages: number; // 2 or 3
   payload: string; // 'satellite' | 'probe' | 'crew' | 'station'
@@ -371,6 +382,7 @@ class GameStateManager {
   milestoneTriggered: Set<number> = new Set();
   throttleChanged = false;
   crewMissions = 0;
+  fuelTypesUsed: Set<string> = new Set();
   altitudeDropped = false;
   peakAltBeforeDrop = 0;
   tutorialMode = false;
@@ -543,6 +555,7 @@ class GameStateManager {
     check('debris_dodge', this.currentMission.name === 'Debris Dodge' && f.altitude >= 350000);
     check('all_themes_used', this.themesUsed.size >= this.themes.length);
     check('speed_orbit_45s', f.altitude >= this.currentMission.target * 1000 && f.missionTime < 45 && this.currentMission.target > 0);
+    check('all_fuel_types', this.fuelTypesUsed.size >= 3);
     return unlocked;
   }
 
@@ -576,6 +589,7 @@ class GameStateManager {
       difficulty: this.difficulty,
       careerUnlocked: this.careerUnlocked, careerMode: this.careerMode,
       crewMissions: this.crewMissions, weatherIndex: this.weatherIndex,
+      fuelTypesUsed: [...this.fuelTypesUsed],
       history: this.history.slice(-20), // keep last 20 runs
     };
     try { localStorage.setItem('neon-launch-save', JSON.stringify(data)); } catch {}
@@ -600,6 +614,7 @@ class GameStateManager {
       this.careerUnlocked = d.careerUnlocked ?? 3;
       this.careerMode = d.careerMode ?? false;
       this.crewMissions = d.crewMissions ?? 0;
+      this.fuelTypesUsed = new Set(d.fuelTypesUsed ?? []);
       this.weatherIndex = d.weatherIndex ?? 0;
       this.weather = WEATHER_CONDITIONS[this.weatherIndex] ?? WEATHER_CONDITIONS[0];
       this.history = d.history ?? [];
@@ -628,6 +643,7 @@ class AudioManager {
   musicVol = 0.5;
   private droneOscs: OscillatorNode[] = [];
   private musicPlaying = false;
+  private arpInterval: ReturnType<typeof setInterval> | null = null;
 
   private ensure() {
     if (this.ctx) return;
@@ -723,6 +739,28 @@ class AudioManager {
     mkOsc('triangle', 82.5, 0.08);
     mkOsc('sine', 110, 0.06);
     mkOsc('sine', 220, 0.03);
+
+    // Arpeggiator — cascading notes that evolve over time
+    const arpNotes = [110, 138.59, 164.81, 220, 277.18, 329.63, 440, 554.37];
+    let arpIdx = 0;
+    let arpOctave = 0;
+    this.arpInterval = setInterval(() => {
+      if (!this.ctx || !this.musicGain || !this.musicPlaying) return;
+      const now = this.ctx.currentTime;
+      const freq = arpNotes[arpIdx % arpNotes.length] * (1 + arpOctave);
+      const arpO = this.ctx.createOscillator();
+      const arpG = this.ctx.createGain();
+      arpO.type = 'sine';
+      arpO.frequency.value = freq;
+      arpG.gain.setValueAtTime(0.04, now);
+      arpG.gain.exponentialRampToValueAtTime(0.001, now + 0.4);
+      arpO.connect(arpG);
+      arpG.connect(this.musicGain!);
+      arpO.start(now);
+      arpO.stop(now + 0.45);
+      arpIdx++;
+      if (arpIdx % 16 === 0) arpOctave = (arpOctave + 1) % 3;
+    }, 250);
   }
 
   stopMusic() {
@@ -730,6 +768,7 @@ class AudioManager {
     this.musicPlaying = false;
     for (const o of this.droneOscs) { try { o.stop(); } catch {} }
     this.droneOscs = [];
+    if (this.arpInterval) { clearInterval(this.arpInterval); this.arpInterval = null; }
   }
 }
 
@@ -1108,6 +1147,135 @@ function buildHolodeck(theme: ArenaTheme): Group {
 }
 
 // ============================================================================
+// ORBITAL DEBRIS FIELD (Debris Dodge mission)
+// ============================================================================
+
+class OrbitalDebrisField {
+  debris: OrbitalDebris[] = [];
+  group: Group;
+
+  constructor(models: LoadedModels | null) {
+    this.group = new Group();
+    // Create debris at various altitude bands between 150km - 400km
+    const debrisBands = [150, 200, 230, 260, 290, 310, 340, 360, 380, 400];
+    for (let i = 0; i < 20; i++) {
+      const altBand = debrisBands[i % debrisBands.length] + (Math.random() - 0.5) * 30;
+      const debrisGroup = new Group();
+
+      if (models) {
+        const model = (i % 2 === 0 ? models.meteor : models.meteorDetailed).clone();
+        model.scale.setScalar(0.15 + Math.random() * 0.2);
+        model.traverse((child) => {
+          if ((child as Mesh).isMesh) {
+            (child as Mesh).material = new MeshStandardMaterial({
+              color: new Color(0x888899),
+              emissive: new Color(0xff4400),
+              emissiveIntensity: 0.15 + Math.random() * 0.1,
+              metalness: 0.6,
+              roughness: 0.4,
+            });
+          }
+        });
+        debrisGroup.add(model);
+      } else {
+        // Fallback procedural debris
+        const geos = [
+          new BoxGeometry(0.08, 0.08, 0.08),
+          new ConeGeometry(0.05, 0.1, 4),
+          new SphereGeometry(0.05, 4, 4),
+        ];
+        const mesh = new Mesh(geos[i % 3], new MeshStandardMaterial({
+          color: 0x888899, emissive: 0xff4400, emissiveIntensity: 0.2,
+        }));
+        debrisGroup.add(mesh);
+      }
+
+      // Add a warning glow around each debris piece
+      const glowMesh = new Mesh(
+        new SphereGeometry(0.12, 6, 6),
+        new MeshBasicMaterial({ color: 0xff4400, transparent: true, blending: AdditiveBlending, opacity: 0.15 })
+      );
+      debrisGroup.add(glowMesh);
+
+      const orbitRadius = 2 + Math.random() * 4;
+      const orbitSpeed = 0.3 + Math.random() * 0.5;
+      const orbitPhase = Math.random() * Math.PI * 2;
+      // Map altitude to scene Y position (matching game's 1m = 10km)
+      const sceneY = 0.1 + (altBand * 1000 / 10000);
+      debrisGroup.position.set(
+        Math.cos(orbitPhase) * orbitRadius,
+        sceneY,
+        Math.sin(orbitPhase) * orbitRadius - 4
+      );
+      debrisGroup.visible = false;
+      this.group.add(debrisGroup);
+
+      this.debris.push({
+        group: debrisGroup,
+        orbitRadius,
+        orbitSpeed,
+        orbitPhase,
+        altitudeKm: altBand,
+        hitRadius: 0.3,
+        active: true,
+      });
+    }
+  }
+
+  update(playerAltitude: number, time: number, playerX: number, playerY: number): { hit: boolean; nearMiss: boolean } {
+    let hit = false;
+    let nearMiss = false;
+    const playerAltKm = playerAltitude / 1000;
+
+    for (const d of this.debris) {
+      if (!d.active) { d.group.visible = false; continue; }
+
+      // Only show debris within ±100km of player altitude
+      const altDiff = Math.abs(playerAltKm - d.altitudeKm);
+      d.group.visible = altDiff < 100 && playerAltKm > 50;
+
+      if (!d.group.visible) continue;
+
+      // Orbit the debris around center
+      const angle = time * d.orbitSpeed + d.orbitPhase;
+      const sceneY = 0.1 + (d.altitudeKm * 1000 / 10000);
+      d.group.position.x = Math.cos(angle) * d.orbitRadius;
+      d.group.position.y = Math.min(sceneY, 6);
+      d.group.position.z = Math.sin(angle) * d.orbitRadius - 4;
+
+      // Spin
+      d.group.rotation.x += d.orbitSpeed * 0.02;
+      d.group.rotation.z += d.orbitSpeed * 0.015;
+
+      // Pulsate warning glow
+      const glowChild = d.group.children[1];
+      if (glowChild && (glowChild as Mesh).material) {
+        const proximity = 1 - Math.min(1, altDiff / 50);
+        ((glowChild as Mesh).material as MeshBasicMaterial).opacity = 0.1 + proximity * 0.3;
+      }
+
+      // Collision check (altitude-based proximity + XY distance in scene)
+      if (altDiff < 15) {
+        const dx = d.group.position.x - playerX;
+        const dy = d.group.position.y - playerY;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist < d.hitRadius) {
+          hit = true;
+        } else if (dist < d.hitRadius * 2.5) {
+          nearMiss = true;
+        }
+      }
+    }
+
+    return { hit, nearMiss };
+  }
+
+  reset() {
+    for (const d of this.debris) d.active = true;
+  }
+}
+
+// ============================================================================
 // ROCKET BUILDER
 // ============================================================================
 
@@ -1165,7 +1333,7 @@ class Starfield {
 // ROCKET BUILDER
 // ============================================================================
 
-function buildRocket(skin: RocketSkin, stages: number): Group {
+function buildRocket(skin: RocketSkin, stages: number, fuelType = 'standard'): Group {
   const rocket = new Group();
   const bodyColor = new Color(skin.body);
   const accentColor = new Color(skin.accent);
@@ -1270,9 +1438,11 @@ function buildRocket(skin: RocketSkin, stages: number): Group {
   }
 
   // Exhaust flame (works with both model and procedural rockets)
+  // Fuel-type specific flame colors
+  const fuelFlameColor = fuelType === 'high-thrust' ? '#ff4400' : fuelType === 'efficient' ? '#4488ff' : skin.flame;
   const flameYBase = stages === 3 ? -0.3 : -0.4;
-  const flameGeo = new ConeGeometry(0.12, 0.8, 8);
-  const flameMat = new MeshBasicMaterial({ color: new Color(skin.flame), transparent: true, blending: AdditiveBlending, opacity: 0 });
+  const flameGeo = new ConeGeometry(fuelType === 'high-thrust' ? 0.15 : 0.12, fuelType === 'high-thrust' ? 1.0 : 0.8, 8);
+  const flameMat = new MeshBasicMaterial({ color: new Color(fuelFlameColor), transparent: true, blending: AdditiveBlending, opacity: 0 });
   const flame = new Mesh(flameGeo, flameMat);
   flame.rotation.x = Math.PI;
   flame.position.y = flameYBase;
@@ -1280,8 +1450,8 @@ function buildRocket(skin: RocketSkin, stages: number): Group {
   rocket.add(flame);
 
   // Exhaust glow
-  const glowGeo = new SphereGeometry(0.2, 8, 8);
-  const glowMat = new MeshBasicMaterial({ color: new Color(skin.flame), transparent: true, blending: AdditiveBlending, opacity: 0 });
+  const glowGeo = new SphereGeometry(fuelType === 'high-thrust' ? 0.25 : 0.2, 8, 8);
+  const glowMat = new MeshBasicMaterial({ color: new Color(fuelFlameColor), transparent: true, blending: AdditiveBlending, opacity: 0 });
   const glow = new Mesh(glowGeo, glowMat);
   glow.position.y = flameYBase + 0.2;
   glow.name = 'exhaustGlow';
@@ -1485,7 +1655,7 @@ async function main() {
 
   // Build rocket
   const skin = game.skins[game.currentSkinIndex];
-  let rocketGroup = buildRocket(skin, game.config.stages);
+  let rocketGroup = buildRocket(skin, game.config.stages, game.config.fuelType);
   rocketGroup.position.set(0, 0.1, -4);
   world.scene.add(rocketGroup);
 
@@ -1504,6 +1674,13 @@ async function main() {
   // Starfield (appears at high altitude)
   const starfield = new Starfield();
   world.scene.add(starfield.group);
+
+  // Orbital debris field (for Debris Dodge mission)
+  const debrisField = new OrbitalDebrisField(loadedModels);
+  debrisField.group.visible = false;
+  world.scene.add(debrisField.group);
+  let nearMissCount = 0;
+  let nearMissTimer = 0;
 
   // Callout text state
   let calloutText = '';
@@ -1553,7 +1730,7 @@ async function main() {
   function rebuildRocket() {
     world.scene.remove(rocketGroup);
     const s = game.skins[game.currentSkinIndex];
-    rocketGroup = buildRocket(s, game.config.stages);
+    rocketGroup = buildRocket(s, game.config.stages, game.config.fuelType);
     rocketGroup.position.set(0, 0.1, -4);
     world.scene.add(rocketGroup);
     trail.clear();
@@ -1626,16 +1803,23 @@ async function main() {
     setState('flying');
     audio.playSfx('ignition');
     audio.startMusic();
+    // Track fuel type for achievement
+    game.fuelTypesUsed.add(game.config.fuelType);
+    // Reset debris field for Debris Dodge
+    debrisField.reset();
+    nearMissCount = 0;
+    nearMissTimer = 0;
   }
 
   function endFlight(success: boolean) {
     audio.stopMusic();
     const f = game.flight;
     game.totalLaunches++;
-    // Enhanced scoring: weather bonus + difficulty multiplier
+    // Enhanced scoring: weather bonus + difficulty multiplier + near-miss bonus
     const weatherBonus = game.weather.windSpeed > 0 ? game.weather.windSpeed * 10 : 0;
+    const nearMissBonus = game.currentMission.name === 'Debris Dodge' ? nearMissCount * 500 : 0;
     const diffMult = game.difficulty === 0 ? 0.7 : game.difficulty === 2 ? 1.5 : 1.0;
-    f.score = Math.floor((f.maxAltitude / 100 + f.maxVelocity / 10 + f.fuel * 50 + weatherBonus) * diffMult);
+    f.score = Math.floor((f.maxAltitude / 100 + f.maxVelocity / 10 + f.fuel * 50 + weatherBonus + nearMissBonus) * diffMult);
     if (f.score > 100000) f.score = 100000;
     game.totalScore += f.score;
     if (f.score > game.bestScore) game.bestScore = f.score;
@@ -2066,6 +2250,37 @@ async function main() {
           // visual warning handled in HUD
         }
 
+        // Max-Q camera shake
+        if (f.currentQ > f.maxQ * 0.8 && f.currentQ > 30 && altKm > 8 && altKm < 40) {
+          const qIntensity = Math.min(1, f.currentQ / 80);
+          game.cameraShakeIntensity = Math.max(game.cameraShakeIntensity, 0.08 * qIntensity);
+        }
+
+        // Orbital debris field (Debris Dodge mission)
+        if (game.currentMission.name === 'Debris Dodge') {
+          debrisField.group.visible = true;
+          nearMissTimer -= dt;
+          const result = debrisField.update(f.altitude, time, rocketGroup.position.x, rocketGroup.position.y);
+          if (result.hit) {
+            audio.playSfx('explosion');
+            particles.burst(rocketGroup.position.x, rocketGroup.position.y, rocketGroup.position.z, 30, '#ff4400', 5, 1.5);
+            showToast('DEBRIS COLLISION!');
+            game.cameraShakeIntensity = 0.8;
+            endFlight(false);
+            return;
+          }
+          if (result.nearMiss && nearMissTimer <= 0) {
+            nearMissCount++;
+            nearMissTimer = 1.5; // Cooldown between near-miss notifications
+            showToast('NEAR MISS! (' + nearMissCount + ')');
+            audio.playSfx('warning');
+            game.cameraShakeIntensity = Math.max(game.cameraShakeIntensity, 0.15);
+            particles.burst(rocketGroup.position.x, rocketGroup.position.y, rocketGroup.position.z, 5, '#ffcc00', 1, 0.3);
+          }
+        } else {
+          debrisField.group.visible = false;
+        }
+
         // Check orbit reached
         const targetAlt = game.currentMission.target * 1000;
         if (targetAlt > 0 && f.altitude >= targetAlt && f.velocity >= 100) {
@@ -2264,6 +2479,9 @@ async function main() {
           break;
 
         case 'difficulty':
+          this.bindButton('difficulty', 'btn-easy', () => { audio.playSfx('click'); game.difficulty = 0; });
+          this.bindButton('difficulty', 'btn-medium', () => { audio.playSfx('click'); game.difficulty = 1; });
+          this.bindButton('difficulty', 'btn-hard', () => { audio.playSfx('click'); game.difficulty = 2; });
           this.bindButton('difficulty', 'btn-2stage', () => { audio.playSfx('click'); game.config.stages = 2; rebuildRocket(); });
           this.bindButton('difficulty', 'btn-3stage', () => { audio.playSfx('click'); game.config.stages = 3; rebuildRocket(); });
           this.bindButton('difficulty', 'btn-standard', () => { audio.playSfx('click'); game.config.fuelType = 'standard'; });
@@ -2519,6 +2737,11 @@ async function main() {
         this.setText('gameover', 'go-break-diff', 'Difficulty: x' + diffMult.toFixed(1));
         this.setText('gameover', 'go-break-maxq', 'Max-Q: ' + f.maxQ.toFixed(1) + ' kPa');
         this.setText('gameover', 'go-break-maxg', 'Max G: ' + game.maxG.toFixed(1));
+        if (game.currentMission.name === 'Debris Dodge' && nearMissCount > 0) {
+          this.setText('gameover', 'go-break-debris', 'Near misses: +' + (nearMissCount * 500));
+        } else {
+          this.setText('gameover', 'go-break-debris', '');
+        }
       }
 
       // Update title
@@ -2585,6 +2808,9 @@ async function main() {
         this.setText('difficulty', 'cfg-fuel', game.config.fuelType);
         this.setText('difficulty', 'cfg-target', game.currentMission.target + ' km');
         this.setText('difficulty', 'cfg-mission', game.currentMission.name);
+        const diffNames = ['Easy', 'Medium', 'Hard'];
+        const diffMults = ['x0.7', 'x1.0', 'x1.5'];
+        this.setText('difficulty', 'cfg-diff', diffNames[game.difficulty] + ' (' + diffMults[game.difficulty] + ')');
       }
 
       // Telemetry panel
