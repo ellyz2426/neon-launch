@@ -308,18 +308,18 @@ const ROCKET_SKINS: RocketSkin[] = [
 ];
 
 const ARENA_THEMES: ArenaTheme[] = [
-  { name: 'Neon Holodeck', grid: '#00ffff', accent: '#00ffff', bg: '#050510', fog: '#050510', wall: '#001a2a', sky: '#000822', glow: '#00ffff' },
-  { name: 'Crimson Pad', grid: '#ff3333', accent: '#ff4444', bg: '#100505', fog: '#100505', wall: '#2a0000', sky: '#220000', glow: '#ff3333' },
-  { name: 'Toxic Launch', grid: '#33ff33', accent: '#44ff44', bg: '#051005', fog: '#051005', wall: '#002a00', sky: '#002200', glow: '#33ff33' },
-  { name: 'Ultra Violet', grid: '#9933ff', accent: '#aa44ff', bg: '#0a0510', fog: '#0a0510', wall: '#1a002a', sky: '#110022', glow: '#9933ff' },
-  { name: 'Solar Blaze', grid: '#ff9933', accent: '#ffaa44', bg: '#100a05', fog: '#100a05', wall: '#2a1500', sky: '#221100', glow: '#ff9933' },
-  { name: 'Arctic Launch', grid: '#88ccff', accent: '#aaddff', bg: '#0a0f15', fog: '#0a0f15', wall: '#152535', sky: '#0a1a2a', glow: '#88ccff' },
-  { name: 'Desert Pad', grid: '#cc8844', accent: '#ddaa66', bg: '#151008', fog: '#151008', wall: '#2a2010', sky: '#221a08', glow: '#cc8844' },
-  { name: 'Ocean Platform', grid: '#2288cc', accent: '#33aadd', bg: '#050a10', fog: '#050a10', wall: '#0a1a2a', sky: '#061525', glow: '#2288cc' },
-  { name: 'Midnight Launch', grid: '#4444cc', accent: '#5555ee', bg: '#050510', fog: '#050510', wall: '#0a0a2a', sky: '#050522', glow: '#4444cc' },
-  { name: 'Volcanic Base', grid: '#dd4422', accent: '#ff6644', bg: '#150805', fog: '#150805', wall: '#2a1008', sky: '#221005', glow: '#dd4422' },
-  { name: 'Forest Clearing', grid: '#228844', accent: '#33aa55', bg: '#050f08', fog: '#050f08', wall: '#0a200f', sky: '#081a0a', glow: '#228844' },
-  { name: 'Neon City', grid: '#ff44ff', accent: '#ff66ff', bg: '#100510', fog: '#100510', wall: '#2a0a2a', sky: '#220822', glow: '#ff44ff' },
+  { name: 'Desert Base', grid: '#cc8844', accent: '#00ccff', bg: '#87CEEB', fog: '#b0c4d8', wall: '#c2a878', sky: '#5b8fb9', glow: '#00ccff' },
+  { name: 'Arctic Launch', grid: '#88ccff', accent: '#44ddff', bg: '#c0ddef', fog: '#a8c8dd', wall: '#d0d8e0', sky: '#7ab0d0', glow: '#88ccff' },
+  { name: 'Crimson Sunset', grid: '#ff6633', accent: '#ff4444', bg: '#d4886a', fog: '#c07858', wall: '#b08060', sky: '#cc6644', glow: '#ff6633' },
+  { name: 'Tropical Pad', grid: '#33cc88', accent: '#44ffaa', bg: '#88c8aa', fog: '#78b898', wall: '#90a880', sky: '#60a880', glow: '#33cc88' },
+  { name: 'Solar Blaze', grid: '#ffaa33', accent: '#ffcc44', bg: '#d4b87a', fog: '#c0a868', wall: '#c8a060', sky: '#b09050', glow: '#ffaa33' },
+  { name: 'Ocean Platform', grid: '#2288cc', accent: '#33aadd', bg: '#6090b8', fog: '#5080a8', wall: '#708898', sky: '#4070a0', glow: '#2288cc' },
+  { name: 'Volcanic Base', grid: '#dd4422', accent: '#ff6644', bg: '#a08070', fog: '#907060', wall: '#887060', sky: '#886050', glow: '#dd4422' },
+  { name: 'Forest Clearing', grid: '#228844', accent: '#33aa55', bg: '#88b098', fog: '#78a088', wall: '#809878', sky: '#609070', glow: '#228844' },
+  { name: 'Moonrise', grid: '#8888cc', accent: '#aaaaff', bg: '#404868', fog: '#384060', wall: '#505870', sky: '#303858', glow: '#8888cc' },
+  { name: 'Dawn Launch', grid: '#ff8866', accent: '#ffaa88', bg: '#c0a098', fog: '#b09088', wall: '#b09880', sky: '#a88870', glow: '#ff8866' },
+  { name: 'Tundra', grid: '#aaccdd', accent: '#bbddee', bg: '#b8c8d0', fog: '#a0b8c8', wall: '#c0c8d0', sky: '#90a8b8', glow: '#aaccdd' },
+  { name: 'Mars Colony', grid: '#cc6633', accent: '#ee8855', bg: '#c09070', fog: '#b08060', wall: '#a87858', sky: '#a07050', glow: '#cc6633' },
 ];
 
 const LEVEL_TITLES = [
@@ -843,21 +843,22 @@ interface LoadedModels {
   rocketFinsA: Group; rocketFinsB: Group;
   rocketFuelA: Group; rocketFuelB: Group;
   rocketBaseA: Group; rocketBaseB: Group;
-  platformLarge: Group; platformCenter: Group;
+  platformLarge: Group; platformCenter: Group; platformSmall: Group;
   supportsHigh: Group; supportsLow: Group;
   stairs: Group;
-  terrain: Group;
-  structureDetailed: Group;
-  hangarLargeA: Group;
-  satelliteDishLarge: Group;
-  satelliteDish: Group;
+  terrain: Group; terrainSide: Group; terrainSideCorner: Group;
+  terrainRamp: Group; terrainRampLarge: Group;
+  structureDetailed: Group; structureClosed: Group;
+  hangarLargeA: Group; hangarLargeB: Group;
+  hangarRoundA: Group; hangarSmallA: Group;
+  satelliteDishLarge: Group; satelliteDish: Group;
   rockLargeA: Group; rockLargeB: Group;
-  rocksSmallA: Group;
-  crater: Group;
+  rocksSmallA: Group; rocksSmallB: Group;
+  crater: Group; craterLarge: Group;
   pipeStraight: Group; pipeCorner: Group;
   meteor: Group; meteorDetailed: Group;
-  barrel: Group;
-  machineGenerator: Group;
+  barrel: Group; barrels: Group;
+  machineGenerator: Group; machineGeneratorLarge: Group;
 }
 
 let loadedModels: LoadedModels | null = null;
@@ -885,39 +886,53 @@ async function preloadModels(): Promise<LoadedModels> {
   const [
     rocketTopA, rocketTopB, rocketSidesA, rocketSidesB,
     rocketFinsA, rocketFinsB, rocketFuelA, rocketFuelB,
-    rocketBaseA, rocketBaseB, platformLarge, platformCenter,
+    rocketBaseA, rocketBaseB, platformLarge, platformCenter, platformSmall,
     supportsHigh, supportsLow, stairs, terrain,
-    structureDetailed, hangarLargeA, satelliteDishLarge, satelliteDish,
-    rockLargeA, rockLargeB, rocksSmallA, crater,
+    terrainSide, terrainSideCorner, terrainRamp, terrainRampLarge,
+    structureDetailed, structureClosed, hangarLargeA, hangarLargeB,
+    hangarRoundA, hangarSmallA,
+    satelliteDishLarge, satelliteDish,
+    rockLargeA, rockLargeB, rocksSmallA, rocksSmallB,
+    crater, craterLarge,
     pipeStraight, pipeCorner, meteor, meteorDetailed,
-    barrel, machineGenerator,
+    barrel, barrels, machineGenerator, machineGeneratorLarge,
   ] = await Promise.all([
     load('rocket_topA'), load('rocket_topB'),
     load('rocket_sidesA'), load('rocket_sidesB'),
     load('rocket_finsA'), load('rocket_finsB'),
     load('rocket_fuelA'), load('rocket_fuelB'),
     load('rocket_baseA'), load('rocket_baseB'),
-    load('platform_large'), load('platform_center'),
+    load('platform_large'), load('platform_center'), load('platform_small'),
     load('supports_high'), load('supports_low'),
     load('stairs'), load('terrain'),
-    load('structure_detailed'), load('hangar_largeA'),
+    load('terrain_side'), load('terrain_sideCorner'),
+    load('terrain_ramp'), load('terrain_rampLarge'),
+    load('structure_detailed'), load('structure_closed'),
+    load('hangar_largeA'), load('hangar_largeB'),
+    load('hangar_roundA'), load('hangar_smallA'),
     load('satelliteDish_large'), load('satelliteDish'),
     load('rock_largeA'), load('rock_largeB'),
-    load('rocks_smallA'), load('crater'),
+    load('rocks_smallA'), load('rocks_smallB'),
+    load('crater'), load('craterLarge'),
     load('pipe_straight'), load('pipe_corner'),
     load('meteor'), load('meteor_detailed'),
-    load('barrel'), load('machine_generator'),
+    load('barrel'), load('barrels'),
+    load('machine_generator'), load('machine_generatorLarge'),
   ]);
 
   return {
     rocketTopA, rocketTopB, rocketSidesA, rocketSidesB,
     rocketFinsA, rocketFinsB, rocketFuelA, rocketFuelB,
-    rocketBaseA, rocketBaseB, platformLarge, platformCenter,
+    rocketBaseA, rocketBaseB, platformLarge, platformCenter, platformSmall,
     supportsHigh, supportsLow, stairs, terrain,
-    structureDetailed, hangarLargeA, satelliteDishLarge, satelliteDish,
-    rockLargeA, rockLargeB, rocksSmallA, crater,
+    terrainSide, terrainSideCorner, terrainRamp, terrainRampLarge,
+    structureDetailed, structureClosed, hangarLargeA, hangarLargeB,
+    hangarRoundA, hangarSmallA,
+    satelliteDishLarge, satelliteDish,
+    rockLargeA, rockLargeB, rocksSmallA, rocksSmallB,
+    crater, craterLarge,
     pipeStraight, pipeCorner, meteor, meteorDetailed,
-    barrel, machineGenerator,
+    barrel, barrels, machineGenerator, machineGeneratorLarge,
   };
 }
 
@@ -927,231 +942,337 @@ async function preloadModels(): Promise<LoadedModels> {
 
 function buildHolodeck(theme: ArenaTheme): Group {
   const env = new Group();
-  const gridColor = new Color(theme.grid);
   const accentColor = new Color(theme.accent);
 
-  // Floor grid
-  const floorGeo = new PlaneGeometry(40, 40, 20, 20);
-  const floorMat = new MeshBasicMaterial({ color: gridColor, wireframe: true, transparent: true, opacity: 0.15 });
-  const floor = new Mesh(floorGeo, floorMat);
-  floor.rotation.x = -Math.PI / 2;
-  floor.position.y = -0.01;
-  env.add(floor);
+  // ---- SOLID GROUND (natural terrain base) ----
+  const groundGeo = new PlaneGeometry(200, 200);
+  const groundMat = new MeshStandardMaterial({ color: new Color(0xb09878), roughness: 0.95, metalness: 0.0 });
+  const ground = new Mesh(groundGeo, groundMat);
+  ground.rotation.x = -Math.PI / 2;
+  ground.position.y = -0.02;
+  env.add(ground);
 
-  // Ceiling grid
-  const ceilGeo = new PlaneGeometry(40, 40, 20, 20);
-  const ceilMat = new MeshBasicMaterial({ color: gridColor, wireframe: true, transparent: true, opacity: 0.08 });
-  const ceil = new Mesh(ceilGeo, ceilMat);
-  ceil.rotation.x = Math.PI / 2;
-  ceil.position.y = 8;
-  env.add(ceil);
-
-  // --- Kenney Space Kit: Launch Pad ---
   if (loadedModels) {
-    // Central platform
+    // ---- Measure model bounding box helper ----
+    const measureModel = (model: Group): { w: number; h: number; d: number; minY: number } => {
+      const box = new Box3().setFromObject(model);
+      return {
+        w: box.max.x - box.min.x,
+        h: box.max.y - box.min.y,
+        d: box.max.z - box.min.z,
+        minY: box.min.y,
+      };
+    };
+    // Sit a model on the ground plane (y=0) after measuring
+    const sitOnGround = (model: Group): void => {
+      const m = measureModel(model);
+      model.position.y = -m.minY;
+    };
+
+    // ============================================================
+    // LAUNCH PAD -- centered at (0, 0, -4)
+    // ============================================================
     const pad = loadedModels.platformLarge.clone();
-    pad.scale.setScalar(1.2);
+    pad.scale.setScalar(1.5);
     pad.position.set(0, 0, -4);
-    applyNeonTint(pad, accentColor, 0.35);
+    sitOnGround(pad);
     env.add(pad);
 
-    // Platform center piece
     const padCenter = loadedModels.platformCenter.clone();
-    padCenter.scale.setScalar(1.0);
-    padCenter.position.set(0, 0.01, -4);
-    applyNeonTint(padCenter, accentColor, 0.5);
+    padCenter.scale.setScalar(1.2);
+    padCenter.position.set(0, 0.05, -4);
     env.add(padCenter);
 
-    // Support structures around pad
+    // Support pillars under pad edges
     for (let i = 0; i < 4; i++) {
       const angle = (i / 4) * Math.PI * 2 + Math.PI / 4;
       const support = loadedModels.supportsHigh.clone();
-      support.scale.setScalar(1.5);
-      support.position.set(Math.cos(angle) * 2.5, 0, Math.sin(angle) * 2.5 - 4);
-      applyNeonTint(support, accentColor, 0.05);
+      support.scale.setScalar(1.2);
+      support.position.set(Math.cos(angle) * 2.2, 0, Math.sin(angle) * 2.2 - 4);
+      sitOnGround(support);
       env.add(support);
     }
 
-    // Stairs access -- proportioned to rocket height
+    // ============================================================
+    // LAUNCH TOWER / SERVICE GANTRY -- right of rocket, must be TALLER
+    // Stack two tall supports + stairs to create a tall gantry tower
+    // ============================================================
+    const towerLower = loadedModels.supportsHigh.clone();
+    towerLower.scale.setScalar(3.0);
+    towerLower.position.set(2.5, 0, -4);
+    sitOnGround(towerLower);
+    const towerLowerH = measureModel(towerLower).h;
+    env.add(towerLower);
+
+    // Second tower section stacked on top
+    const towerUpper = loadedModels.supportsHigh.clone();
+    towerUpper.scale.setScalar(2.5);
+    towerUpper.position.set(2.5, towerLowerH, -4);
+    env.add(towerUpper);
+    const totalTowerH = towerLowerH + measureModel(towerUpper).h;
+
+    // Stairs along the tower
     const stairsModel = loadedModels.stairs.clone();
     stairsModel.scale.setScalar(3.0);
-    stairsModel.position.set(1.5, 0, -3.2);
+    stairsModel.position.set(3.2, 0, -3.5);
     stairsModel.rotation.y = -Math.PI / 2;
-    applyNeonTint(stairsModel, accentColor, 0.05);
+    sitOnGround(stairsModel);
     env.add(stairsModel);
 
-    // Launch tower supports flanking the stairs
-    const towerSupport1 = loadedModels.supportsHigh.clone();
-    towerSupport1.scale.setScalar(2.0);
-    towerSupport1.position.set(2.2, 0, -4.2);
-    applyNeonTint(towerSupport1, accentColor, 0.05);
-    env.add(towerSupport1);
-    const towerSupport2 = loadedModels.supportsHigh.clone();
-    towerSupport2.scale.setScalar(2.0);
-    towerSupport2.position.set(2.2, 0, -2.2);
-    applyNeonTint(towerSupport2, accentColor, 0.05);
-    env.add(towerSupport2);
+    // Fuel arm pipe connecting tower to rocket (at ~60% tower height)
+    const fuelArm = loadedModels.pipeStraight.clone();
+    fuelArm.scale.setScalar(0.6);
+    fuelArm.position.set(1.5, totalTowerH * 0.55, -4);
+    fuelArm.rotation.z = Math.PI / 2;
+    env.add(fuelArm);
 
-    // --- Environment: Hangars, Structures, Equipment ---
-    // Hangar
+    // Platform at top of tower
+    const towerTop = loadedModels.platformSmall.clone();
+    towerTop.scale.setScalar(0.8);
+    towerTop.position.set(2.5, totalTowerH * 0.95, -4);
+    env.add(towerTop);
+
+    // ============================================================
+    // LEFT ZONE: Hangar + Satellite Dish + Fuel Barrels
+    // Placed further back at -z, visible over rocket's left side
+    // ============================================================
+    // Main hangar -- behind-left of pad
     const hangar = loadedModels.hangarLargeA.clone();
-    hangar.scale.setScalar(1.0);
-    hangar.position.set(-8, 0, -6);
-    hangar.rotation.y = Math.PI / 4;
-    applyNeonTint(hangar, new Color(theme.wall), 0.15);
+    hangar.scale.setScalar(1.2);
+    hangar.position.set(-7, 0, -8);
+    hangar.rotation.y = Math.PI / 6;
+    sitOnGround(hangar);
     env.add(hangar);
 
-    // Mission control structure
-    const structure = loadedModels.structureDetailed.clone();
-    structure.scale.setScalar(0.9);
-    structure.position.set(7, 0, -8);
-    structure.rotation.y = -Math.PI / 3;
-    applyNeonTint(structure, accentColor, 0.2);
-    env.add(structure);
+    // Round hangar further back-left
+    const hangar2 = loadedModels.hangarRoundA.clone();
+    hangar2.scale.setScalar(1.0);
+    hangar2.position.set(-10, 0, -12);
+    hangar2.rotation.y = -Math.PI / 5;
+    sitOnGround(hangar2);
+    env.add(hangar2);
 
-    // Satellite dishes (tracking equipment)
+    // Large satellite dish -- left side, visible from player
     const dish1 = loadedModels.satelliteDishLarge.clone();
-    dish1.scale.setScalar(0.8);
-    dish1.position.set(-5, 0, 4);
-    dish1.rotation.y = Math.PI / 6;
-    applyNeonTint(dish1, accentColor, 0.3);
+    dish1.scale.setScalar(1.5);
+    dish1.position.set(-6, 0, -3);
+    dish1.rotation.y = Math.PI / 4;
+    sitOnGround(dish1);
     env.add(dish1);
 
-    const dish2 = loadedModels.satelliteDish.clone();
-    dish2.scale.setScalar(0.6);
-    dish2.position.set(9, 0, 2);
-    dish2.rotation.y = -Math.PI / 4;
-    applyNeonTint(dish2, accentColor, 0.3);
-    env.add(dish2);
+    // Fuel barrels cluster left of pad
+    const barrelGroup1 = loadedModels.barrels.clone();
+    barrelGroup1.scale.setScalar(0.8);
+    barrelGroup1.position.set(-5, 0, -5.5);
+    sitOnGround(barrelGroup1);
+    env.add(barrelGroup1);
 
-    // Fuel pipe runs from hangar to pad
-    for (let i = 0; i < 5; i++) {
-      const pipe = loadedModels.pipeStraight.clone();
-      pipe.scale.setScalar(0.5);
-      pipe.position.set(-4 + i * 1.2, 0.1, -2);
-      applyNeonTint(pipe, new Color(theme.glow), 0.2);
-      env.add(pipe);
-    }
-    // Pipe corner at pad
-    const pipeC = loadedModels.pipeCorner.clone();
-    pipeC.scale.setScalar(0.5);
-    pipeC.position.set(1.5, 0.1, -2);
-    pipeC.rotation.y = Math.PI / 2;
-    applyNeonTint(pipeC, new Color(theme.glow), 0.2);
-    env.add(pipeC);
-
-    // Terrain chunks around the pad
-    const terrainPositions: [number, number, number][] = [
-      [-12, 0, -10], [12, 0, -10], [-10, 0, 6], [10, 0, 6],
-      [-14, 0, 0], [14, 0, 0],
-    ];
-    for (const [tx, ty, tz] of terrainPositions) {
-      const t = loadedModels.terrain.clone();
-      t.scale.setScalar(1.5);
-      t.position.set(tx, ty, tz);
-      t.rotation.y = Math.random() * Math.PI * 2;
-      applyNeonTint(t, new Color(theme.wall), 0.08);
-      env.add(t);
-    }
-
-    // Rocks and craters for terrain detail
-    const rockPositions: [number, number, number][] = [
-      [-6, 0, 7], [8, 0, 5], [-9, 0, -2], [11, 0, -4], [4, 0, 8],
-    ];
-    for (let i = 0; i < rockPositions.length; i++) {
-      const [rx, ry, rz] = rockPositions[i];
-      const rock = (i % 2 === 0 ? loadedModels.rockLargeA : loadedModels.rockLargeB).clone();
-      rock.scale.setScalar(0.4 + Math.random() * 0.3);
-      rock.position.set(rx, ry, rz);
-      rock.rotation.y = Math.random() * Math.PI * 2;
-      applyNeonTint(rock, accentColor, 0.1);
-      env.add(rock);
-    }
-
-    // Small rock clusters
-    for (let i = 0; i < 8; i++) {
-      const rs = loadedModels.rocksSmallA.clone();
-      rs.scale.setScalar(0.3 + Math.random() * 0.2);
-      rs.position.set((Math.random() - 0.5) * 20, 0, (Math.random() - 0.5) * 20);
-      rs.rotation.y = Math.random() * Math.PI * 2;
-      applyNeonTint(rs, new Color(theme.wall), 0.05);
-      env.add(rs);
-    }
-
-    // Crater
-    const craterModel = loadedModels.crater.clone();
-    craterModel.scale.setScalar(0.8);
-    craterModel.position.set(-3, 0, 8);
-    applyNeonTint(craterModel, new Color(theme.wall), 0.05);
-    env.add(craterModel);
-
-    // Barrels near hangar
-    for (let i = 0; i < 3; i++) {
+    for (let i = 0; i < 4; i++) {
       const b = loadedModels.barrel.clone();
-      b.scale.setScalar(0.4);
-      b.position.set(-7 + i * 0.6, 0, -4.5);
-      applyNeonTint(b, new Color(theme.glow), 0.15);
+      b.scale.setScalar(0.5);
+      b.position.set(-4.5 + i * 0.6, 0, -6.2);
+      sitOnGround(b);
       env.add(b);
     }
 
-    // Generator near mission control
+    // ============================================================
+    // RIGHT ZONE: Mission Control + Comm + Supply
+    // ============================================================
+    // Mission control building -- right-behind pad, closer to center
+    const missionCtrl = loadedModels.structureDetailed.clone();
+    missionCtrl.scale.setScalar(1.0);
+    missionCtrl.position.set(5, 0, -7);
+    missionCtrl.rotation.y = -Math.PI / 6;
+    sitOnGround(missionCtrl);
+    env.add(missionCtrl);
+
+    // Comm building behind mission control
+    const commBldg = loadedModels.structureClosed.clone();
+    commBldg.scale.setScalar(0.8);
+    commBldg.position.set(7, 0, -9);
+    commBldg.rotation.y = -Math.PI / 8;
+    sitOnGround(commBldg);
+    env.add(commBldg);
+
+    // Second large hangar visible on the right
+    const hangar3 = loadedModels.hangarLargeB.clone();
+    hangar3.scale.setScalar(1.0);
+    hangar3.position.set(8, 0, -11);
+    hangar3.rotation.y = Math.PI / 3;
+    sitOnGround(hangar3);
+    env.add(hangar3);
+
+    // Small supply hangar closer to pad on right
+    const supplyHangar = loadedModels.hangarSmallA.clone();
+    supplyHangar.scale.setScalar(0.8);
+    supplyHangar.position.set(5, 0, -5);
+    sitOnGround(supplyHangar);
+    env.add(supplyHangar);
+
+    // Second satellite dish -- right side, slightly forward for visibility
+    const dish2 = loadedModels.satelliteDish.clone();
+    dish2.scale.setScalar(0.8);
+    dish2.position.set(6, 0, -4);
+    dish2.rotation.y = -Math.PI / 3;
+    sitOnGround(dish2);
+    env.add(dish2);
+
+    // Third satellite dish, detailed, behind-right
+    const dish3 = loadedModels.satelliteDishLarge.clone();
+    dish3.scale.setScalar(0.8);
+    dish3.position.set(10, 0, -8);
+    dish3.rotation.y = -Math.PI / 2;
+    sitOnGround(dish3);
+    env.add(dish3);
+
+    // Supply barrels near mission control
+    const barrelGroup2 = loadedModels.barrels.clone();
+    barrelGroup2.scale.setScalar(0.6);
+    barrelGroup2.position.set(6, 0, -6);
+    sitOnGround(barrelGroup2);
+    env.add(barrelGroup2);
+
+    // ============================================================
+    // FUEL PIPELINE -- from left hangar area toward the launch pad
+    // ============================================================
+    for (let i = 0; i < 5; i++) {
+      const pipe = loadedModels.pipeStraight.clone();
+      pipe.scale.setScalar(0.6);
+      pipe.position.set(-5 + i * 1.0, 0.1, -3.5);
+      env.add(pipe);
+    }
+    const pipeC = loadedModels.pipeCorner.clone();
+    pipeC.scale.setScalar(0.6);
+    pipeC.position.set(0.5, 0.1, -3.5);
+    pipeC.rotation.y = Math.PI / 2;
+    env.add(pipeC);
+
+    // ============================================================
+    // GENERATORS -- near pad and mission control
+    // ============================================================
     const gen = loadedModels.machineGenerator.clone();
-    gen.scale.setScalar(0.6);
-    gen.position.set(5.5, 0, -7);
-    applyNeonTint(gen, accentColor, 0.2);
+    gen.scale.setScalar(1.2);
+    gen.position.set(4.5, 0, -5.5);
+    sitOnGround(gen);
     env.add(gen);
+
+    const genLarge = loadedModels.machineGeneratorLarge.clone();
+    genLarge.scale.setScalar(1.0);
+    genLarge.position.set(-3, 0, -3);
+    sitOnGround(genLarge);
+    env.add(genLarge);
+
+    // ============================================================
+    // DISTANT LANDSCAPE -- large rock formations as mesas on horizon
+    // Bigger and further away for drama, like concept art background
+    // ============================================================
+    const distantRocks: [number, number, number, number, number][] = [
+      // x, y, z, scale, rotY -- arranged in a ring around the base
+      [40, 0, -25, 8.0, 0.3],
+      [-40, 0, -20, 9.0, 1.8],
+      [35, 0, 20, 7.0, 0.7],
+      [-35, 0, 25, 8.0, 2.5],
+      [0, 0, -45, 10.0, 1.2],
+      [-45, 0, 0, 7.0, 0.8],
+      [45, 0, 0, 8.0, 3.1],
+      [-25, 0, -35, 7.0, 0.0],
+      [25, 0, -35, 6.0, 1.5],
+      [-30, 0, 30, 7.0, 2.0],
+      [30, 0, 30, 6.0, 0.5],
+      [0, 0, 40, 8.0, 1.0],
+      // Fill in a few more for a continuous horizon
+      [-50, 0, -15, 9.0, 0.4],
+      [50, 0, -15, 8.0, 2.8],
+      [-20, 0, -40, 6.5, 1.6],
+      [20, 0, 40, 5.0, 0.9],
+    ];
+    for (let i = 0; i < distantRocks.length; i++) {
+      const [dx, dy, dz, ds, dr] = distantRocks[i];
+      const bigRock = (i % 2 === 0 ? loadedModels.rockLargeA : loadedModels.rockLargeB).clone();
+      bigRock.scale.setScalar(ds);
+      bigRock.position.set(dx, dy, dz);
+      bigRock.rotation.y = dr;
+      env.add(bigRock);
+    }
+
+    // ============================================================
+    // MEDIUM ROCKS -- scattered around the base perimeter
+    // ============================================================
+    const rockPositions: [number, number, number, number][] = [
+      [-8, 0, 3, 1.0], [10, 0, 3, 1.1], [-12, 0, -3, 1.2],
+      [12, 0, -3, 0.9], [-3, 0, 5, 0.7], [6, 0, 6, 0.8],
+      [-10, 0, 6, 0.9], [14, 0, -7, 0.8], [-14, 0, -7, 1.0],
+      [0, 0, 8, 0.6], [-6, 0, -12, 0.9], [8, 0, -12, 0.7],
+      [-15, 0, 2, 1.1], [15, 0, 2, 0.8], [3, 0, 10, 0.7],
+    ];
+    for (let i = 0; i < rockPositions.length; i++) {
+      const [rx, ry, rz, rs] = rockPositions[i];
+      const rock = (i % 2 === 0 ? loadedModels.rockLargeA : loadedModels.rockLargeB).clone();
+      rock.scale.setScalar(rs);
+      rock.position.set(rx, ry, rz);
+      rock.rotation.y = i * 1.37;
+      env.add(rock);
+    }
+
+    // Small rock clusters densely scattered on the ground
+    for (let i = 0; i < 30; i++) {
+      const rs = (i % 2 === 0 ? loadedModels.rocksSmallA : loadedModels.rocksSmallB).clone();
+      rs.scale.setScalar(0.3 + Math.random() * 0.6);
+      const angle = (i / 30) * Math.PI * 2 + Math.random() * 0.5;
+      const dist = 3 + Math.random() * 20;
+      rs.position.set(Math.cos(angle) * dist, 0, Math.sin(angle) * dist);
+      rs.rotation.y = Math.random() * Math.PI * 2;
+      env.add(rs);
+    }
+
+    // ============================================================
+    // CRATERS -- scattered around the terrain
+    // ============================================================
+    const craterModel = loadedModels.crater.clone();
+    craterModel.scale.setScalar(1.8);
+    craterModel.position.set(-7, -0.1, 8);
+    env.add(craterModel);
+
+    const craterLg = loadedModels.craterLarge.clone();
+    craterLg.scale.setScalar(2.5);
+    craterLg.position.set(15, -0.1, -10);
+    env.add(craterLg);
+
+    const crater2 = loadedModels.crater.clone();
+    crater2.scale.setScalar(1.2);
+    crater2.position.set(12, -0.1, 8);
+    env.add(crater2);
+
+    const crater3 = loadedModels.craterLarge.clone();
+    crater3.scale.setScalar(2.0);
+    crater3.position.set(-12, -0.1, -5);
+    env.add(crater3);
   }
 
-  // Pad edge glow ring (always present as holodeck flourish)
-  const padEdge = new Mesh(new TorusGeometry(1.5, 0.03, 8, 32), new MeshBasicMaterial({ color: accentColor, transparent: true, opacity: 0.8 }));
+  // Subtle pad edge glow ring
+  const padEdge = new Mesh(
+    new TorusGeometry(2.0, 0.02, 8, 48),
+    new MeshBasicMaterial({ color: accentColor, transparent: true, opacity: 0.4 })
+  );
   padEdge.rotation.x = -Math.PI / 2;
-  padEdge.position.set(0, 0.11, -4);
+  padEdge.position.set(0, 0.12, -4);
   env.add(padEdge);
 
-  // Floating decorations (holodeck aesthetic overlay)
-  for (let i = 0; i < 14; i++) {
-    const x = (Math.random() - 0.5) * 16;
-    const y = 2 + Math.random() * 4;
-    const z = (Math.random() - 0.5) * 16;
-    const types = [new TorusGeometry(0.15, 0.04, 8, 16), new BoxGeometry(0.2, 0.2, 0.2), new SphereGeometry(0.12, 8, 8), new ConeGeometry(0.1, 0.25, 6)];
-    const geo = types[i % 4];
-    const mat = new MeshBasicMaterial({ color: accentColor, wireframe: true, transparent: true, opacity: 0.2 });
-    const dec = new Mesh(geo, mat);
-    dec.position.set(x, y, z);
-    dec.userData.floatSpeed = 0.3 + Math.random() * 0.5;
-    dec.userData.floatOffset = Math.random() * Math.PI * 2;
-    dec.userData.rotSpeed = 0.2 + Math.random() * 0.4;
-    env.add(dec);
-  }
-
-  // Ambient particles
-  for (let i = 0; i < 40; i++) {
-    const x = (Math.random() - 0.5) * 20;
-    const y = 0.5 + Math.random() * 6;
-    const z = (Math.random() - 0.5) * 20;
-    const dot = new Mesh(new SphereGeometry(0.008, 4, 4), new MeshBasicMaterial({ color: accentColor, transparent: true, blending: AdditiveBlending, opacity: 0.3 + Math.random() * 0.4 }));
-    dot.position.set(x, y, z);
-    dot.userData.driftX = (Math.random() - 0.5) * 0.2;
-    dot.userData.driftY = (Math.random() - 0.5) * 0.1;
-    dot.userData.pulsePhase = Math.random() * Math.PI * 2;
-    env.add(dot);
-  }
-
-  // Lights
-  const ambient = new AmbientLight(0x111122, 0.6);
+  // ---- LIGHTING (bright outdoor daytime) ----
+  const ambient = new AmbientLight(0xfff8f0, 0.8);
   env.add(ambient);
-  const dirLight = new DirectionalLight(0xffffff, 0.4);
-  dirLight.position.set(3, 8, 5);
-  env.add(dirLight);
-  const padLight = new PointLight(new Color(theme.accent).getHex(), 1.5, 10);
-  padLight.position.set(0, 1.5, -4);
-  env.add(padLight);
-  const acLight1 = new PointLight(new Color(theme.glow).getHex(), 0.8, 15);
-  acLight1.position.set(-5, 4, -2);
-  env.add(acLight1);
-  const acLight2 = new PointLight(0xff00ff, 0.4, 15);
-  acLight2.position.set(5, 3, -6);
-  env.add(acLight2);
+  // Sun (main directional)
+  const sunLight = new DirectionalLight(0xfff0d8, 1.5);
+  sunLight.position.set(8, 20, 10);
+  env.add(sunLight);
+  // Sky fill (blue bounce)
+  const fillLight = new DirectionalLight(0x88aacc, 0.4);
+  fillLight.position.set(-5, 8, -4);
+  env.add(fillLight);
+  // Warm ground bounce
+  const bounceLight = new DirectionalLight(0xccaa88, 0.2);
+  bounceLight.position.set(0, -2, 0);
+  env.add(bounceLight);
 
   return env;
 }
@@ -1640,8 +1761,12 @@ async function main() {
     },
   });
 
-  world.scene.fog = new Fog(0x050510, 5, 30);
-  world.scene.background = new Color(0x050510);
+  world.scene.fog = new Fog(0x9ab4cc, 35, 120);
+  world.scene.background = new Color(0x5a8cbf);
+
+  // Pull camera back for wider base overview (browser mode only)
+  world.camera.position.set(-0.5, 3.2, 5);
+  world.camera.lookAt(0, 0.5, -6);
 
   // Initialize AssetManager and preload Kenney models
   AssetManager.init(world.renderer, world);
@@ -1767,8 +1892,8 @@ async function main() {
     world.scene.add(envGroup);
     game.themesUsed.add(game.themes[game.currentThemeIndex].name);
     const fogColor = new Color(game.themes[game.currentThemeIndex].fog);
-    world.scene.fog = new Fog(fogColor.getHex(), 5, 30);
-    world.scene.background = fogColor.clone();
+    world.scene.fog = new Fog(fogColor.getHex(), 30, 100);
+    world.scene.background = new Color(game.themes[game.currentThemeIndex].bg);
   }
 
   function setState(s: GameState) {
@@ -1986,26 +2111,6 @@ async function main() {
         }
       } else {
         starfield.group.visible = false;
-      }
-
-      // Animate floating decorations
-      for (const child of envGroup.children) {
-        if (child.userData.floatSpeed) {
-          child.position.y += Math.sin(time * child.userData.floatSpeed + child.userData.floatOffset) * 0.001;
-          child.rotation.x += child.userData.rotSpeed * dt;
-          child.rotation.y += child.userData.rotSpeed * 0.7 * dt;
-        }
-        if (child.userData.driftX !== undefined) {
-          child.position.x += child.userData.driftX * dt;
-          child.position.y += child.userData.driftY * dt;
-          const mat = (child as Mesh).material as MeshBasicMaterial;
-          if (mat.opacity !== undefined) {
-            mat.opacity = 0.3 + 0.3 * Math.sin(time * 2 + (child.userData.pulsePhase ?? 0));
-          }
-          // Wrap
-          if (child.position.x > 10) child.position.x = -10;
-          if (child.position.x < -10) child.position.x = 10;
-        }
       }
 
       // Countdown
