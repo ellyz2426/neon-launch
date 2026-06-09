@@ -10,7 +10,7 @@
           "PAUSED"
         ],
         "properties": {
-          "fontsize": "16",
+          "fontsize": "20",
           "fontweight": "bold",
           "color": "#00ffff"
         },
@@ -20,24 +20,74 @@
         "sourceTag": "text",
         "type": "custom",
         "children": [
-          "Press ESC to resume"
+          "Mission in progress"
         ],
         "properties": {
-          "fontsize": "12",
-          "color": "#aaaacc"
+          "fontsize": "10",
+          "color": "#668888"
         },
         "dataUid": "uid-3"
+      },
+      {
+        "sourceTag": "container",
+        "type": "custom",
+        "children": [
+          {
+            "sourceTag": "text",
+            "type": "custom",
+            "children": [
+              "RESUME"
+            ],
+            "properties": {
+              "name": "btn-resume",
+              "fontsize": "14",
+              "color": "#44ff44",
+              "backgroundcolor": "#001a00",
+              "padding": "8",
+              "borderradius": "6",
+              "bordercolor": "#44ff44",
+              "borderwidth": "1",
+              "cursor": "pointer"
+            },
+            "dataUid": "uid-5"
+          },
+          {
+            "sourceTag": "text",
+            "type": "custom",
+            "children": [
+              "ABORT MISSION"
+            ],
+            "properties": {
+              "name": "btn-quit",
+              "fontsize": "14",
+              "color": "#ff4444",
+              "backgroundcolor": "#1a0000",
+              "padding": "8",
+              "borderradius": "6",
+              "bordercolor": "#ff4444",
+              "borderwidth": "1",
+              "cursor": "pointer"
+            },
+            "dataUid": "uid-6"
+          }
+        ],
+        "properties": {
+          "flexdirection": "column",
+          "gap": "6",
+          "margintop": "6"
+        },
+        "dataUid": "uid-4"
       }
     ],
     "properties": {
       "flexdirection": "column",
       "alignitems": "center",
-      "gap": "6",
+      "gap": "8",
       "padding": "16",
       "backgroundcolor": "#0a0a1a",
       "borderradius": "12",
       "bordercolor": "#00ffff",
-      "borderwidth": "1"
+      "borderwidth": "2"
     },
     "dataUid": "uid-1"
   },
@@ -49,7 +99,7 @@
         "column": 0
       },
       "end": {
-        "line": 3,
+        "line": 7,
         "column": 12
       }
     },
@@ -71,6 +121,36 @@
       "end": {
         "line": 2,
         "column": 64
+      }
+    },
+    "uid-4": {
+      "start": {
+        "line": 3,
+        "column": 2
+      },
+      "end": {
+        "line": 6,
+        "column": 14
+      }
+    },
+    "uid-5": {
+      "start": {
+        "line": 4,
+        "column": 4
+      },
+      "end": {
+        "line": 4,
+        "column": 181
+      }
+    },
+    "uid-6": {
+      "start": {
+        "line": 5,
+        "column": 4
+      },
+      "end": {
+        "line": 5,
+        "column": 186
       }
     }
   }

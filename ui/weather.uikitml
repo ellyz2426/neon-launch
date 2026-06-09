@@ -1,0 +1,33 @@
+<panel>
+  <container flexDirection="column" gap="4" padding="8" backgroundColor="#0a0a1aee" borderRadius="8" borderColor="#00ffff44" borderWidth="1">
+    <text id="weather-title" fontSize="10" fontWeight="bold" color="#00ffff">WEATHER</text>
+    <container flexDirection="column" gap="3">
+      <text id="weather-name" fontSize="12" fontWeight="bold" color="#ffffff">Clear</text>
+      <container flexDirection="row" gap="4">
+        <container flexDirection="column" gap="2" flexGrow="1">
+          <text fontSize="7" color="#00ffff88">WIND</text>
+          <text id="weather-wind" fontSize="9" color="#ffffff">0 m/s</text>
+        </container>
+        <container flexDirection="column" gap="2" flexGrow="1">
+          <text fontSize="7" color="#00ffff88">TURB</text>
+          <text id="weather-turb" fontSize="9" color="#ffffff">None</text>
+        </container>
+      </container>
+      <container flexDirection="row" gap="4">
+        <container flexDirection="column" gap="2" flexGrow="1">
+          <text fontSize="7" color="#00ffff88">HEADWIND</text>
+          <text id="weather-head" fontSize="9" color="#ffffff">0 m/s</text>
+        </container>
+        <container flexDirection="column" gap="2" flexGrow="1">
+          <text fontSize="7" color="#00ffff88">VISIBILITY</text>
+          <text id="weather-vis" fontSize="9" color="#ffffff">100%</text>
+        </container>
+      </container>
+    </container>
+    <container flexDirection="row" gap="4" justifyContent="center">
+      <text id="btn-weather-prev" fontSize="8" color="#00ffff" fontWeight="bold" padding="4" borderRadius="4" borderColor="#00ffff66" borderWidth="1"><</text>
+      <text id="btn-weather-next" fontSize="8" color="#00ffff" fontWeight="bold" padding="4" borderRadius="4" borderColor="#00ffff66" borderWidth="1">></text>
+    </container>
+    <text id="btn-back-weather" fontSize="8" color="#00ffff" fontWeight="bold" padding="4" borderRadius="4" borderColor="#00ffff66" borderWidth="1">BACK</text>
+  </container>
+</panel>

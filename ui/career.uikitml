@@ -1,0 +1,28 @@
+<panel>
+  <container flexDirection="column" gap="4" padding="8" backgroundColor="#0a0a1aee" borderRadius="8" borderColor="#00ffff44" borderWidth="1">
+    <text id="career-title" fontSize="10" fontWeight="bold" color="#00ffff">CAREER MODE</text>
+    <text id="career-desc" fontSize="7" color="#aaaacc">Complete missions to unlock the next</text>
+    <container flexDirection="column" gap="3">
+      <text id="career-m0" fontSize="8" color="#ffffff">1. Low Orbit</text>
+      <text id="career-m1" fontSize="8" color="#ffffff">2. Medium Orbit</text>
+      <text id="career-m2" fontSize="8" color="#ffffff">3. High Orbit</text>
+      <text id="career-m3" fontSize="8" color="#666688">4. GEO Transfer [LOCKED]</text>
+      <text id="career-m4" fontSize="8" color="#666688">5. Deep Space [LOCKED]</text>
+      <text id="career-m5" fontSize="8" color="#666688">6. Crew Delivery [LOCKED]</text>
+      <text id="career-m6" fontSize="8" color="#666688">7. Station Module [LOCKED]</text>
+      <text id="career-m7" fontSize="8" color="#666688">8. Escape Velocity [LOCKED]</text>
+      <text id="career-m8" fontSize="8" color="#666688">9. Daily Mission [LOCKED]</text>
+      <text id="career-m9" fontSize="8" color="#666688">10. Polar Orbit [LOCKED]</text>
+      <text id="career-m10" fontSize="8" color="#666688">11. Lunar Transfer [LOCKED]</text>
+      <text id="career-m11" fontSize="8" color="#666688">12. Speed Run [LOCKED]</text>
+      <text id="career-m12" fontSize="8" color="#666688">13. Fuel Challenge [LOCKED]</text>
+      <text id="career-m13" fontSize="8" color="#666688">14. Heavy Launch [LOCKED]</text>
+      <text id="career-m14" fontSize="8" color="#666688">15. Re-entry Run [LOCKED]</text>
+    </container>
+    <text id="career-progress" fontSize="8" color="#00ffff">Progress: 3/15</text>
+    <container flexDirection="row" gap="4" justifyContent="center">
+      <text id="btn-career-toggle" fontSize="8" color="#00ffff" fontWeight="bold" padding="4" borderRadius="4" borderColor="#00ffff66" borderWidth="1">ENABLE CAREER</text>
+      <text id="btn-back-career" fontSize="8" color="#00ffff" fontWeight="bold" padding="4" borderRadius="4" borderColor="#00ffff66" borderWidth="1">BACK</text>
+    </container>
+  </container>
+</panel>

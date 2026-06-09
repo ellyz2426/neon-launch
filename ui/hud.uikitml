@@ -24,6 +24,12 @@
       <text name="angle-value" fontSize="10" color="#aaaacc">0.0 deg</text>
     </container>
     <container flexDirection="column" gap="2">
+      <text fontSize="8" color="#668888">G-FORCE</text>
+      <text name="gforce-value" fontSize="10" color="#ff4444">0.0 G</text>
+    </container>
+  </container>
+  <container flexDirection="row" gap="8">
+    <container flexDirection="column" gap="2">
       <text fontSize="8" color="#668888">TIME</text>
       <text name="time-value" fontSize="10" color="#aaaacc">0.0s</text>
     </container>
@@ -31,5 +37,10 @@
       <text fontSize="8" color="#668888">TARGET</text>
       <text name="target-value" fontSize="10" color="#00ffff">200 km</text>
     </container>
+    <container flexDirection="column" gap="2">
+      <text fontSize="8" color="#668888">PROGRESS</text>
+      <text name="progress-value" fontSize="10" color="#9966ff">0%</text>
+    </container>
   </container>
+  <text name="fuel-warn" fontSize="9" fontWeight="bold" color="#ff3333"></text>
 </container>

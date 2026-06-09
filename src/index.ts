@@ -37,7 +37,7 @@ import {
 // TYPES & CONSTANTS
 // ============================================================================
 
-type GameState = 'title' | 'config' | 'preflight' | 'countdown' | 'flying' | 'orbit' | 'gameover' | 'achievements' | 'stats' | 'settings' | 'help' | 'skins' | 'modes' | 'difficulty';
+type GameState = 'title' | 'config' | 'preflight' | 'countdown' | 'flying' | 'orbit' | 'gameover' | 'achievements' | 'stats' | 'settings' | 'help' | 'skins' | 'modes' | 'difficulty' | 'weather' | 'career' | 'leaderboard';
 
 interface RocketConfig {
   stages: number; // 2 or 3
@@ -103,6 +103,27 @@ interface ArenaTheme {
   glow: string;
 }
 
+interface WeatherCondition {
+  name: string;
+  windSpeed: number;
+  turbulence: number;
+  headwind: number;
+  visibility: number;
+}
+
+interface AltitudeMilestone {
+  altitude: number;
+  name: string;
+}
+
+interface LeaderboardEntry {
+  mission: string;
+  score: number;
+  altitude: number;
+  time: number;
+  date: string;
+}
+
 // ============================================================================
 // GAME STATE MANAGER
 // ============================================================================
@@ -117,6 +138,12 @@ const MISSIONS: Mission[] = [
   { name: 'Station Module', target: 600, payload: 'station', difficulty: 'Hard', description: 'Heavy payload to 600km' },
   { name: 'Escape Velocity', target: 10000, payload: 'probe', difficulty: 'Expert', description: 'Reach escape velocity' },
   { name: 'Daily Mission', target: 0, payload: 'satellite', difficulty: 'Daily', description: 'Daily challenge - seeded' },
+  { name: 'Polar Orbit', target: 500, payload: 'satellite', difficulty: 'Medium', description: 'Sun-sync polar orbit at 500km' },
+  { name: 'Lunar Transfer', target: 15000, payload: 'probe', difficulty: 'Expert', description: 'Trans-lunar injection burn' },
+  { name: 'Speed Run', target: 300, payload: 'satellite', difficulty: 'Medium', description: 'Reach 300km in under 60s' },
+  { name: 'Fuel Challenge', target: 400, payload: 'satellite', difficulty: 'Hard', description: 'Orbit with 50%+ fuel left' },
+  { name: 'Heavy Launch', target: 300, payload: 'station', difficulty: 'Hard', description: 'Heavy payload to low orbit' },
+  { name: 'Re-entry Run', target: 0, payload: 'crew', difficulty: 'Expert', description: 'Survive atmospheric re-entry' },
 ];
 
 const ACHIEVEMENTS: Achievement[] = [
@@ -150,6 +177,35 @@ const ACHIEVEMENTS: Achievement[] = [
   { id: 'level_25', name: 'Captain', desc: 'Reach level 25', unlocked: false },
   { id: 'level_50', name: 'Admiral', desc: 'Reach level 50', unlocked: false },
   { id: 'max_throttle', name: 'Full Burn', desc: 'Launch at 100% throttle', unlocked: false },
+  { id: 'karman_line', name: 'Karman Line', desc: 'Cross 100km altitude', unlocked: false },
+  { id: 'orbit_15000', name: 'Lunar Transfer', desc: 'Reach 15000km altitude', unlocked: false },
+  { id: 'speed_run', name: 'Speed Demon Pro', desc: 'Orbit in under 60 seconds', unlocked: false },
+  { id: 'fuel_50', name: 'Efficiency Expert', desc: 'Orbit with 50%+ fuel', unlocked: false },
+  { id: 'polar_orbit', name: 'Polar Pioneer', desc: 'Complete polar orbit mission', unlocked: false },
+  { id: 'hundred_launches', name: 'Astronaut', desc: 'Complete 100 launches', unlocked: false },
+  { id: 'wind_warrior', name: 'Wind Warrior', desc: 'Orbit in stormy weather', unlocked: false },
+  { id: 'hurricane_hero', name: 'Hurricane Hero', desc: 'Orbit in hurricane conditions', unlocked: false },
+  { id: 'no_throttle_change', name: 'Steady Hand', desc: 'Orbit without changing throttle', unlocked: false },
+  { id: 'max_speed_10k', name: 'Hypersonic', desc: 'Reach 10000 m/s', unlocked: false },
+  { id: 'max_speed_15k', name: 'Escape Velocity', desc: 'Reach 15000 m/s', unlocked: false },
+  { id: 'ten_missions', name: 'Explorer', desc: 'Complete 10 different missions', unlocked: false },
+  { id: 'reentry_survive', name: 'Heat Shield', desc: 'Survive a re-entry mission', unlocked: false },
+  { id: 'daily_streak_14', name: 'Streak x14', desc: '14-day daily streak', unlocked: false },
+  { id: 'daily_streak_30', name: 'Streak x30', desc: '30-day daily streak', unlocked: false },
+  { id: 'three_stage_orbit', name: 'Triple Burn', desc: 'Orbit using all 3 stages', unlocked: false },
+  { id: 'career_complete', name: 'Career Pilot', desc: 'Complete career mode', unlocked: false },
+  { id: 'score_50k', name: 'High Scorer', desc: 'Score 50000+ on a mission', unlocked: false },
+  { id: 'score_100k', name: 'Top Gun', desc: 'Score 100000 on a mission', unlocked: false },
+  { id: 'low_fuel_orbit', name: 'Fumes Only', desc: 'Orbit with less than 5% fuel', unlocked: false },
+  { id: 'five_g', name: 'High G', desc: 'Experience 5G acceleration', unlocked: false },
+  { id: 'ten_g', name: 'Extreme G', desc: 'Experience 10G acceleration', unlocked: false },
+  { id: 'altitude_drop', name: 'Controlled Descent', desc: 'Drop 100km and recover', unlocked: false },
+  { id: 'all_skins', name: 'Collector', desc: 'Unlock all rocket skins', unlocked: false },
+  { id: 'all_themes', name: 'Interior Designer', desc: 'Try all arena themes', unlocked: false },
+  { id: 'heavy_orbit_800', name: 'Titan Lifter', desc: 'Heavy payload to 800km', unlocked: false },
+  { id: 'crew_ten', name: 'Taxi Service', desc: 'Complete 10 crew missions', unlocked: false },
+  { id: 'no_separation', name: 'Single Stage', desc: 'Orbit without stage separation', unlocked: false },
+  { id: 'perfect_angle', name: 'Optimal Trajectory', desc: 'Keep angle 30-45 deg above 50km', unlocked: false },
 ];
 
 const ROCKET_SKINS: RocketSkin[] = [
@@ -161,6 +217,10 @@ const ROCKET_SKINS: RocketSkin[] = [
   { name: 'Void Purple', body: '#9966ff', accent: '#6600ff', flame: '#4400cc', unlockCondition: 'Level 25', unlocked: false },
   { name: 'Chrome Silver', body: '#cccccc', accent: '#ffffff', flame: '#aaaaff', unlockCondition: 'Fuel saver', unlocked: false },
   { name: 'Inferno Red', body: '#ff3333', accent: '#ff0000', flame: '#ff6600', unlockCondition: 'Escape velocity', unlocked: false },
+  { name: 'Galaxy Blue', body: '#2244aa', accent: '#4488ff', flame: '#00aaff', unlockCondition: 'Lunar transfer', unlocked: false },
+  { name: 'Meteor Gold', body: '#cc8800', accent: '#ffcc00', flame: '#ffaa00', unlockCondition: '100 launches', unlocked: false },
+  { name: 'Shadow Black', body: '#222222', accent: '#666666', flame: '#ff4444', unlockCondition: 'Hurricane orbit', unlocked: false },
+  { name: 'Aurora', body: '#44ddaa', accent: '#22ffcc', flame: '#00ff88', unlockCondition: 'Level 40', unlocked: false },
 ];
 
 const ARENA_THEMES: ArenaTheme[] = [
@@ -169,6 +229,9 @@ const ARENA_THEMES: ArenaTheme[] = [
   { name: 'Toxic Launch', grid: '#33ff33', accent: '#44ff44', bg: '#051005', fog: '#051005', wall: '#002a00', sky: '#002200', glow: '#33ff33' },
   { name: 'Ultra Violet', grid: '#9933ff', accent: '#aa44ff', bg: '#0a0510', fog: '#0a0510', wall: '#1a002a', sky: '#110022', glow: '#9933ff' },
   { name: 'Solar Blaze', grid: '#ff9933', accent: '#ffaa44', bg: '#100a05', fog: '#100a05', wall: '#2a1500', sky: '#221100', glow: '#ff9933' },
+  { name: 'Arctic Launch', grid: '#88ccff', accent: '#aaddff', bg: '#0a0f15', fog: '#0a0f15', wall: '#152535', sky: '#0a1a2a', glow: '#88ccff' },
+  { name: 'Desert Pad', grid: '#cc8844', accent: '#ddaa66', bg: '#151008', fog: '#151008', wall: '#2a2010', sky: '#221a08', glow: '#cc8844' },
+  { name: 'Ocean Platform', grid: '#2288cc', accent: '#33aadd', bg: '#050a10', fog: '#050a10', wall: '#0a1a2a', sky: '#061525', glow: '#2288cc' },
 ];
 
 const LEVEL_TITLES = [
@@ -176,6 +239,26 @@ const LEVEL_TITLES = [
   'Engineer', 'Specialist', 'Officer', 'Captain', 'Commander',
   'Ace', 'Elite', 'Veteran', 'Expert', 'Master',
   'Champion', 'Legend', 'Hero', 'Titan', 'NEON GOD',
+];
+
+const WEATHER_CONDITIONS: WeatherCondition[] = [
+  { name: 'Clear', windSpeed: 0, turbulence: 0, headwind: 0, visibility: 1 },
+  { name: 'Light Winds', windSpeed: 5, turbulence: 0.1, headwind: 2, visibility: 0.9 },
+  { name: 'Gusty', windSpeed: 15, turbulence: 0.3, headwind: 5, visibility: 0.7 },
+  { name: 'Storm', windSpeed: 25, turbulence: 0.5, headwind: 10, visibility: 0.4 },
+  { name: 'Hurricane', windSpeed: 40, turbulence: 0.8, headwind: 20, visibility: 0.2 },
+];
+
+const ALTITUDE_MILESTONES: AltitudeMilestone[] = [
+  { altitude: 10000, name: 'Troposphere' },
+  { altitude: 50000, name: 'Stratosphere' },
+  { altitude: 80000, name: 'Mesosphere' },
+  { altitude: 100000, name: 'KARMAN LINE' },
+  { altitude: 200000, name: 'Low Earth Orbit' },
+  { altitude: 400000, name: 'ISS Altitude' },
+  { altitude: 1000000, name: 'Van Allen Belt' },
+  { altitude: 5000000, name: 'Magnetosphere' },
+  { altitude: 10000000, name: 'Escape Zone' },
 ];
 
 class GameStateManager {
@@ -204,6 +287,16 @@ class GameStateManager {
   maxG = 0;
   smoothAngle = true;
   difficulty = 1; // 0=easy, 1=medium, 2=hard
+  weather: WeatherCondition = WEATHER_CONDITIONS[0];
+  weatherIndex = 0;
+  careerMode = false;
+  careerUnlocked = 3;
+  history: LeaderboardEntry[] = [];
+  milestoneTriggered: Set<number> = new Set();
+  throttleChanged = false;
+  crewMissions = 0;
+  altitudeDropped = false;
+  peakAltBeforeDrop = 0;
 
   constructor() {
     this.config = { stages: 2, payload: 'satellite', fuelType: 'standard' };
@@ -297,6 +390,35 @@ class GameStateManager {
     check('level_25', this.level >= 25);
     check('level_50', this.level >= 50);
     check('max_throttle', f.throttle >= 100);
+    check('karman_line', f.maxAltitude >= 100000);
+    check('orbit_15000', f.maxAltitude >= 15000000);
+    check('speed_run', f.altitude >= 300000 && f.missionTime < 60);
+    check('fuel_50', f.fuel >= 50 && f.altitude >= this.currentMission.target * 1000 && this.currentMission.target > 0);
+    check('polar_orbit', this.currentMission.name === 'Polar Orbit' && f.altitude >= this.currentMission.target * 1000);
+    check('hundred_launches', this.totalLaunches >= 100);
+    check('wind_warrior', this.weather.name === 'Storm' && f.altitude >= this.currentMission.target * 1000 && this.currentMission.target > 0);
+    check('hurricane_hero', this.weather.name === 'Hurricane' && f.altitude >= this.currentMission.target * 1000 && this.currentMission.target > 0);
+    check('no_throttle_change', !this.throttleChanged && f.altitude >= this.currentMission.target * 1000 && this.currentMission.target > 0);
+    check('max_speed_10k', f.maxVelocity >= 10000);
+    check('max_speed_15k', f.maxVelocity >= 15000);
+    check('ten_missions', this.missionsCompleted.size >= 10);
+    check('reentry_survive', this.currentMission.name === 'Re-entry Run');
+    check('daily_streak_14', this.dailyStreak >= 14);
+    check('daily_streak_30', this.dailyStreak >= 30);
+    check('three_stage_orbit', this.config.stages === 3 && f.stageSeparations >= 2 && f.altitude >= this.currentMission.target * 1000 && this.currentMission.target > 0);
+    check('career_complete', this.careerUnlocked >= MISSIONS.length);
+    check('score_50k', f.score >= 50000);
+    check('score_100k', f.score >= 100000);
+    check('low_fuel_orbit', f.fuel < 5 && f.fuel > 0 && f.altitude >= this.currentMission.target * 1000 && this.currentMission.target > 0);
+    check('five_g', this.maxG >= 5);
+    check('ten_g', this.maxG >= 10);
+    check('altitude_drop', this.altitudeDropped);
+    check('all_skins', this.skins.filter(s => s.unlocked).length >= this.skins.length);
+    check('all_themes', this.themesUsed.size >= this.themes.length);
+    check('heavy_orbit_800', this.currentMission.payload === 'station' && f.altitude >= 800000);
+    check('crew_ten', this.crewMissions >= 10);
+    check('no_separation', f.stageSeparations === 0 && f.altitude >= this.currentMission.target * 1000 && this.currentMission.target > 0);
+    check('perfect_angle', f.altitude >= 50000 && f.angle >= 30 && f.angle <= 45);
     return unlocked;
   }
 
@@ -308,6 +430,10 @@ class GameStateManager {
     this.skins[5].unlocked = this.level >= 25;
     this.skins[6].unlocked = this.achievements.find(a => a.id === 'fuel_saver')?.unlocked ?? false;
     this.skins[7].unlocked = this.bestAltitude >= 10000000;
+    if (this.skins[8]) this.skins[8].unlocked = this.bestAltitude >= 15000000;
+    if (this.skins[9]) this.skins[9].unlocked = this.totalLaunches >= 100;
+    if (this.skins[10]) this.skins[10].unlocked = this.achievements.find(a => a.id === 'hurricane_hero')?.unlocked ?? false;
+    if (this.skins[11]) this.skins[11].unlocked = this.level >= 40;
   }
 
   save() {
@@ -320,6 +446,9 @@ class GameStateManager {
       currentThemeIndex: this.currentThemeIndex, currentSkinIndex: this.currentSkinIndex,
       achievements: this.achievements.filter(a => a.unlocked).map(a => a.id),
       difficulty: this.difficulty,
+      careerUnlocked: this.careerUnlocked, careerMode: this.careerMode,
+      crewMissions: this.crewMissions, weatherIndex: this.weatherIndex,
+      history: this.history.slice(-20), // keep last 20 runs
     };
     try { localStorage.setItem('neon-launch-save', JSON.stringify(data)); } catch {}
   }
@@ -340,6 +469,12 @@ class GameStateManager {
       this.currentThemeIndex = d.currentThemeIndex ?? 0;
       this.currentSkinIndex = d.currentSkinIndex ?? 0;
       this.difficulty = d.difficulty ?? 1;
+      this.careerUnlocked = d.careerUnlocked ?? 3;
+      this.careerMode = d.careerMode ?? false;
+      this.crewMissions = d.crewMissions ?? 0;
+      this.weatherIndex = d.weatherIndex ?? 0;
+      this.weather = WEATHER_CONDITIONS[this.weatherIndex] ?? WEATHER_CONDITIONS[0];
+      this.history = d.history ?? [];
       if (d.achievements) {
         for (const id of d.achievements) {
           const a = this.achievements.find(x => x.id === id);
@@ -845,17 +980,36 @@ async function main() {
     audio.stopMusic();
     const f = game.flight;
     game.totalLaunches++;
-    f.score = Math.floor(f.maxAltitude / 100 + f.maxVelocity / 10 + f.fuel * 50);
+    // Enhanced scoring: weather bonus + difficulty multiplier
+    const weatherBonus = game.weather.windSpeed > 0 ? game.weather.windSpeed * 10 : 0;
+    const diffMult = game.difficulty === 0 ? 0.7 : game.difficulty === 2 ? 1.5 : 1.0;
+    f.score = Math.floor((f.maxAltitude / 100 + f.maxVelocity / 10 + f.fuel * 50 + weatherBonus) * diffMult);
     if (f.score > 100000) f.score = 100000;
     game.totalScore += f.score;
     if (f.score > game.bestScore) game.bestScore = f.score;
     if (f.maxAltitude > game.bestAltitude) game.bestAltitude = f.maxAltitude;
+
+    // Leaderboard history
+    game.history.push({
+      mission: game.currentMission.name,
+      score: f.score,
+      altitude: f.maxAltitude,
+      time: f.missionTime,
+      date: new Date().toISOString().slice(0, 10),
+    });
+    if (game.history.length > 20) game.history = game.history.slice(-20);
 
     if (success) {
       game.totalMissionsDone++;
       game.consecutiveNoAbort++;
       const mName = game.currentMission.name;
       if (mName !== 'Daily Mission') game.missionsCompleted.add(mName);
+      if (game.currentMission.payload === 'crew') game.crewMissions++;
+      // Career mode: unlock next mission
+      if (game.careerMode && game.missionIndex === game.careerUnlocked - 1 && game.careerUnlocked < MISSIONS.length) {
+        game.careerUnlocked++;
+        showToast('New mission unlocked!');
+      }
       if (game.currentMission.difficulty === 'Daily') {
         const today = new Date().toISOString().slice(0, 10);
         if (game.lastDailyDate === new Date(Date.now() - 86400000).toISOString().slice(0, 10)) {
@@ -868,6 +1022,7 @@ async function main() {
       audio.playSfx('orbit');
       particles.burst(rocketGroup.position.x, rocketGroup.position.y, rocketGroup.position.z, 30, game.skins[game.currentSkinIndex].accent, 3, 1.2);
     } else {
+      game.consecutiveNoAbort = 0;
       audio.playSfx('gameOver');
     }
 
@@ -879,6 +1034,11 @@ async function main() {
       audio.playSfx('achievement');
     }
     game.save();
+    // Reset milestones for next flight
+    game.milestoneTriggered.clear();
+    game.throttleChanged = false;
+    game.altitudeDropped = false;
+    game.peakAltBeforeDrop = 0;
     setState('gameover');
   }
 
@@ -946,8 +1106,8 @@ async function main() {
 
         // Input: throttle and angle
         const kb = keyboard;
-        if (kb.getKeyPressed('KeyW') || kb.getKeyPressed('ArrowUp')) f.throttle = Math.min(100, f.throttle + 30 * dt);
-        if (kb.getKeyPressed('KeyS') || kb.getKeyPressed('ArrowDown')) f.throttle = Math.max(0, f.throttle - 30 * dt);
+        if (kb.getKeyPressed('KeyW') || kb.getKeyPressed('ArrowUp')) { f.throttle = Math.min(100, f.throttle + 30 * dt); game.throttleChanged = true; }
+        if (kb.getKeyPressed('KeyS') || kb.getKeyPressed('ArrowDown')) { f.throttle = Math.max(0, f.throttle - 30 * dt); game.throttleChanged = true; }
         if (kb.getKeyPressed('KeyA') || kb.getKeyPressed('ArrowLeft')) f.angle = Math.max(-80, f.angle - 20 * dt);
         if (kb.getKeyPressed('KeyD') || kb.getKeyPressed('ArrowRight')) f.angle = Math.min(80, f.angle + 20 * dt);
         if (kb.getKeyDown('Space')) {
@@ -1003,13 +1163,19 @@ async function main() {
         const grav = f.gravity * Math.pow(6371 / (6371 + altKm), 2); // inverse square
         const drag = 0.5 * atmDensity * f.dragCoeff * f.velocity * f.velocity * 0.001;
 
+        // Weather effects (diminish with altitude)
+        const weatherFactor = Math.max(0, 1 - altKm / 100); // weather fades above 100km
+        const windForce = game.weather.windSpeed * weatherFactor * 0.3;
+        const turbJitter = game.weather.turbulence * weatherFactor * (Math.random() - 0.5) * 15;
+        const headwindDrag = game.weather.headwind * weatherFactor * 0.5;
+
         if (f.fuel > 0 && f.throttle > 0) {
           const thrustForce = f.thrust * (f.throttle / 100);
           f.fuel -= (f.throttle / 100) * dt * (game.config.fuelType === 'efficient' ? 2.5 : game.config.fuelType === 'high-thrust' ? 5 : 3.5);
           if (f.fuel < 0) f.fuel = 0;
-          f.acceleration = (thrustForce / f.mass) - grav - (drag / f.mass);
+          f.acceleration = (thrustForce / f.mass) - grav - (drag / f.mass) - (headwindDrag / f.mass);
         } else {
-          f.acceleration = -grav - (drag / f.mass);
+          f.acceleration = -grav - (drag / f.mass) - (headwindDrag / f.mass);
         }
 
         // Track max G
@@ -1017,15 +1183,28 @@ async function main() {
         if (gForce > game.maxG) game.maxG = gForce;
         if (Math.abs(f.angle) > 10) game.smoothAngle = false;
 
+        // Track altitude drops for achievement
+        if (f.altitude > game.peakAltBeforeDrop) game.peakAltBeforeDrop = f.altitude;
+        if (game.peakAltBeforeDrop - f.altitude > 100000 && f.altitude > 0) game.altitudeDropped = true;
+
         const angleRad = (f.angle * Math.PI) / 180;
         const verticalAccel = f.acceleration * Math.cos(angleRad);
-        const horizontalAccel = f.acceleration * Math.sin(angleRad);
+        const horizontalAccel = f.acceleration * Math.sin(angleRad) + windForce + turbJitter;
 
         f.velocity += verticalAccel * dt;
         f.altitude += f.velocity * dt;
         if (f.altitude < 0) f.altitude = 0;
         if (f.velocity > f.maxVelocity) f.maxVelocity = f.velocity;
         if (f.altitude > f.maxAltitude) f.maxAltitude = f.altitude;
+
+        // Altitude milestones
+        for (const ms of ALTITUDE_MILESTONES) {
+          if (f.altitude >= ms.altitude && !game.milestoneTriggered.has(ms.altitude)) {
+            game.milestoneTriggered.add(ms.altitude);
+            showToast(ms.name + ' - ' + (ms.altitude / 1000) + 'km');
+            audio.playSfx('achievement');
+          }
+        }
 
         // Update rocket visual position (scaled: 1m scene = 10km altitude)
         const sceneY = 0.1 + (f.altitude / 10000) * 1.0;
@@ -1115,7 +1294,7 @@ async function main() {
   const panelConfigs = [
     'title', 'modes', 'difficulty', 'hud', 'throttle', 'countdown',
     'pause', 'gameover', 'leaderboard', 'achievements', 'settings',
-    'help', 'toast', 'stats', 'skins',
+    'help', 'toast', 'stats', 'skins', 'telemetry', 'weather', 'career', 'altimeter',
   ];
 
   const panelEntities: Record<string, any> = {};
@@ -1152,12 +1331,16 @@ async function main() {
   panelEntities['skins'] = createWorldPanel('./ui/skins.json', 0, 1.6, -2, 0.5, 0.65);
   panelEntities['leaderboard'] = createWorldPanel('./ui/leaderboard.json', 0, 1.6, -2, 0.4, 0.3);
   panelEntities['pause'] = createWorldPanel('./ui/pause.json', 0, 1.6, -2, 0.3, 0.15);
+  panelEntities['weather'] = createWorldPanel('./ui/weather.json', 0, 1.6, -2, 0.5, 0.65);
+  panelEntities['career'] = createWorldPanel('./ui/career.json', 0, 1.6, -2, 0.55, 0.9);
+  panelEntities['altimeter'] = createFollowerPanel('./ui/altimeter.json', -0.32, 0.05, -0.5, 0.15, 0.25);
 
   // Follower panels (HUDs)
   panelEntities['hud'] = createFollowerPanel('./ui/hud.json', 0.3, -0.12, -0.5, 0.4, 0.2);
   panelEntities['throttle'] = createFollowerPanel('./ui/throttle.json', -0.3, -0.15, -0.5, 0.18, 0.08);
   panelEntities['countdown'] = createFollowerPanel('./ui/countdown.json', 0, 0.05, -0.6, 0.2, 0.15);
   panelEntities['toast'] = createFollowerPanel('./ui/toast.json', 0, 0.15, -0.5, 0.4, 0.06);
+  panelEntities['telemetry'] = createFollowerPanel('./ui/telemetry.json', -0.35, -0.05, -0.5, 0.25, 0.2);
 
   // UI binding system
   class UISystem extends createSystem({
@@ -1174,6 +1357,10 @@ async function main() {
     help: { required: [PanelUI, PanelDocument], where: [eq(PanelUI, 'config', './ui/help.json')] },
     skins: { required: [PanelUI, PanelDocument], where: [eq(PanelUI, 'config', './ui/skins.json')] },
     toast: { required: [PanelUI, PanelDocument], where: [eq(PanelUI, 'config', './ui/toast.json')] },
+    telemetry: { required: [PanelUI, PanelDocument], where: [eq(PanelUI, 'config', './ui/telemetry.json')] },
+    weather: { required: [PanelUI, PanelDocument], where: [eq(PanelUI, 'config', './ui/weather.json')] },
+    career: { required: [PanelUI, PanelDocument], where: [eq(PanelUI, 'config', './ui/career.json')] },
+    altimeter: { required: [PanelUI, PanelDocument], where: [eq(PanelUI, 'config', './ui/altimeter.json')] },
   }) {
     private docs: Record<string, UIKitDocument> = {};
 
@@ -1217,6 +1404,9 @@ async function main() {
           this.bindButton('title', 'btn-skins', () => { audio.playSfx('click'); setState('skins'); });
           this.bindButton('title', 'btn-settings', () => { audio.playSfx('click'); setState('settings'); });
           this.bindButton('title', 'btn-help', () => { audio.playSfx('click'); setState('help'); });
+          this.bindButton('title', 'btn-weather', () => { audio.playSfx('click'); setState('weather'); });
+          this.bindButton('title', 'btn-career', () => { audio.playSfx('click'); setState('career'); });
+          this.bindButton('title', 'btn-leaderboard', () => { audio.playSfx('click'); setState('leaderboard'); });
           break;
 
         case 'modes':
@@ -1293,6 +1483,32 @@ async function main() {
         case 'help':
           this.bindButton('help', 'btn-back-help', () => { audio.playSfx('click'); setState('title'); });
           break;
+
+        case 'weather':
+          this.bindButton('weather', 'btn-weather-prev', () => {
+            game.weatherIndex = (game.weatherIndex - 1 + WEATHER_CONDITIONS.length) % WEATHER_CONDITIONS.length;
+            game.weather = WEATHER_CONDITIONS[game.weatherIndex];
+            audio.playSfx('click');
+          });
+          this.bindButton('weather', 'btn-weather-next', () => {
+            game.weatherIndex = (game.weatherIndex + 1) % WEATHER_CONDITIONS.length;
+            game.weather = WEATHER_CONDITIONS[game.weatherIndex];
+            audio.playSfx('click');
+          });
+          this.bindButton('weather', 'btn-back-weather', () => { audio.playSfx('click'); setState('title'); });
+          break;
+
+        case 'career':
+          this.bindButton('career', 'btn-career-toggle', () => {
+            game.careerMode = !game.careerMode;
+            audio.playSfx('click');
+          });
+          this.bindButton('career', 'btn-back-career', () => { audio.playSfx('click'); setState('title'); });
+          break;
+
+        case 'leaderboard':
+          this.bindButton('leaderboard', 'btn-back-lb', () => { audio.playSfx('click'); setState('title'); });
+          break;
       }
     }
 
@@ -1315,6 +1531,11 @@ async function main() {
         help: s === 'help',
         skins: s === 'skins',
         toast: toastTimer > 0,
+        telemetry: s === 'flying',
+        altimeter: s === 'flying',
+        weather: s === 'weather',
+        career: s === 'career',
+        leaderboard: s === 'leaderboard',
       };
       for (const [name, entity] of Object.entries(panelEntities)) {
         if (entity.object3D) entity.object3D.visible = vis[name] ?? false;
@@ -1421,6 +1642,81 @@ async function main() {
         this.setText('difficulty', 'cfg-fuel', game.config.fuelType);
         this.setText('difficulty', 'cfg-target', game.currentMission.target + ' km');
         this.setText('difficulty', 'cfg-mission', game.currentMission.name);
+      }
+
+      // Telemetry panel
+      if (s === 'flying') {
+        const altKm = f.altitude / 1000;
+        const atmDensity = Math.exp(-altKm / 8.5);
+        const dynP = 0.5 * atmDensity * f.velocity * f.velocity * 0.001;
+        const gForce = Math.abs(f.acceleration) / 9.81;
+        const dragForce = 0.5 * atmDensity * f.dragCoeff * f.velocity * f.velocity * 0.001;
+        this.setText('telemetry', 'telem-gforce', gForce.toFixed(1) + ' G');
+        this.setText('telemetry', 'telem-dynp', dynP.toFixed(1) + ' kPa');
+        this.setText('telemetry', 'telem-drag', dragForce.toFixed(0) + ' N');
+        this.setText('telemetry', 'telem-atm', (atmDensity * 100).toFixed(1) + '%');
+        this.setText('telemetry', 'telem-mass', f.mass.toFixed(0) + ' kg');
+        this.setText('telemetry', 'telem-thrust', (f.fuel > 0 ? (f.thrust * f.throttle / 100).toFixed(0) : '0') + ' kN');
+        this.setText('telemetry', 'telem-wind', game.weather.windSpeed.toFixed(0) + ' m/s');
+        this.setText('telemetry', 'telem-weather', game.weather.name);
+
+        // Altimeter panel
+        const altStr = f.altitude < 1000 ? f.altitude.toFixed(0) + ' m' :
+                       f.altitude < 1000000 ? (f.altitude / 1000).toFixed(1) + ' km' :
+                       (f.altitude / 1000000).toFixed(2) + ' Mm';
+        this.setText('altimeter', 'alt-display', altStr);
+        // Find current/next milestone
+        let currentMs = '';
+        let nextMs = '';
+        let nextAlt = 0;
+        for (const ms of ALTITUDE_MILESTONES) {
+          if (f.altitude >= ms.altitude) currentMs = ms.name;
+          if (f.altitude < ms.altitude && !nextMs) { nextMs = ms.name; nextAlt = ms.altitude; }
+        }
+        this.setText('altimeter', 'alt-zone', currentMs || 'Ground');
+        this.setText('altimeter', 'alt-next', nextMs ? 'Next: ' + nextMs : 'MAX ALTITUDE');
+        if (nextAlt > 0) {
+          const pct = Math.min(100, Math.floor((f.altitude / nextAlt) * 100));
+          this.setText('altimeter', 'alt-progress', pct + '%');
+        } else {
+          this.setText('altimeter', 'alt-progress', '---');
+        }
+      }
+
+      // Weather panel
+      if (s === 'weather') {
+        this.setText('weather', 'weather-name', game.weather.name);
+        this.setText('weather', 'weather-wind', game.weather.windSpeed + ' m/s');
+        this.setText('weather', 'weather-turb', game.weather.turbulence > 0 ? (game.weather.turbulence * 100).toFixed(0) + '%' : 'None');
+        this.setText('weather', 'weather-head', game.weather.headwind + ' m/s');
+        this.setText('weather', 'weather-vis', (game.weather.visibility * 100).toFixed(0) + '%');
+      }
+
+      // Career panel
+      if (s === 'career') {
+        for (let i = 0; i < MISSIONS.length; i++) {
+          const unlocked = !game.careerMode || i < game.careerUnlocked;
+          const completed = game.missionsCompleted.has(MISSIONS[i].name);
+          const status = completed ? '[DONE] ' : unlocked ? '' : '[LOCKED] ';
+          const color = completed ? '#44ff44' : unlocked ? '#ffffff' : '#666688';
+          this.setText('career', `career-m${i}`, (i + 1) + '. ' + status + MISSIONS[i].name);
+          const el = this.getDoc('career')?.getElementById(`career-m${i}`) as UIKit.Text | undefined;
+          el?.setProperties({ color });
+        }
+        this.setText('career', 'career-progress', 'Unlocked: ' + game.careerUnlocked + '/' + MISSIONS.length);
+        this.setText('career', 'btn-career-toggle', game.careerMode ? 'DISABLE CAREER' : 'ENABLE CAREER');
+      }
+
+      // Leaderboard panel
+      if (s === 'leaderboard') {
+        for (let i = 0; i < 10; i++) {
+          const entry = game.history[game.history.length - 1 - i];
+          if (entry) {
+            this.setText('leaderboard', `lb-entry-${i}`, (i + 1) + '. ' + entry.mission + ' - ' + entry.score + 'pts - ' + (entry.altitude / 1000).toFixed(0) + 'km');
+          } else {
+            this.setText('leaderboard', `lb-entry-${i}`, (i + 1) + '. ---');
+          }
+        }
       }
     }
   }

@@ -1,24 +1,38 @@
-<container flexDirection="column" alignItems="center" gap="6" padding="16" backgroundColor="#0a0a1a" borderRadius="12" borderColor="#00ffff" borderWidth="1">
-  <text fontSize="18" fontWeight="bold" color="#00ffff">SELECT MISSION</text>
-  <container flexDirection="column" gap="4">
-    <text name="btn-mission-0" fontSize="11" color="#44ff44" backgroundColor="#001a00" padding="6" borderRadius="4" borderColor="#44ff44" borderWidth="1" cursor="pointer"><text name="mission-name-0" fontSize="11" color="#44ff44">Low Orbit</text></text>
-    <text name="mission-desc-0" fontSize="8" color="#668866">Reach 200km LEO</text>
-    <text name="btn-mission-1" fontSize="11" color="#44ff44" backgroundColor="#001a00" padding="6" borderRadius="4" borderColor="#44ff44" borderWidth="1" cursor="pointer"><text name="mission-name-1" fontSize="11" color="#44ff44">Medium Orbit</text></text>
-    <text name="mission-desc-1" fontSize="8" color="#668866">Reach 400km orbit</text>
-    <text name="btn-mission-2" fontSize="11" color="#ffcc00" backgroundColor="#1a1a00" padding="6" borderRadius="4" borderColor="#ffcc00" borderWidth="1" cursor="pointer"><text name="mission-name-2" fontSize="11" color="#ffcc00">High Orbit</text></text>
-    <text name="mission-desc-2" fontSize="8" color="#888866">Reach 800km orbit</text>
-    <text name="btn-mission-3" fontSize="11" color="#ffcc00" backgroundColor="#1a1a00" padding="6" borderRadius="4" borderColor="#ffcc00" borderWidth="1" cursor="pointer"><text name="mission-name-3" fontSize="11" color="#ffcc00">GEO Transfer</text></text>
-    <text name="mission-desc-3" fontSize="8" color="#888866">Reach geostationary transfer</text>
-    <text name="btn-mission-4" fontSize="11" color="#ff6633" backgroundColor="#1a0a00" padding="6" borderRadius="4" borderColor="#ff6633" borderWidth="1" cursor="pointer"><text name="mission-name-4" fontSize="11" color="#ff6633">Deep Space</text></text>
-    <text name="mission-desc-4" fontSize="8" color="#886644">Escape low orbit to 5000km</text>
-    <text name="btn-mission-5" fontSize="11" color="#ffcc00" backgroundColor="#1a1a00" padding="6" borderRadius="4" borderColor="#ffcc00" borderWidth="1" cursor="pointer"><text name="mission-name-5" fontSize="11" color="#ffcc00">Crew Delivery</text></text>
-    <text name="mission-desc-5" fontSize="8" color="#888866">Deliver crew to ISS orbit</text>
-    <text name="btn-mission-6" fontSize="11" color="#ff6633" backgroundColor="#1a0a00" padding="6" borderRadius="4" borderColor="#ff6633" borderWidth="1" cursor="pointer"><text name="mission-name-6" fontSize="11" color="#ff6633">Station Module</text></text>
-    <text name="mission-desc-6" fontSize="8" color="#886644">Heavy payload to 600km</text>
-    <text name="btn-mission-7" fontSize="11" color="#ff3333" backgroundColor="#1a0000" padding="6" borderRadius="4" borderColor="#ff3333" borderWidth="1" cursor="pointer"><text name="mission-name-7" fontSize="11" color="#ff3333">Escape Velocity</text></text>
-    <text name="mission-desc-7" fontSize="8" color="#886644">Reach escape velocity</text>
-    <text name="btn-mission-8" fontSize="11" color="#9966ff" backgroundColor="#0a001a" padding="6" borderRadius="4" borderColor="#9966ff" borderWidth="1" cursor="pointer"><text name="mission-name-8" fontSize="11" color="#9966ff">Daily Mission</text></text>
-    <text name="mission-desc-8" fontSize="8" color="#665588">Daily challenge - seeded</text>
+<panel>
+  <container flexDirection="column" gap="4" padding="10" backgroundColor="#0a0a1aee" borderRadius="8" borderColor="#00ffff44" borderWidth="1">
+    <text fontSize="14" fontWeight="bold" color="#00ffff">SELECT MISSION</text>
+    <container flexDirection="column" gap="3">
+      <text id="btn-mission-0" fontSize="9" color="#44ff44" backgroundColor="#001a00" padding="5" borderRadius="4" borderColor="#44ff4466" borderWidth="1" cursor="pointer">Low Orbit</text>
+      <text id="mission-desc-0" fontSize="6" color="#668866">Reach 200km LEO</text>
+      <text id="btn-mission-1" fontSize="9" color="#44ff44" backgroundColor="#001a00" padding="5" borderRadius="4" borderColor="#44ff4466" borderWidth="1" cursor="pointer">Medium Orbit</text>
+      <text id="mission-desc-1" fontSize="6" color="#668866">Reach 400km orbit</text>
+      <text id="btn-mission-2" fontSize="9" color="#ffcc00" backgroundColor="#1a1a00" padding="5" borderRadius="4" borderColor="#ffcc0066" borderWidth="1" cursor="pointer">High Orbit</text>
+      <text id="mission-desc-2" fontSize="6" color="#888866">Reach 800km orbit</text>
+      <text id="btn-mission-3" fontSize="9" color="#ffcc00" backgroundColor="#1a1a00" padding="5" borderRadius="4" borderColor="#ffcc0066" borderWidth="1" cursor="pointer">GEO Transfer</text>
+      <text id="mission-desc-3" fontSize="6" color="#888866">Reach geostationary transfer</text>
+      <text id="btn-mission-4" fontSize="9" color="#ff6633" backgroundColor="#1a0a00" padding="5" borderRadius="4" borderColor="#ff663366" borderWidth="1" cursor="pointer">Deep Space</text>
+      <text id="mission-desc-4" fontSize="6" color="#886644">Escape low orbit to 5000km</text>
+      <text id="btn-mission-5" fontSize="9" color="#ffcc00" backgroundColor="#1a1a00" padding="5" borderRadius="4" borderColor="#ffcc0066" borderWidth="1" cursor="pointer">Crew Delivery</text>
+      <text id="mission-desc-5" fontSize="6" color="#888866">Deliver crew to ISS orbit</text>
+      <text id="btn-mission-6" fontSize="9" color="#ff6633" backgroundColor="#1a0a00" padding="5" borderRadius="4" borderColor="#ff663366" borderWidth="1" cursor="pointer">Station Module</text>
+      <text id="mission-desc-6" fontSize="6" color="#886644">Heavy payload to 600km</text>
+      <text id="btn-mission-7" fontSize="9" color="#ff3333" backgroundColor="#1a0000" padding="5" borderRadius="4" borderColor="#ff333366" borderWidth="1" cursor="pointer">Escape Velocity</text>
+      <text id="mission-desc-7" fontSize="6" color="#886644">Reach escape velocity</text>
+      <text id="btn-mission-8" fontSize="9" color="#9966ff" backgroundColor="#0a001a" padding="5" borderRadius="4" borderColor="#9966ff66" borderWidth="1" cursor="pointer">Daily Mission</text>
+      <text id="mission-desc-8" fontSize="6" color="#665588">Daily challenge - seeded</text>
+      <text id="btn-mission-9" fontSize="9" color="#ffcc00" backgroundColor="#1a1a00" padding="5" borderRadius="4" borderColor="#ffcc0066" borderWidth="1" cursor="pointer">Polar Orbit</text>
+      <text id="mission-desc-9" fontSize="6" color="#888866">Sun-sync polar at 500km</text>
+      <text id="btn-mission-10" fontSize="9" color="#ff3333" backgroundColor="#1a0000" padding="5" borderRadius="4" borderColor="#ff333366" borderWidth="1" cursor="pointer">Lunar Transfer</text>
+      <text id="mission-desc-10" fontSize="6" color="#886644">Trans-lunar injection</text>
+      <text id="btn-mission-11" fontSize="9" color="#ffcc00" backgroundColor="#1a1a00" padding="5" borderRadius="4" borderColor="#ffcc0066" borderWidth="1" cursor="pointer">Speed Run</text>
+      <text id="mission-desc-11" fontSize="6" color="#888866">Reach 300km in under 60s</text>
+      <text id="btn-mission-12" fontSize="9" color="#ff6633" backgroundColor="#1a0a00" padding="5" borderRadius="4" borderColor="#ff663366" borderWidth="1" cursor="pointer">Fuel Challenge</text>
+      <text id="mission-desc-12" fontSize="6" color="#886644">Orbit with 50%+ fuel</text>
+      <text id="btn-mission-13" fontSize="9" color="#ff6633" backgroundColor="#1a0a00" padding="5" borderRadius="4" borderColor="#ff663366" borderWidth="1" cursor="pointer">Heavy Launch</text>
+      <text id="mission-desc-13" fontSize="6" color="#886644">Heavy payload low orbit</text>
+      <text id="btn-mission-14" fontSize="9" color="#ff3333" backgroundColor="#1a0000" padding="5" borderRadius="4" borderColor="#ff333366" borderWidth="1" cursor="pointer">Re-entry Run</text>
+      <text id="mission-desc-14" fontSize="6" color="#886644">Survive re-entry</text>
+    </container>
+    <text id="btn-back" fontSize="10" color="#888888" backgroundColor="#111122" padding="6" borderRadius="4" borderColor="#88888866" borderWidth="1" cursor="pointer" marginTop="4">BACK</text>
   </container>
-  <text name="btn-back" fontSize="12" color="#888888" backgroundColor="#111111" padding="6" borderRadius="4" borderColor="#888888" borderWidth="1" cursor="pointer" marginTop="6">BACK</text>
-</container>
+</panel>

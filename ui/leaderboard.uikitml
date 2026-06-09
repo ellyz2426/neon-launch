@@ -1,4 +1,19 @@
-<container flexDirection="column" alignItems="center" gap="6" padding="16" backgroundColor="#0a0a1a" borderRadius="12" borderColor="#00ffff" borderWidth="1">
-  <text fontSize="18" fontWeight="bold" color="#00ffff">LEADERBOARD</text>
-  <text fontSize="10" color="#668888">Coming soon</text>
-</container>
+<panel>
+  <container flexDirection="column" gap="4" padding="10" backgroundColor="#0a0a1aee" borderRadius="8" borderColor="#44ddff44" borderWidth="1">
+    <text fontSize="12" fontWeight="bold" color="#44ddff">FLIGHT LOG</text>
+    <text fontSize="7" color="#668888">Recent launches (newest first)</text>
+    <container flexDirection="column" gap="3" marginTop="4">
+      <text id="lb-entry-0" fontSize="8" color="#ffffff">1. ---</text>
+      <text id="lb-entry-1" fontSize="8" color="#ffffff">2. ---</text>
+      <text id="lb-entry-2" fontSize="8" color="#ffffff">3. ---</text>
+      <text id="lb-entry-3" fontSize="8" color="#ffffff">4. ---</text>
+      <text id="lb-entry-4" fontSize="8" color="#ffffff">5. ---</text>
+      <text id="lb-entry-5" fontSize="8" color="#dddddd">6. ---</text>
+      <text id="lb-entry-6" fontSize="8" color="#dddddd">7. ---</text>
+      <text id="lb-entry-7" fontSize="8" color="#dddddd">8. ---</text>
+      <text id="lb-entry-8" fontSize="8" color="#bbbbbb">9. ---</text>
+      <text id="lb-entry-9" fontSize="8" color="#bbbbbb">10. ---</text>
+    </container>
+    <text id="btn-back-lb" fontSize="10" color="#44ddff" fontWeight="bold" padding="6" borderRadius="4" borderColor="#44ddff66" borderWidth="1" cursor="pointer" marginTop="4">BACK</text>
+  </container>
+</panel>

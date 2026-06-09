@@ -1,0 +1,45 @@
+<panel>
+  <container flexDirection="column" gap="3" padding="6" backgroundColor="#0a0a1aee" borderRadius="6" borderColor="#00ffff44" borderWidth="1">
+    <text id="telem-title" fontSize="8" fontWeight="bold" color="#00ffff">TELEMETRY</text>
+    <container flexDirection="row" gap="4">
+      <container flexDirection="column" gap="2" flexGrow="1">
+        <text fontSize="6" color="#00ffff88">G-FORCE</text>
+        <text id="telem-gforce" fontSize="9" fontWeight="bold" color="#ffffff">0.0 G</text>
+      </container>
+      <container flexDirection="column" gap="2" flexGrow="1">
+        <text fontSize="6" color="#00ffff88">DYN PRESSURE</text>
+        <text id="telem-dynp" fontSize="9" fontWeight="bold" color="#ffffff">0 kPa</text>
+      </container>
+    </container>
+    <container flexDirection="row" gap="4">
+      <container flexDirection="column" gap="2" flexGrow="1">
+        <text fontSize="6" color="#00ffff88">DRAG</text>
+        <text id="telem-drag" fontSize="9" fontWeight="bold" color="#ffffff">0 N</text>
+      </container>
+      <container flexDirection="column" gap="2" flexGrow="1">
+        <text fontSize="6" color="#00ffff88">ATM DENSITY</text>
+        <text id="telem-atm" fontSize="9" fontWeight="bold" color="#ffffff">100%</text>
+      </container>
+    </container>
+    <container flexDirection="row" gap="4">
+      <container flexDirection="column" gap="2" flexGrow="1">
+        <text fontSize="6" color="#00ffff88">MASS</text>
+        <text id="telem-mass" fontSize="9" fontWeight="bold" color="#ffffff">0 kg</text>
+      </container>
+      <container flexDirection="column" gap="2" flexGrow="1">
+        <text fontSize="6" color="#00ffff88">THRUST</text>
+        <text id="telem-thrust" fontSize="9" fontWeight="bold" color="#ffffff">0 kN</text>
+      </container>
+    </container>
+    <container flexDirection="row" gap="4">
+      <container flexDirection="column" gap="2" flexGrow="1">
+        <text fontSize="6" color="#00ffff88">WIND</text>
+        <text id="telem-wind" fontSize="9" fontWeight="bold" color="#ffffff">0 m/s</text>
+      </container>
+      <container flexDirection="column" gap="2" flexGrow="1">
+        <text fontSize="6" color="#00ffff88">WEATHER</text>
+        <text id="telem-weather" fontSize="9" fontWeight="bold" color="#ffffff">Clear</text>
+      </container>
+    </container>
+  </container>
+</panel>

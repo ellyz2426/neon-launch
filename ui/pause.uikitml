@@ -1,4 +1,8 @@
-<container flexDirection="column" alignItems="center" gap="6" padding="16" backgroundColor="#0a0a1a" borderRadius="12" borderColor="#00ffff" borderWidth="1">
-  <text fontSize="16" fontWeight="bold" color="#00ffff">PAUSED</text>
-  <text fontSize="12" color="#aaaacc">Press ESC to resume</text>
+<container flexDirection="column" alignItems="center" gap="8" padding="16" backgroundColor="#0a0a1a" borderRadius="12" borderColor="#00ffff" borderWidth="2">
+  <text fontSize="20" fontWeight="bold" color="#00ffff">PAUSED</text>
+  <text fontSize="10" color="#668888">Mission in progress</text>
+  <container flexDirection="column" gap="6" marginTop="6">
+    <text name="btn-resume" fontSize="14" color="#44ff44" backgroundColor="#001a00" padding="8" borderRadius="6" borderColor="#44ff44" borderWidth="1" cursor="pointer">RESUME</text>
+    <text name="btn-quit" fontSize="14" color="#ff4444" backgroundColor="#1a0000" padding="8" borderRadius="6" borderColor="#ff4444" borderWidth="1" cursor="pointer">ABORT MISSION</text>
+  </container>
 </container>

@@ -1,0 +1,9 @@
+<panel>
+  <container flexDirection="column" gap="3" padding="6" backgroundColor="#0a0a1a99" borderRadius="6" borderColor="#9966ff44" borderWidth="1">
+    <text fontSize="7" fontWeight="bold" color="#9966ff">ALTIMETER</text>
+    <text id="alt-display" fontSize="14" fontWeight="bold" color="#ffffff">0 m</text>
+    <text id="alt-zone" fontSize="7" color="#44ff44">Ground</text>
+    <text id="alt-next" fontSize="6" color="#aaaacc">Next: Troposphere</text>
+    <text id="alt-progress" fontSize="7" color="#ffaa33">0%</text>
+  </container>
+</panel>
