@@ -33,6 +33,7 @@ import {
   FollowBehavior,
   ScreenSpace,
   AssetManager,
+  Box3,
 } from '@iwsdk/core';
 
 // ============================================================================
@@ -740,7 +741,7 @@ class AudioManager {
     mkOsc('sine', 110, 0.06);
     mkOsc('sine', 220, 0.03);
 
-    // Arpeggiator — cascading notes that evolve over time
+    // Arpeggiator -- cascading notes that evolve over time
     const arpNotes = [110, 138.59, 164.81, 220, 277.18, 329.63, 440, 554.37];
     let arpIdx = 0;
     let arpOctave = 0;
@@ -862,18 +863,15 @@ interface LoadedModels {
 let loadedModels: LoadedModels | null = null;
 
 function applyNeonTint(model: Group, tintColor: Color, emissiveIntensity = 0.5) {
+  // GENTLE: only add a faint emissive glow to existing materials, keep original colors
   model.traverse((child) => {
     if ((child as Mesh).isMesh) {
       const mesh = child as Mesh;
-      const oldMat = mesh.material as MeshStandardMaterial;
-      const newMat = new MeshStandardMaterial({
-        color: oldMat.color ? oldMat.color.clone().lerp(tintColor, 0.3) : new Color(0x333355),
-        emissive: tintColor,
-        emissiveIntensity,
-        metalness: 0.7,
-        roughness: 0.2,
-      });
-      mesh.material = newMat;
+      const mat = mesh.material as MeshStandardMaterial;
+      if (mat && mat.isMeshStandardMaterial) {
+        mat.emissive = tintColor.clone();
+        mat.emissiveIntensity = Math.min(emissiveIntensity, 0.08);
+      }
     }
   });
 }
@@ -964,23 +962,35 @@ function buildHolodeck(theme: ArenaTheme): Group {
     applyNeonTint(padCenter, accentColor, 0.5);
     env.add(padCenter);
 
-    // Support structures
+    // Support structures around pad
     for (let i = 0; i < 4; i++) {
       const angle = (i / 4) * Math.PI * 2 + Math.PI / 4;
       const support = loadedModels.supportsHigh.clone();
-      support.scale.setScalar(0.8);
+      support.scale.setScalar(1.5);
       support.position.set(Math.cos(angle) * 2.5, 0, Math.sin(angle) * 2.5 - 4);
-      applyNeonTint(support, accentColor, 0.25);
+      applyNeonTint(support, accentColor, 0.05);
       env.add(support);
     }
 
-    // Stairs access
+    // Stairs access -- proportioned to rocket height
     const stairsModel = loadedModels.stairs.clone();
-    stairsModel.scale.setScalar(0.7);
-    stairsModel.position.set(2.0, 0, -3);
+    stairsModel.scale.setScalar(3.0);
+    stairsModel.position.set(1.5, 0, -3.2);
     stairsModel.rotation.y = -Math.PI / 2;
-    applyNeonTint(stairsModel, accentColor, 0.2);
+    applyNeonTint(stairsModel, accentColor, 0.05);
     env.add(stairsModel);
+
+    // Launch tower supports flanking the stairs
+    const towerSupport1 = loadedModels.supportsHigh.clone();
+    towerSupport1.scale.setScalar(2.0);
+    towerSupport1.position.set(2.2, 0, -4.2);
+    applyNeonTint(towerSupport1, accentColor, 0.05);
+    env.add(towerSupport1);
+    const towerSupport2 = loadedModels.supportsHigh.clone();
+    towerSupport2.scale.setScalar(2.0);
+    towerSupport2.position.set(2.2, 0, -2.2);
+    applyNeonTint(towerSupport2, accentColor, 0.05);
+    env.add(towerSupport2);
 
     // --- Environment: Hangars, Structures, Equipment ---
     // Hangar
@@ -1165,15 +1175,14 @@ class OrbitalDebrisField {
       if (models) {
         const model = (i % 2 === 0 ? models.meteor : models.meteorDetailed).clone();
         model.scale.setScalar(0.15 + Math.random() * 0.2);
+        // Keep original materials, just add a faint orange emissive for visibility
         model.traverse((child) => {
           if ((child as Mesh).isMesh) {
-            (child as Mesh).material = new MeshStandardMaterial({
-              color: new Color(0x888899),
-              emissive: new Color(0xff4400),
-              emissiveIntensity: 0.15 + Math.random() * 0.1,
-              metalness: 0.6,
-              roughness: 0.4,
-            });
+            const mat = (child as Mesh).material as MeshStandardMaterial;
+            if (mat && mat.isMeshStandardMaterial) {
+              mat.emissive = new Color(0xff4400);
+              mat.emissiveIntensity = 0.1;
+            }
           }
         });
         debrisGroup.add(model);
@@ -1230,7 +1239,7 @@ class OrbitalDebrisField {
     for (const d of this.debris) {
       if (!d.active) { d.group.visible = false; continue; }
 
-      // Only show debris within ±100km of player altitude
+      // Only show debris within +/-100km of player altitude
       const altDiff = Math.abs(playerAltKm - d.altitudeKm);
       d.group.visible = altDiff < 100 && playerAltKm > 50;
 
@@ -1339,83 +1348,76 @@ function buildRocket(skin: RocketSkin, stages: number, fuelType = 'standard'): G
   const accentColor = new Color(skin.accent);
 
   if (loadedModels) {
-    // Kenney Space Kit modular rocket
-    // Use variant A or B based on skin index for variety
+    // Kenney Space Kit modular rocket -- use Box3 to measure & stack parts
     const useB = skin.name.includes('Gold') || skin.name.includes('Silver') || skin.name.includes('Chrome');
 
-    // Nose cone
+    // Helper: measure a model's bounding box height and min Y
+    function measureModel(m: Group): { height: number; minY: number; maxY: number } {
+      const box = new Box3().setFromObject(m);
+      return { height: box.max.y - box.min.y, minY: box.min.y, maxY: box.max.y };
+    }
+
+    // Clone all parts first
+    const base = (useB ? loadedModels.rocketBaseB : loadedModels.rocketBaseA).clone();
+    const fins = (useB ? loadedModels.rocketFinsB : loadedModels.rocketFinsA).clone();
     const nose = (useB ? loadedModels.rocketTopB : loadedModels.rocketTopA).clone();
-    nose.scale.setScalar(0.3);
-    const noseY = stages === 3 ? 2.0 : 1.6;
-    nose.position.y = noseY;
-    applyNeonTint(nose, accentColor, 0.5);
-    // Override base color for skin
-    nose.traverse((child) => {
-      if ((child as Mesh).isMesh) {
-        (child as Mesh).material = new MeshStandardMaterial({
-          color: bodyColor, emissive: accentColor, emissiveIntensity: 0.4, metalness: 0.5, roughness: 0.3,
-        });
-      }
-    });
-    rocket.add(nose);
-
-    // Stage bodies - use sides + fuel modules
-    const stageYPositions = stages === 3 ? [1.5, 1.0, 0.5] : [1.2, 0.6];
+    const bodyParts: Group[] = [];
+    const fuelParts: Group[] = [];
     for (let s = 0; s < stages; s++) {
-      const sides = (s % 2 === 0 ? loadedModels.rocketSidesA : loadedModels.rocketSidesB).clone();
-      sides.scale.setScalar(0.3);
-      sides.position.y = stageYPositions[s];
-      sides.traverse((child) => {
-        if ((child as Mesh).isMesh) {
-          (child as Mesh).material = new MeshStandardMaterial({
-            color: bodyColor, emissive: accentColor, emissiveIntensity: 0.2, metalness: 0.5, roughness: 0.3,
-          });
-        }
-      });
-      rocket.add(sides);
-
-      // Fuel tank between stages
+      bodyParts.push((s % 2 === 0 ? loadedModels.rocketSidesA : loadedModels.rocketSidesB).clone());
       if (s < stages - 1) {
-        const fuel = (s % 2 === 0 ? loadedModels.rocketFuelA : loadedModels.rocketFuelB).clone();
-        fuel.scale.setScalar(0.3);
-        fuel.position.y = stageYPositions[s] - 0.3;
-        fuel.traverse((child) => {
-          if ((child as Mesh).isMesh) {
-            (child as Mesh).material = new MeshStandardMaterial({
-              color: bodyColor.clone().multiplyScalar(0.8), emissive: accentColor, emissiveIntensity: 0.15, metalness: 0.6, roughness: 0.4,
-            });
-          }
-        });
-        rocket.add(fuel);
+        fuelParts.push((s % 2 === 0 ? loadedModels.rocketFuelA : loadedModels.rocketFuelB).clone());
       }
     }
 
-    // Fins
-    const fins = (useB ? loadedModels.rocketFinsB : loadedModels.rocketFinsA).clone();
-    const finsY = stages === 3 ? 0.2 : 0.15;
-    fins.scale.setScalar(0.3);
-    fins.position.y = finsY;
-    fins.traverse((child) => {
-      if ((child as Mesh).isMesh) {
-        (child as Mesh).material = new MeshStandardMaterial({
-          color: accentColor, emissive: accentColor, emissiveIntensity: 0.5, metalness: 0.7, roughness: 0.2,
-        });
-      }
-    });
+    // Uniform scale for all parts
+    const partScale = 0.35;
+    base.scale.setScalar(partScale);
+    fins.scale.setScalar(partScale);
+    nose.scale.setScalar(partScale);
+    bodyParts.forEach(p => p.scale.setScalar(partScale));
+    fuelParts.forEach(p => p.scale.setScalar(partScale));
+
+    // Stack bottom-up: base -> fins -> body stages (with fuel between) -> nose
+    // Measure each after scaling
+    const baseMeasure = measureModel(base);
+    let stackY = -baseMeasure.minY; // Place base so its bottom is at y=0
+    base.position.y = stackY;
+    rocket.add(base);
+
+    // Fins at same level as base
+    const finsMeasure = measureModel(fins);
+    fins.position.y = stackY;
     rocket.add(fins);
 
-    // Engine base
-    const base = (useB ? loadedModels.rocketBaseB : loadedModels.rocketBaseA).clone();
-    base.scale.setScalar(0.3);
-    base.position.y = stages === 3 ? 0.0 : -0.1;
-    base.traverse((child) => {
-      if ((child as Mesh).isMesh) {
-        (child as Mesh).material = new MeshStandardMaterial({
-          color: new Color(0x666688), emissive: accentColor, emissiveIntensity: 0.2, metalness: 0.7, roughness: 0.3,
-        });
+    stackY += baseMeasure.height;
+
+    // Body stages with fuel tanks between them
+    for (let s = stages - 1; s >= 0; s--) {
+      const body = bodyParts[s];
+      const bodyMeasure = measureModel(body);
+      body.position.y = stackY - bodyMeasure.minY;
+      rocket.add(body);
+      stackY += bodyMeasure.height;
+
+      // Fuel tank between stages (not after the topmost stage)
+      if (s > 0 && fuelParts.length > 0) {
+        const fuel = fuelParts[fuelParts.length - s];
+        if (fuel) {
+          const fuelMeasure = measureModel(fuel);
+          fuel.position.y = stackY - fuelMeasure.minY;
+          rocket.add(fuel);
+          stackY += fuelMeasure.height;
+        }
       }
-    });
-    rocket.add(base);
+    }
+
+    // Nose cone on top
+    const noseMeasure = measureModel(nose);
+    nose.position.y = stackY - noseMeasure.minY;
+    rocket.add(nose);
+
+    // Keep original Kenney materials -- no material replacement
   } else {
     // Fallback: procedural geometry if models not yet loaded
     const noseCone = new Mesh(new ConeGeometry(0.18, 0.6, 8), new MeshStandardMaterial({ color: bodyColor, emissive: accentColor, emissiveIntensity: 0.3 }));
@@ -1440,7 +1442,7 @@ function buildRocket(skin: RocketSkin, stages: number, fuelType = 'standard'): G
   // Exhaust flame (works with both model and procedural rockets)
   // Fuel-type specific flame colors
   const fuelFlameColor = fuelType === 'high-thrust' ? '#ff4400' : fuelType === 'efficient' ? '#4488ff' : skin.flame;
-  const flameYBase = stages === 3 ? -0.3 : -0.4;
+  const flameYBase = -0.1; // just below the base of the rocket
   const flameGeo = new ConeGeometry(fuelType === 'high-thrust' ? 0.15 : 0.12, fuelType === 'high-thrust' ? 1.0 : 0.8, 8);
   const flameMat = new MeshBasicMaterial({ color: new Color(fuelFlameColor), transparent: true, blending: AdditiveBlending, opacity: 0 });
   const flame = new Mesh(flameGeo, flameMat);
@@ -1573,16 +1575,18 @@ function buildStageDebris(skin: RocketSkin): Group {
   const accentColor = new Color(skin.accent);
 
   if (loadedModels) {
-    // Use a Kenney rocket sides piece as debris
+    // Use a Kenney rocket sides piece as debris -- keep original materials
     const piece = loadedModels.rocketSidesA.clone();
     piece.scale.setScalar(0.35);
     piece.traverse((child) => {
       if ((child as Mesh).isMesh) {
-        const mat = new MeshStandardMaterial({
-          color: bodyColor, emissive: accentColor, emissiveIntensity: 0.3,
-          transparent: true, opacity: 0.8, metalness: 0.5, roughness: 0.3,
-        });
-        (child as Mesh).material = mat;
+        const mat = (child as Mesh).material as MeshStandardMaterial;
+        if (mat && mat.isMeshStandardMaterial) {
+          mat.transparent = true;
+          mat.opacity = 0.8;
+          mat.emissive = accentColor.clone();
+          mat.emissiveIntensity = 0.1;
+        }
       }
     });
     debris.add(piece);
@@ -1593,10 +1597,13 @@ function buildStageDebris(skin: RocketSkin): Group {
     nozzlePiece.position.y = -0.4;
     nozzlePiece.traverse((child) => {
       if ((child as Mesh).isMesh) {
-        (child as Mesh).material = new MeshStandardMaterial({
-          color: new Color(0x666688), emissive: accentColor, emissiveIntensity: 0.2,
-          transparent: true, opacity: 0.8, metalness: 0.6, roughness: 0.3,
-        });
+        const mat = (child as Mesh).material as MeshStandardMaterial;
+        if (mat && mat.isMeshStandardMaterial) {
+          mat.transparent = true;
+          mat.opacity = 0.8;
+          mat.emissive = accentColor.clone();
+          mat.emissiveIntensity = 0.1;
+        }
       }
     });
     debris.add(nozzlePiece);

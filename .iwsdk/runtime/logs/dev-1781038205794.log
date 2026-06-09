@@ -1,0 +1,360 @@
+
+> neon-launch@1.0.0 dev:runtime
+> vite
+
+🚀 Generating initial UIKitML files for dev server...
+👁️  UIKitML file watcher started - monitoring for changes...
+
+  VITE v7.3.3  ready in 1562 ms
+
+  ➜  Local:   http://localhost:8081/
+  ➜  Network: http://198.19.0.2:8081/
+8:50:42 PM [vite] (client) page reload src/index.ts
+8:50:49 PM [vite] (client) page reload src/index.ts
+8:51:21 PM [vite] (client) page reload src/index.ts
+8:51:29 PM [vite] (client) page reload src/index.ts
+8:51:35 PM [vite] (client) page reload src/index.ts
+[browser] [PanelUISystem] Error loading panel for entity 11: TypeError: Failed to fetch
+    at PanelUISystem.loadPanel (http://localhost:8081/@fs/home/hatch/workspace/immersive-web-sdk/packages/core/dist/ui/ui.js:148:36)
+    at http://localhost:8081/@fs/home/hatch/workspace/immersive-web-sdk/packages/core/dist/ui/ui.js:102:18
+    at QueryManager.updateEntity (http://localhost:8081/node_modules/.vite/deps/elics.js?v=b23ac3c9:793:11)
+    at Entity.addComponent (http://localhost:8081/node_modules/.vite/deps/elics.js?v=b23ac3c9:255:25)
+    at createWorldPanel (http://localhost:8081/src/index.ts?t=1781038289376:2008:7)
+    at main (http://localhost:8081/src/index.ts?t=1781038289376:2043:34)
+[browser] [PanelUISystem] Error loading panel for entity 23: TypeError: Failed to fetch
+    at PanelUISystem.loadPanel (http://localhost:8081/@fs/home/hatch/workspace/immersive-web-sdk/packages/core/dist/ui/ui.js:148:36)
+    at http://localhost:8081/@fs/home/hatch/workspace/immersive-web-sdk/packages/core/dist/ui/ui.js:102:18
+    at QueryManager.updateEntity (http://localhost:8081/node_modules/.vite/deps/elics.js?v=b23ac3c9:793:11)
+    at Entity.addComponent (http://localhost:8081/node_modules/.vite/deps/elics.js?v=b23ac3c9:255:25)
+    at createFollowerPanel (http://localhost:8081/src/index.ts?t=1781038289376:2013:7)
+    at main (http://localhost:8081/src/index.ts?t=1781038289376:2055:32)
+[browser] [PanelUISystem] Error loading panel for entity 7: TypeError: Failed to fetch
+    at PanelUISystem.loadPanel (http://localhost:8081/@fs/home/hatch/workspace/immersive-web-sdk/packages/core/dist/ui/ui.js:148:36)
+    at http://localhost:8081/@fs/home/hatch/workspace/immersive-web-sdk/packages/core/dist/ui/ui.js:102:18
+    at QueryManager.updateEntity (http://localhost:8081/node_modules/.vite/deps/elics.js?v=b23ac3c9:793:11)
+    at Entity.addComponent (http://localhost:8081/node_modules/.vite/deps/elics.js?v=b23ac3c9:255:25)
+    at createWorldPanel (http://localhost:8081/src/index.ts?t=1781038289376:2008:7)
+    at main (http://localhost:8081/src/index.ts?t=1781038289376:2039:28)
+[browser] [PanelUISystem] Error loading panel for entity 17: TypeError: Failed to fetch
+    at PanelUISystem.loadPanel (http://localhost:8081/@fs/home/hatch/workspace/immersive-web-sdk/packages/core/dist/ui/ui.js:148:36)
+    at http://localhost:8081/@fs/home/hatch/workspace/immersive-web-sdk/packages/core/dist/ui/ui.js:102:18
+    at QueryManager.updateEntity (http://localhost:8081/node_modules/.vite/deps/elics.js?v=b23ac3c9:793:11)
+    at Entity.addComponent (http://localhost:8081/node_modules/.vite/deps/elics.js?v=b23ac3c9:255:25)
+    at createFollowerPanel (http://localhost:8081/src/index.ts?t=1781038289376:2013:7)
+    at main (http://localhost:8081/src/index.ts?t=1781038289376:2049:33)
+[browser] [PanelUISystem] Error loading panel for entity 19: TypeError: Failed to fetch
+    at PanelUISystem.loadPanel (http://localhost:8081/@fs/home/hatch/workspace/immersive-web-sdk/packages/core/dist/ui/ui.js:148:36)
+    at http://localhost:8081/@fs/home/hatch/workspace/immersive-web-sdk/packages/core/dist/ui/ui.js:102:18
+    at QueryManager.updateEntity (http://localhost:8081/node_modules/.vite/deps/elics.js?v=b23ac3c9:793:11)
+    at Entity.addComponent (http://localhost:8081/node_modules/.vite/deps/elics.js?v=b23ac3c9:255:25)
+    at createFollowerPanel (http://localhost:8081/src/index.ts?t=1781038289376:2013:7)
+    at main (http://localhost:8081/src/index.ts?t=1781038289376:2051:30)
+[browser] [PanelUISystem] Error loading panel for entity 5: TypeError: Failed to fetch
+    at PanelUISystem.loadPanel (http://localhost:8081/@fs/home/hatch/workspace/immersive-web-sdk/packages/core/dist/ui/ui.js:148:36)
+    at http://localhost:8081/@fs/home/hatch/workspace/immersive-web-sdk/packages/core/dist/ui/ui.js:102:18
+    at QueryManager.updateEntity (http://localhost:8081/node_modules/.vite/deps/elics.js?v=b23ac3c9:793:11)
+    at Entity.addComponent (http://localhost:8081/node_modules/.vite/deps/elics.js?v=b23ac3c9:255:25)
+    at createWorldPanel (http://localhost:8081/src/index.ts?t=1781038289376:2008:7)
+    at main (http://localhost:8081/src/index.ts?t=1781038289376:2037:31)
+[browser] [PanelUISystem] Error loading panel for entity 15: TypeError: Failed to fetch
+    at PanelUISystem.loadPanel (http://localhost:8081/@fs/home/hatch/workspace/immersive-web-sdk/packages/core/dist/ui/ui.js:148:36)
+    at http://localhost:8081/@fs/home/hatch/workspace/immersive-web-sdk/packages/core/dist/ui/ui.js:102:18
+    at QueryManager.updateEntity (http://localhost:8081/node_modules/.vite/deps/elics.js?v=b23ac3c9:793:11)
+    at Entity.addComponent (http://localhost:8081/node_modules/.vite/deps/elics.js?v=b23ac3c9:255:25)
+    at createFollowerPanel (http://localhost:8081/src/index.ts?t=1781038289376:2013:7)
+    at main (http://localhost:8081/src/index.ts?t=1781038289376:2047:32)
+[browser] [PanelUISystem] Error loading panel for entity 8: TypeError: Failed to fetch
+    at PanelUISystem.loadPanel (http://localhost:8081/@fs/home/hatch/workspace/immersive-web-sdk/packages/core/dist/ui/ui.js:148:36)
+    at http://localhost:8081/@fs/home/hatch/workspace/immersive-web-sdk/packages/core/dist/ui/ui.js:102:18
+    at QueryManager.updateEntity (http://localhost:8081/node_modules/.vite/deps/elics.js?v=b23ac3c9:793:11)
+    at Entity.addComponent (http://localhost:8081/node_modules/.vite/deps/elics.js?v=b23ac3c9:255:25)
+    at createWorldPanel (http://localhost:8081/src/index.ts?t=1781038289376:2008:7)
+    at main (http://localhost:8081/src/index.ts?t=1781038289376:2040:31)
+[browser] [PanelUISystem] Error loading panel for entity 4: TypeError: Failed to fetch
+    at PanelUISystem.loadPanel (http://localhost:8081/@fs/home/hatch/workspace/immersive-web-sdk/packages/core/dist/ui/ui.js:148:36)
+    at http://localhost:8081/@fs/home/hatch/workspace/immersive-web-sdk/packages/core/dist/ui/ui.js:102:18
+    at QueryManager.updateEntity (http://localhost:8081/node_modules/.vite/deps/elics.js?v=b23ac3c9:793:11)
+    at Entity.addComponent (http://localhost:8081/node_modules/.vite/deps/elics.js?v=b23ac3c9:255:25)
+    at createWorldPanel (http://localhost:8081/src/index.ts?t=1781038289376:2008:7)
+    at main (http://localhost:8081/src/index.ts?t=1781038289376:2036:33)
+[browser] [PanelUISystem] Error loading panel for entity 12: TypeError: Failed to fetch
+    at PanelUISystem.loadPanel (http://localhost:8081/@fs/home/hatch/workspace/immersive-web-sdk/packages/core/dist/ui/ui.js:148:36)
+    at http://localhost:8081/@fs/home/hatch/workspace/immersive-web-sdk/packages/core/dist/ui/ui.js:102:18
+    at QueryManager.updateEntity (http://localhost:8081/node_modules/.vite/deps/elics.js?v=b23ac3c9:793:11)
+    at Entity.addComponent (http://localhost:8081/node_modules/.vite/deps/elics.js?v=b23ac3c9:255:25)
+    at createWorldPanel (http://localhost:8081/src/index.ts?t=1781038289376:2008:7)
+    at main (http://localhost:8081/src/index.ts?t=1781038289376:2044:28)
+[browser] [PanelUISystem] Error loading panel for entity 24: TypeError: Failed to fetch
+    at PanelUISystem.loadPanel (http://localhost:8081/@fs/home/hatch/workspace/immersive-web-sdk/packages/core/dist/ui/ui.js:148:36)
+    at http://localhost:8081/@fs/home/hatch/workspace/immersive-web-sdk/packages/core/dist/ui/ui.js:102:18
+    at QueryManager.updateEntity (http://localhost:8081/node_modules/.vite/deps/elics.js?v=b23ac3c9:793:11)
+    at Entity.addComponent (http://localhost:8081/node_modules/.vite/deps/elics.js?v=b23ac3c9:255:25)
+    at createFollowerPanel (http://localhost:8081/src/index.ts?t=1781038289376:2013:7)
+    at main (http://localhost:8081/src/index.ts?t=1781038289376:2056:28)
+[browser] [PanelUISystem] Error loading panel for entity 25: TypeError: Failed to fetch
+    at PanelUISystem.loadPanel (http://localhost:8081/@fs/home/hatch/workspace/immersive-web-sdk/packages/core/dist/ui/ui.js:148:36)
+    at http://localhost:8081/@fs/home/hatch/workspace/immersive-web-sdk/packages/core/dist/ui/ui.js:102:18
+    at QueryManager.updateEntity (http://localhost:8081/node_modules/.vite/deps/elics.js?v=b23ac3c9:793:11)
+    at Entity.addComponent (http://localhost:8081/node_modules/.vite/deps/elics.js?v=b23ac3c9:255:25)
+    at createFollowerPanel (http://localhost:8081/src/index.ts?t=1781038289376:2013:7)
+    at main (http://localhost:8081/src/index.ts?t=1781038289376:2057:32)
+[browser] [PanelUISystem] Error loading panel for entity 9: TypeError: Failed to fetch
+    at PanelUISystem.loadPanel (http://localhost:8081/@fs/home/hatch/workspace/immersive-web-sdk/packages/core/dist/ui/ui.js:148:36)
+    at http://localhost:8081/@fs/home/hatch/workspace/immersive-web-sdk/packages/core/dist/ui/ui.js:102:18
+    at QueryManager.updateEntity (http://localhost:8081/node_modules/.vite/deps/elics.js?v=b23ac3c9:793:11)
+    at Entity.addComponent (http://localhost:8081/node_modules/.vite/deps/elics.js?v=b23ac3c9:255:25)
+    at createWorldPanel (http://localhost:8081/src/index.ts?t=1781038289376:2008:7)
+    at main (http://localhost:8081/src/index.ts?t=1781038289376:2041:27)
+[browser] [PanelUISystem] Error loading panel for entity 10: TypeError: Failed to fetch
+    at PanelUISystem.loadPanel (http://localhost:8081/@fs/home/hatch/workspace/immersive-web-sdk/packages/core/dist/ui/ui.js:148:36)
+    at http://localhost:8081/@fs/home/hatch/workspace/immersive-web-sdk/packages/core/dist/ui/ui.js:102:18
+    at QueryManager.updateEntity (http://localhost:8081/node_modules/.vite/deps/elics.js?v=b23ac3c9:793:11)
+    at Entity.addComponent (http://localhost:8081/node_modules/.vite/deps/elics.js?v=b23ac3c9:255:25)
+    at createWorldPanel (http://localhost:8081/src/index.ts?t=1781038289376:2008:7)
+    at main (http://localhost:8081/src/index.ts?t=1781038289376:2042:28)
+[browser] [PanelUISystem] Error loading panel for entity 18: TypeError: Failed to fetch
+    at PanelUISystem.loadPanel (http://localhost:8081/@fs/home/hatch/workspace/immersive-web-sdk/packages/core/dist/ui/ui.js:148:36)
+    at http://localhost:8081/@fs/home/hatch/workspace/immersive-web-sdk/packages/core/dist/ui/ui.js:102:18
+    at QueryManager.updateEntity (http://localhost:8081/node_modules/.vite/deps/elics.js?v=b23ac3c9:793:11)
+    at Entity.addComponent (http://localhost:8081/node_modules/.vite/deps/elics.js?v=b23ac3c9:255:25)
+    at createFollowerPanel (http://localhost:8081/src/index.ts?t=1781038289376:2013:7)
+    at main (http://localhost:8081/src/index.ts?t=1781038289376:2050:30)
+[browser] [PanelUISystem] Error loading panel for entity 2: TypeError: Failed to fetch
+    at PanelUISystem.loadPanel (http://localhost:8081/@fs/home/hatch/workspace/immersive-web-sdk/packages/core/dist/ui/ui.js:148:36)
+    at http://localhost:8081/@fs/home/hatch/workspace/immersive-web-sdk/packages/core/dist/ui/ui.js:102:18
+    at QueryManager.updateEntity (http://localhost:8081/node_modules/.vite/deps/elics.js?v=b23ac3c9:793:11)
+    at Entity.addComponent (http://localhost:8081/node_modules/.vite/deps/elics.js?v=b23ac3c9:255:25)
+    at createWorldPanel (http://localhost:8081/src/index.ts?t=1781038289376:2008:7)
+    at main (http://localhost:8081/src/index.ts?t=1781038289376:2034:28)
+[browser] [PanelUISystem] Error loading panel for entity 3: TypeError: Failed to fetch
+    at PanelUISystem.loadPanel (http://localhost:8081/@fs/home/hatch/workspace/immersive-web-sdk/packages/core/dist/ui/ui.js:148:36)
+    at http://localhost:8081/@fs/home/hatch/workspace/immersive-web-sdk/packages/core/dist/ui/ui.js:102:18
+    at QueryManager.updateEntity (http://localhost:8081/node_modules/.vite/deps/elics.js?v=b23ac3c9:793:11)
+    at Entity.addComponent (http://localhost:8081/node_modules/.vite/deps/elics.js?v=b23ac3c9:255:25)
+    at createWorldPanel (http://localhost:8081/src/index.ts?t=1781038289376:2008:7)
+    at main (http://localhost:8081/src/index.ts?t=1781038289376:2035:28)
+[browser] [PanelUISystem] Error loading panel for entity 13: TypeError: Failed to fetch
+    at PanelUISystem.loadPanel (http://localhost:8081/@fs/home/hatch/workspace/immersive-web-sdk/packages/core/dist/ui/ui.js:148:36)
+    at http://localhost:8081/@fs/home/hatch/workspace/immersive-web-sdk/packages/core/dist/ui/ui.js:102:18
+    at QueryManager.updateEntity (http://localhost:8081/node_modules/.vite/deps/elics.js?v=b23ac3c9:793:11)
+    at Entity.addComponent (http://localhost:8081/node_modules/.vite/deps/elics.js?v=b23ac3c9:255:25)
+    at createWorldPanel (http://localhost:8081/src/index.ts?t=1781038289376:2008:7)
+    at main (http://localhost:8081/src/index.ts?t=1781038289376:2045:30)
+[browser] [PanelUISystem] Error loading panel for entity 6: TypeError: Failed to fetch
+    at PanelUISystem.loadPanel (http://localhost:8081/@fs/home/hatch/workspace/immersive-web-sdk/packages/core/dist/ui/ui.js:148:36)
+    at http://localhost:8081/@fs/home/hatch/workspace/immersive-web-sdk/packages/core/dist/ui/ui.js:102:18
+    at QueryManager.updateEntity (http://localhost:8081/node_modules/.vite/deps/elics.js?v=b23ac3c9:793:11)
+    at Entity.addComponent (http://localhost:8081/node_modules/.vite/deps/elics.js?v=b23ac3c9:255:25)
+    at createWorldPanel (http://localhost:8081/src/index.ts?t=1781038289376:2008:7)
+    at main (http://localhost:8081/src/index.ts?t=1781038289376:2038:35)
+[browser] [PanelUISystem] Error loading panel for entity 16: TypeError: Failed to fetch
+    at PanelUISystem.loadPanel (http://localhost:8081/@fs/home/hatch/workspace/immersive-web-sdk/packages/core/dist/ui/ui.js:148:36)
+    at http://localhost:8081/@fs/home/hatch/workspace/immersive-web-sdk/packages/core/dist/ui/ui.js:102:18
+    at QueryManager.updateEntity (http://localhost:8081/node_modules/.vite/deps/elics.js?v=b23ac3c9:793:11)
+    at Entity.addComponent (http://localhost:8081/node_modules/.vite/deps/elics.js?v=b23ac3c9:255:25)
+    at createFollowerPanel (http://localhost:8081/src/index.ts?t=1781038289376:2013:7)
+    at main (http://localhost:8081/src/index.ts?t=1781038289376:2048:31)
+[browser] [PanelUISystem] Error loading panel for entity 14: TypeError: Failed to fetch
+    at PanelUISystem.loadPanel (http://localhost:8081/@fs/home/hatch/workspace/immersive-web-sdk/packages/core/dist/ui/ui.js:148:36)
+    at http://localhost:8081/@fs/home/hatch/workspace/immersive-web-sdk/packages/core/dist/ui/ui.js:102:18
+    at QueryManager.updateEntity (http://localhost:8081/node_modules/.vite/deps/elics.js?v=b23ac3c9:793:11)
+    at Entity.addComponent (http://localhost:8081/node_modules/.vite/deps/elics.js?v=b23ac3c9:255:25)
+    at createWorldPanel (http://localhost:8081/src/index.ts?t=1781038289376:2008:7)
+    at main (http://localhost:8081/src/index.ts?t=1781038289376:2046:29)
+[browser] [PanelUISystem] Error loading panel for entity 21: TypeError: Failed to fetch
+    at PanelUISystem.loadPanel (http://localhost:8081/@fs/home/hatch/workspace/immersive-web-sdk/packages/core/dist/ui/ui.js:148:36)
+    at http://localhost:8081/@fs/home/hatch/workspace/immersive-web-sdk/packages/core/dist/ui/ui.js:102:18
+    at QueryManager.updateEntity (http://localhost:8081/node_modules/.vite/deps/elics.js?v=b23ac3c9:793:11)
+    at Entity.addComponent (http://localhost:8081/node_modules/.vite/deps/elics.js?v=b23ac3c9:255:25)
+    at createFollowerPanel (http://localhost:8081/src/index.ts?t=1781038289376:2013:7)
+    at main (http://localhost:8081/src/index.ts?t=1781038289376:2053:26)
+[browser] [PanelUISystem] Error loading panel for entity 22: TypeError: Failed to fetch
+    at PanelUISystem.loadPanel (http://localhost:8081/@fs/home/hatch/workspace/immersive-web-sdk/packages/core/dist/ui/ui.js:148:36)
+    at http://localhost:8081/@fs/home/hatch/workspace/immersive-web-sdk/packages/core/dist/ui/ui.js:102:18
+    at QueryManager.updateEntity (http://localhost:8081/node_modules/.vite/deps/elics.js?v=b23ac3c9:793:11)
+    at Entity.addComponent (http://localhost:8081/node_modules/.vite/deps/elics.js?v=b23ac3c9:255:25)
+    at createFollowerPanel (http://localhost:8081/src/index.ts?t=1781038289376:2013:7)
+    at main (http://localhost:8081/src/index.ts?t=1781038289376:2054:31)
+[browser] [PanelUISystem] Error loading panel for entity 20: TypeError: Failed to fetch
+    at PanelUISystem.loadPanel (http://localhost:8081/@fs/home/hatch/workspace/immersive-web-sdk/packages/core/dist/ui/ui.js:148:36)
+    at http://localhost:8081/@fs/home/hatch/workspace/immersive-web-sdk/packages/core/dist/ui/ui.js:102:18
+    at QueryManager.updateEntity (http://localhost:8081/node_modules/.vite/deps/elics.js?v=b23ac3c9:793:11)
+    at Entity.addComponent (http://localhost:8081/node_modules/.vite/deps/elics.js?v=b23ac3c9:255:25)
+    at createWorldPanel (http://localhost:8081/src/index.ts?t=1781038289376:2008:7)
+    at main (http://localhost:8081/src/index.ts?t=1781038289376:2052:37)
+8:51:46 PM [vite] (client) page reload src/index.ts
+8:52:04 PM [vite] (client) page reload src/index.ts
+8:53:23 PM [vite] (client) page reload src/index.ts
+8:53:31 PM [vite] (client) page reload src/index.ts
+8:54:12 PM [vite] (client) page reload src/index.ts
+8:54:18 PM [vite] (client) page reload src/index.ts
+[browser] [PanelUISystem] Error loading panel for entity 7: TypeError: Failed to fetch
+    at PanelUISystem.loadPanel (http://localhost:8081/@fs/home/hatch/workspace/immersive-web-sdk/packages/core/dist/ui/ui.js:148:36)
+    at http://localhost:8081/@fs/home/hatch/workspace/immersive-web-sdk/packages/core/dist/ui/ui.js:102:18
+    at QueryManager.updateEntity (http://localhost:8081/node_modules/.vite/deps/elics.js?v=b23ac3c9:793:11)
+    at Entity.addComponent (http://localhost:8081/node_modules/.vite/deps/elics.js?v=b23ac3c9:255:25)
+    at createWorldPanel (http://localhost:8081/src/index.ts?t=1781038452821:2011:7)
+    at main (http://localhost:8081/src/index.ts?t=1781038452821:2042:28)
+[browser] [PanelUISystem] Error loading panel for entity 22: TypeError: Failed to fetch
+    at PanelUISystem.loadPanel (http://localhost:8081/@fs/home/hatch/workspace/immersive-web-sdk/packages/core/dist/ui/ui.js:148:36)
+    at http://localhost:8081/@fs/home/hatch/workspace/immersive-web-sdk/packages/core/dist/ui/ui.js:102:18
+    at QueryManager.updateEntity (http://localhost:8081/node_modules/.vite/deps/elics.js?v=b23ac3c9:793:11)
+    at Entity.addComponent (http://localhost:8081/node_modules/.vite/deps/elics.js?v=b23ac3c9:255:25)
+    at createFollowerPanel (http://localhost:8081/src/index.ts?t=1781038452821:2016:7)
+    at main (http://localhost:8081/src/index.ts?t=1781038452821:2057:31)
+[browser] [PanelUISystem] Error loading panel for entity 23: TypeError: Failed to fetch
+    at PanelUISystem.loadPanel (http://localhost:8081/@fs/home/hatch/workspace/immersive-web-sdk/packages/core/dist/ui/ui.js:148:36)
+    at http://localhost:8081/@fs/home/hatch/workspace/immersive-web-sdk/packages/core/dist/ui/ui.js:102:18
+    at QueryManager.updateEntity (http://localhost:8081/node_modules/.vite/deps/elics.js?v=b23ac3c9:793:11)
+    at Entity.addComponent (http://localhost:8081/node_modules/.vite/deps/elics.js?v=b23ac3c9:255:25)
+    at createFollowerPanel (http://localhost:8081/src/index.ts?t=1781038452821:2016:7)
+    at main (http://localhost:8081/src/index.ts?t=1781038452821:2058:32)
+[browser] [PanelUISystem] Error loading panel for entity 3: TypeError: Failed to fetch
+    at PanelUISystem.loadPanel (http://localhost:8081/@fs/home/hatch/workspace/immersive-web-sdk/packages/core/dist/ui/ui.js:148:36)
+    at http://localhost:8081/@fs/home/hatch/workspace/immersive-web-sdk/packages/core/dist/ui/ui.js:102:18
+    at QueryManager.updateEntity (http://localhost:8081/node_modules/.vite/deps/elics.js?v=b23ac3c9:793:11)
+    at Entity.addComponent (http://localhost:8081/node_modules/.vite/deps/elics.js?v=b23ac3c9:255:25)
+    at createWorldPanel (http://localhost:8081/src/index.ts?t=1781038452821:2011:7)
+    at main (http://localhost:8081/src/index.ts?t=1781038452821:2038:28)
+[browser] [PanelUISystem] Error loading panel for entity 5: TypeError: Failed to fetch
+    at PanelUISystem.loadPanel (http://localhost:8081/@fs/home/hatch/workspace/immersive-web-sdk/packages/core/dist/ui/ui.js:148:36)
+    at http://localhost:8081/@fs/home/hatch/workspace/immersive-web-sdk/packages/core/dist/ui/ui.js:102:18
+    at QueryManager.updateEntity (http://localhost:8081/node_modules/.vite/deps/elics.js?v=b23ac3c9:793:11)
+    at Entity.addComponent (http://localhost:8081/node_modules/.vite/deps/elics.js?v=b23ac3c9:255:25)
+    at createWorldPanel (http://localhost:8081/src/index.ts?t=1781038452821:2011:7)
+    at main (http://localhost:8081/src/index.ts?t=1781038452821:2040:31)
+[browser] [PanelUISystem] Error loading panel for entity 24: TypeError: Failed to fetch
+    at PanelUISystem.loadPanel (http://localhost:8081/@fs/home/hatch/workspace/immersive-web-sdk/packages/core/dist/ui/ui.js:148:36)
+    at http://localhost:8081/@fs/home/hatch/workspace/immersive-web-sdk/packages/core/dist/ui/ui.js:102:18
+    at QueryManager.updateEntity (http://localhost:8081/node_modules/.vite/deps/elics.js?v=b23ac3c9:793:11)
+    at Entity.addComponent (http://localhost:8081/node_modules/.vite/deps/elics.js?v=b23ac3c9:255:25)
+    at createFollowerPanel (http://localhost:8081/src/index.ts?t=1781038452821:2016:7)
+    at main (http://localhost:8081/src/index.ts?t=1781038452821:2059:28)
+[browser] [PanelUISystem] Error loading panel for entity 19: TypeError: Failed to fetch
+    at PanelUISystem.loadPanel (http://localhost:8081/@fs/home/hatch/workspace/immersive-web-sdk/packages/core/dist/ui/ui.js:148:36)
+    at http://localhost:8081/@fs/home/hatch/workspace/immersive-web-sdk/packages/core/dist/ui/ui.js:102:18
+    at QueryManager.updateEntity (http://localhost:8081/node_modules/.vite/deps/elics.js?v=b23ac3c9:793:11)
+    at Entity.addComponent (http://localhost:8081/node_modules/.vite/deps/elics.js?v=b23ac3c9:255:25)
+    at createFollowerPanel (http://localhost:8081/src/index.ts?t=1781038452821:2016:7)
+    at main (http://localhost:8081/src/index.ts?t=1781038452821:2054:30)
+[browser] [PanelUISystem] Error loading panel for entity 12: TypeError: Failed to fetch
+    at PanelUISystem.loadPanel (http://localhost:8081/@fs/home/hatch/workspace/immersive-web-sdk/packages/core/dist/ui/ui.js:148:36)
+    at http://localhost:8081/@fs/home/hatch/workspace/immersive-web-sdk/packages/core/dist/ui/ui.js:102:18
+    at QueryManager.updateEntity (http://localhost:8081/node_modules/.vite/deps/elics.js?v=b23ac3c9:793:11)
+    at Entity.addComponent (http://localhost:8081/node_modules/.vite/deps/elics.js?v=b23ac3c9:255:25)
+    at createWorldPanel (http://localhost:8081/src/index.ts?t=1781038452821:2011:7)
+    at main (http://localhost:8081/src/index.ts?t=1781038452821:2047:28)
+[browser] [PanelUISystem] Error loading panel for entity 20: TypeError: Failed to fetch
+    at PanelUISystem.loadPanel (http://localhost:8081/@fs/home/hatch/workspace/immersive-web-sdk/packages/core/dist/ui/ui.js:148:36)
+    at http://localhost:8081/@fs/home/hatch/workspace/immersive-web-sdk/packages/core/dist/ui/ui.js:102:18
+    at QueryManager.updateEntity (http://localhost:8081/node_modules/.vite/deps/elics.js?v=b23ac3c9:793:11)
+    at Entity.addComponent (http://localhost:8081/node_modules/.vite/deps/elics.js?v=b23ac3c9:255:25)
+    at createWorldPanel (http://localhost:8081/src/index.ts?t=1781038452821:2011:7)
+    at main (http://localhost:8081/src/index.ts?t=1781038452821:2055:37)
+[browser] [PanelUISystem] Error loading panel for entity 21: TypeError: Failed to fetch
+    at PanelUISystem.loadPanel (http://localhost:8081/@fs/home/hatch/workspace/immersive-web-sdk/packages/core/dist/ui/ui.js:148:36)
+    at http://localhost:8081/@fs/home/hatch/workspace/immersive-web-sdk/packages/core/dist/ui/ui.js:102:18
+    at QueryManager.updateEntity (http://localhost:8081/node_modules/.vite/deps/elics.js?v=b23ac3c9:793:11)
+    at Entity.addComponent (http://localhost:8081/node_modules/.vite/deps/elics.js?v=b23ac3c9:255:25)
+    at createFollowerPanel (http://localhost:8081/src/index.ts?t=1781038452821:2016:7)
+    at main (http://localhost:8081/src/index.ts?t=1781038452821:2056:26)
+[browser] [PanelUISystem] Error loading panel for entity 8: TypeError: Failed to fetch
+    at PanelUISystem.loadPanel (http://localhost:8081/@fs/home/hatch/workspace/immersive-web-sdk/packages/core/dist/ui/ui.js:148:36)
+    at http://localhost:8081/@fs/home/hatch/workspace/immersive-web-sdk/packages/core/dist/ui/ui.js:102:18
+    at QueryManager.updateEntity (http://localhost:8081/node_modules/.vite/deps/elics.js?v=b23ac3c9:793:11)
+    at Entity.addComponent (http://localhost:8081/node_modules/.vite/deps/elics.js?v=b23ac3c9:255:25)
+    at createWorldPanel (http://localhost:8081/src/index.ts?t=1781038452821:2011:7)
+    at main (http://localhost:8081/src/index.ts?t=1781038452821:2043:31)
+[browser] [PanelUISystem] Error loading panel for entity 18: TypeError: Failed to fetch
+    at PanelUISystem.loadPanel (http://localhost:8081/@fs/home/hatch/workspace/immersive-web-sdk/packages/core/dist/ui/ui.js:148:36)
+    at http://localhost:8081/@fs/home/hatch/workspace/immersive-web-sdk/packages/core/dist/ui/ui.js:102:18
+    at QueryManager.updateEntity (http://localhost:8081/node_modules/.vite/deps/elics.js?v=b23ac3c9:793:11)
+    at Entity.addComponent (http://localhost:8081/node_modules/.vite/deps/elics.js?v=b23ac3c9:255:25)
+    at createFollowerPanel (http://localhost:8081/src/index.ts?t=1781038452821:2016:7)
+    at main (http://localhost:8081/src/index.ts?t=1781038452821:2053:30)
+[browser] [PanelUISystem] Error loading panel for entity 25: TypeError: Failed to fetch
+    at PanelUISystem.loadPanel (http://localhost:8081/@fs/home/hatch/workspace/immersive-web-sdk/packages/core/dist/ui/ui.js:148:36)
+    at http://localhost:8081/@fs/home/hatch/workspace/immersive-web-sdk/packages/core/dist/ui/ui.js:102:18
+    at QueryManager.updateEntity (http://localhost:8081/node_modules/.vite/deps/elics.js?v=b23ac3c9:793:11)
+    at Entity.addComponent (http://localhost:8081/node_modules/.vite/deps/elics.js?v=b23ac3c9:255:25)
+    at createFollowerPanel (http://localhost:8081/src/index.ts?t=1781038452821:2016:7)
+    at main (http://localhost:8081/src/index.ts?t=1781038452821:2060:32)
+[browser] [PanelUISystem] Error loading panel for entity 11: TypeError: Failed to fetch
+    at PanelUISystem.loadPanel (http://localhost:8081/@fs/home/hatch/workspace/immersive-web-sdk/packages/core/dist/ui/ui.js:148:36)
+    at http://localhost:8081/@fs/home/hatch/workspace/immersive-web-sdk/packages/core/dist/ui/ui.js:102:18
+    at QueryManager.updateEntity (http://localhost:8081/node_modules/.vite/deps/elics.js?v=b23ac3c9:793:11)
+    at Entity.addComponent (http://localhost:8081/node_modules/.vite/deps/elics.js?v=b23ac3c9:255:25)
+    at createWorldPanel (http://localhost:8081/src/index.ts?t=1781038452821:2011:7)
+    at main (http://localhost:8081/src/index.ts?t=1781038452821:2046:34)
+[browser] [PanelUISystem] Error loading panel for entity 16: TypeError: Failed to fetch
+    at PanelUISystem.loadPanel (http://localhost:8081/@fs/home/hatch/workspace/immersive-web-sdk/packages/core/dist/ui/ui.js:148:36)
+    at http://localhost:8081/@fs/home/hatch/workspace/immersive-web-sdk/packages/core/dist/ui/ui.js:102:18
+    at QueryManager.updateEntity (http://localhost:8081/node_modules/.vite/deps/elics.js?v=b23ac3c9:793:11)
+    at Entity.addComponent (http://localhost:8081/node_modules/.vite/deps/elics.js?v=b23ac3c9:255:25)
+    at createFollowerPanel (http://localhost:8081/src/index.ts?t=1781038452821:2016:7)
+    at main (http://localhost:8081/src/index.ts?t=1781038452821:2051:31)
+[browser] [PanelUISystem] Error loading panel for entity 10: TypeError: Failed to fetch
+    at PanelUISystem.loadPanel (http://localhost:8081/@fs/home/hatch/workspace/immersive-web-sdk/packages/core/dist/ui/ui.js:148:36)
+    at http://localhost:8081/@fs/home/hatch/workspace/immersive-web-sdk/packages/core/dist/ui/ui.js:102:18
+    at QueryManager.updateEntity (http://localhost:8081/node_modules/.vite/deps/elics.js?v=b23ac3c9:793:11)
+    at Entity.addComponent (http://localhost:8081/node_modules/.vite/deps/elics.js?v=b23ac3c9:255:25)
+    at createWorldPanel (http://localhost:8081/src/index.ts?t=1781038452821:2011:7)
+    at main (http://localhost:8081/src/index.ts?t=1781038452821:2045:28)
+[browser] [PanelUISystem] Error loading panel for entity 4: TypeError: Failed to fetch
+    at PanelUISystem.loadPanel (http://localhost:8081/@fs/home/hatch/workspace/immersive-web-sdk/packages/core/dist/ui/ui.js:148:36)
+    at http://localhost:8081/@fs/home/hatch/workspace/immersive-web-sdk/packages/core/dist/ui/ui.js:102:18
+    at QueryManager.updateEntity (http://localhost:8081/node_modules/.vite/deps/elics.js?v=b23ac3c9:793:11)
+    at Entity.addComponent (http://localhost:8081/node_modules/.vite/deps/elics.js?v=b23ac3c9:255:25)
+    at createWorldPanel (http://localhost:8081/src/index.ts?t=1781038452821:2011:7)
+    at main (http://localhost:8081/src/index.ts?t=1781038452821:2039:33)
+[browser] [PanelUISystem] Error loading panel for entity 2: TypeError: Failed to fetch
+    at PanelUISystem.loadPanel (http://localhost:8081/@fs/home/hatch/workspace/immersive-web-sdk/packages/core/dist/ui/ui.js:148:36)
+    at http://localhost:8081/@fs/home/hatch/workspace/immersive-web-sdk/packages/core/dist/ui/ui.js:102:18
+    at QueryManager.updateEntity (http://localhost:8081/node_modules/.vite/deps/elics.js?v=b23ac3c9:793:11)
+    at Entity.addComponent (http://localhost:8081/node_modules/.vite/deps/elics.js?v=b23ac3c9:255:25)
+    at createWorldPanel (http://localhost:8081/src/index.ts?t=1781038452821:2011:7)
+    at main (http://localhost:8081/src/index.ts?t=1781038452821:2037:28)
+[browser] [PanelUISystem] Error loading panel for entity 14: TypeError: Failed to fetch
+    at PanelUISystem.loadPanel (http://localhost:8081/@fs/home/hatch/workspace/immersive-web-sdk/packages/core/dist/ui/ui.js:148:36)
+    at http://localhost:8081/@fs/home/hatch/workspace/immersive-web-sdk/packages/core/dist/ui/ui.js:102:18
+    at QueryManager.updateEntity (http://localhost:8081/node_modules/.vite/deps/elics.js?v=b23ac3c9:793:11)
+    at Entity.addComponent (http://localhost:8081/node_modules/.vite/deps/elics.js?v=b23ac3c9:255:25)
+    at createWorldPanel (http://localhost:8081/src/index.ts?t=1781038452821:2011:7)
+    at main (http://localhost:8081/src/index.ts?t=1781038452821:2049:29)
+[browser] [PanelUISystem] Error loading panel for entity 15: TypeError: Failed to fetch
+    at PanelUISystem.loadPanel (http://localhost:8081/@fs/home/hatch/workspace/immersive-web-sdk/packages/core/dist/ui/ui.js:148:36)
+    at http://localhost:8081/@fs/home/hatch/workspace/immersive-web-sdk/packages/core/dist/ui/ui.js:102:18
+    at QueryManager.updateEntity (http://localhost:8081/node_modules/.vite/deps/elics.js?v=b23ac3c9:793:11)
+    at Entity.addComponent (http://localhost:8081/node_modules/.vite/deps/elics.js?v=b23ac3c9:255:25)
+    at createFollowerPanel (http://localhost:8081/src/index.ts?t=1781038452821:2016:7)
+    at main (http://localhost:8081/src/index.ts?t=1781038452821:2050:32)
+[browser] [PanelUISystem] Error loading panel for entity 6: TypeError: Failed to fetch
+    at PanelUISystem.loadPanel (http://localhost:8081/@fs/home/hatch/workspace/immersive-web-sdk/packages/core/dist/ui/ui.js:148:36)
+    at http://localhost:8081/@fs/home/hatch/workspace/immersive-web-sdk/packages/core/dist/ui/ui.js:102:18
+    at QueryManager.updateEntity (http://localhost:8081/node_modules/.vite/deps/elics.js?v=b23ac3c9:793:11)
+    at Entity.addComponent (http://localhost:8081/node_modules/.vite/deps/elics.js?v=b23ac3c9:255:25)
+    at createWorldPanel (http://localhost:8081/src/index.ts?t=1781038452821:2011:7)
+    at main (http://localhost:8081/src/index.ts?t=1781038452821:2041:35)
+[browser] [PanelUISystem] Error loading panel for entity 13: TypeError: Failed to fetch
+    at PanelUISystem.loadPanel (http://localhost:8081/@fs/home/hatch/workspace/immersive-web-sdk/packages/core/dist/ui/ui.js:148:36)
+    at http://localhost:8081/@fs/home/hatch/workspace/immersive-web-sdk/packages/core/dist/ui/ui.js:102:18
+    at QueryManager.updateEntity (http://localhost:8081/node_modules/.vite/deps/elics.js?v=b23ac3c9:793:11)
+    at Entity.addComponent (http://localhost:8081/node_modules/.vite/deps/elics.js?v=b23ac3c9:255:25)
+    at createWorldPanel (http://localhost:8081/src/index.ts?t=1781038452821:2011:7)
+    at main (http://localhost:8081/src/index.ts?t=1781038452821:2048:30)
+[browser] [PanelUISystem] Error loading panel for entity 9: TypeError: Failed to fetch
+    at PanelUISystem.loadPanel (http://localhost:8081/@fs/home/hatch/workspace/immersive-web-sdk/packages/core/dist/ui/ui.js:148:36)
+    at http://localhost:8081/@fs/home/hatch/workspace/immersive-web-sdk/packages/core/dist/ui/ui.js:102:18
+    at QueryManager.updateEntity (http://localhost:8081/node_modules/.vite/deps/elics.js?v=b23ac3c9:793:11)
+    at Entity.addComponent (http://localhost:8081/node_modules/.vite/deps/elics.js?v=b23ac3c9:255:25)
+    at createWorldPanel (http://localhost:8081/src/index.ts?t=1781038452821:2011:7)
+    at main (http://localhost:8081/src/index.ts?t=1781038452821:2044:27)
+[browser] [PanelUISystem] Error loading panel for entity 17: TypeError: Failed to fetch
+    at PanelUISystem.loadPanel (http://localhost:8081/@fs/home/hatch/workspace/immersive-web-sdk/packages/core/dist/ui/ui.js:148:36)
+    at http://localhost:8081/@fs/home/hatch/workspace/immersive-web-sdk/packages/core/dist/ui/ui.js:102:18
+    at QueryManager.updateEntity (http://localhost:8081/node_modules/.vite/deps/elics.js?v=b23ac3c9:793:11)
+    at Entity.addComponent (http://localhost:8081/node_modules/.vite/deps/elics.js?v=b23ac3c9:255:25)
+    at createFollowerPanel (http://localhost:8081/src/index.ts?t=1781038452821:2016:7)
+    at main (http://localhost:8081/src/index.ts?t=1781038452821:2052:33)
+8:54:58 PM [vite] (client) page reload src/index.ts
+8:55:05 PM [vite] (client) page reload src/index.ts
