@@ -1,0 +1,24 @@
+<container flexDirection="column" gap="3" padding="6" backgroundColor="#1a050580" borderRadius="6" borderColor="#ff4444" borderWidth="1">
+  <text fontSize="8" fontWeight="bold" color="#ff4444">RE-ENTRY STATUS</text>
+  <container flexDirection="row" gap="6">
+    <container flexDirection="column" gap="1">
+      <text fontSize="7" color="#668888">HEAT</text>
+      <text name="re-heat" fontSize="10" fontWeight="bold" color="#ff6633">0%</text>
+    </container>
+    <container flexDirection="column" gap="1">
+      <text fontSize="7" color="#668888">SHIELD</text>
+      <text name="re-shield" fontSize="10" fontWeight="bold" color="#44ff44">100%</text>
+    </container>
+  </container>
+  <container flexDirection="row" gap="6">
+    <container flexDirection="column" gap="1">
+      <text fontSize="7" color="#668888">DESCENT</text>
+      <text name="re-descent" fontSize="9" color="#ffcc00">0 m/s</text>
+    </container>
+    <container flexDirection="column" gap="1">
+      <text fontSize="7" color="#668888">TEMP</text>
+      <text name="re-temp" fontSize="9" color="#ff8844">0 K</text>
+    </container>
+  </container>
+  <text name="re-status" fontSize="8" fontWeight="bold" color="#ff8844">NOMINAL</text>
+</container>

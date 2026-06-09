@@ -37,7 +37,48 @@ import {
 // TYPES & CONSTANTS
 // ============================================================================
 
-type GameState = 'title' | 'config' | 'preflight' | 'countdown' | 'flying' | 'orbit' | 'gameover' | 'achievements' | 'stats' | 'settings' | 'help' | 'skins' | 'modes' | 'difficulty' | 'weather' | 'career' | 'leaderboard';
+type GameState = 'title' | 'config' | 'preflight' | 'countdown' | 'flying' | 'orbit' | 'gameover' | 'achievements' | 'stats' | 'settings' | 'help' | 'skins' | 'modes' | 'difficulty' | 'weather' | 'career' | 'leaderboard' | 'tutorial';
+
+// Tutorial steps
+interface TutorialStep {
+  title: string;
+  desc: string;
+  check: (game: GameStateManager) => boolean;
+}
+
+const TUTORIAL_STEPS: TutorialStep[] = [
+  { title: 'Step 1: Throttle Up', desc: 'Press W or push thumbstick up to increase throttle above 70%.', check: (g) => g.flight.throttle >= 70 },
+  { title: 'Step 2: Liftoff!', desc: 'Your rocket is lifting off! Watch the altitude climb on the HUD.', check: (g) => g.flight.altitude >= 5000 },
+  { title: 'Step 3: Gravity Turn', desc: 'Press D or push thumbstick right to angle the rocket. Aim for 20-40 degrees.', check: (g) => g.flight.angle >= 15 },
+  { title: 'Step 4: Stage Separation', desc: 'When fuel drops below 30%, press SPACE or A button to separate stages!', check: (g) => g.flight.stageSeparations >= 1 },
+  { title: 'Step 5: Approaching Orbit', desc: 'Keep climbing! You need to reach the target altitude shown on HUD.', check: (g) => g.flight.altitude >= 100000 },
+  { title: 'Step 6: Orbit!', desc: 'Almost there! Maintain velocity and altitude to achieve orbit.', check: (g) => g.flight.altitude >= 200000 },
+];
+
+// Mission control callouts
+interface Callout {
+  trigger: string;
+  message: string;
+  fired: boolean;
+}
+
+// Re-entry data
+interface ReentryData {
+  heat: number;       // 0-100
+  shieldHP: number;   // 0-100
+  temperature: number; // Kelvin
+  descending: boolean;
+  peakHeat: number;
+}
+
+// Separated stage debris
+interface StageDebris {
+  group: Group;
+  vy: number;
+  vx: number;
+  rot: number;
+  life: number;
+}
 
 interface RocketConfig {
   stages: number; // 2 or 3
@@ -297,6 +338,13 @@ class GameStateManager {
   crewMissions = 0;
   altitudeDropped = false;
   peakAltBeforeDrop = 0;
+  tutorialMode = false;
+  tutorialStep = 0;
+  reentry: ReentryData = { heat: 0, shieldHP: 100, temperature: 300, descending: false, peakHeat: 0 };
+  callouts: Callout[] = [];
+  stageDebris: StageDebris[] = [];
+  cameraShakeIntensity = 0;
+  speedLineIntensity = 0;
 
   constructor() {
     this.config = { stages: 2, payload: 'satellite', fuelType: 'standard' };
@@ -314,6 +362,25 @@ class GameStateManager {
     const baseMass = stages === 3 ? 500 : 350;
     const fuelMult = this.config?.fuelType === 'high-thrust' ? 1.3 : this.config?.fuelType === 'efficient' ? 0.8 : 1.0;
     const thrustMult = this.config?.fuelType === 'high-thrust' ? 1.4 : this.config?.fuelType === 'efficient' ? 0.9 : 1.0;
+
+    // Reset re-entry
+    this.reentry = { heat: 0, shieldHP: 100, temperature: 300, descending: false, peakHeat: 0 };
+
+    // Reset callouts
+    this.callouts = [
+      { trigger: 'liftoff', message: 'We have liftoff! All engines nominal.', fired: false },
+      { trigger: 'altitude_10km', message: 'Passing 10km. Max-Q approaching.', fired: false },
+      { trigger: 'altitude_50km', message: 'Stratosphere. Drag is decreasing.', fired: false },
+      { trigger: 'karman_line', message: 'KARMAN LINE! Welcome to space!', fired: false },
+      { trigger: 'fuel_50', message: 'Warning: 50% fuel remaining.', fired: false },
+      { trigger: 'fuel_20', message: 'CAUTION: 20% fuel. Consider staging.', fired: false },
+      { trigger: 'fuel_5', message: 'CRITICAL: 5% fuel remaining!', fired: false },
+      { trigger: 'orbit_50pct', message: 'Halfway to target orbit!', fired: false },
+      { trigger: 'orbit_90pct', message: 'Final approach! 90% to target!', fired: false },
+      { trigger: 'high_g', message: 'High G-force detected! Ease throttle!', fired: false },
+      { trigger: 'separation', message: 'Stage separation confirmed!', fired: false },
+      { trigger: 'max_q', message: 'MAX-Q. Maximum dynamic pressure.', fired: false },
+    ];
 
     return {
       altitude: 0,
@@ -887,6 +954,103 @@ class TrailRenderer {
 }
 
 // ============================================================================
+// SPEED LINE SYSTEM
+// ============================================================================
+
+class SpeedLines {
+  lines: Mesh[] = [];
+  group: Group;
+
+  constructor() {
+    this.group = new Group();
+    const geo = new BoxGeometry(0.005, 0.4, 0.005);
+    const mat = new MeshBasicMaterial({ color: 0x00ffff, transparent: true, blending: AdditiveBlending, opacity: 0 });
+    for (let i = 0; i < 30; i++) {
+      const line = new Mesh(geo.clone(), mat.clone());
+      line.position.set((Math.random() - 0.5) * 3, (Math.random() - 0.5) * 3, -2 - Math.random() * 3);
+      line.visible = false;
+      this.group.add(line);
+      this.lines.push(line);
+    }
+  }
+
+  update(intensity: number, dt: number) {
+    for (const line of this.lines) {
+      if (intensity > 0.1) {
+        line.visible = true;
+        (line.material as MeshBasicMaterial).opacity = intensity * 0.4;
+        line.position.y -= (2 + intensity * 8) * dt;
+        line.scale.y = 1 + intensity * 3;
+        if (line.position.y < -3) {
+          line.position.y = 3;
+          line.position.x = (Math.random() - 0.5) * 3;
+          line.position.z = -2 - Math.random() * 3;
+        }
+      } else {
+        line.visible = false;
+      }
+    }
+  }
+}
+
+// ============================================================================
+// ORBIT RING VISUALIZATION
+// ============================================================================
+
+function buildOrbitRing(): { ring: Mesh; glow: Mesh; group: Group } {
+  const group = new Group();
+  const ringGeo = new TorusGeometry(2.0, 0.015, 8, 64);
+  const ringMat = new MeshBasicMaterial({ color: 0x9966ff, transparent: true, blending: AdditiveBlending, opacity: 0 });
+  const ring = new Mesh(ringGeo, ringMat);
+  ring.rotation.x = Math.PI / 2;
+  group.add(ring);
+
+  const glowGeo = new TorusGeometry(2.0, 0.04, 8, 64);
+  const glowMat = new MeshBasicMaterial({ color: 0x6633cc, transparent: true, blending: AdditiveBlending, opacity: 0 });
+  const glow = new Mesh(glowGeo, glowMat);
+  glow.rotation.x = Math.PI / 2;
+  group.add(glow);
+
+  group.position.set(0, 5.5, -4); // Near top of scene
+  return { ring, glow, group };
+}
+
+// ============================================================================
+// STAGE DEBRIS BUILDER
+// ============================================================================
+
+function buildStageDebris(skin: RocketSkin): Group {
+  const debris = new Group();
+  const bodyColor = new Color(skin.body);
+  const accentColor = new Color(skin.accent);
+
+  // Cylinder body piece
+  const body = new Mesh(
+    new CylinderGeometry(0.2, 0.2, 0.6, 8),
+    new MeshStandardMaterial({ color: bodyColor, emissive: accentColor, emissiveIntensity: 0.2 })
+  );
+  debris.add(body);
+
+  // Edge glow
+  const edge = new LineSegments(
+    new EdgesGeometry(new CylinderGeometry(0.2, 0.2, 0.6, 8)),
+    new LineBasicMaterial({ color: accentColor, transparent: true, opacity: 0.5 })
+  );
+  debris.add(edge);
+
+  // Nozzle piece
+  const nozzle = new Mesh(
+    new ConeGeometry(0.12, 0.2, 8),
+    new MeshStandardMaterial({ color: 0x666688, emissive: 0x333344, emissiveIntensity: 0.2 })
+  );
+  nozzle.position.y = -0.4;
+  nozzle.rotation.x = Math.PI;
+  debris.add(nozzle);
+
+  return debris;
+}
+
+// ============================================================================
 // MAIN INIT
 // ============================================================================
 
@@ -921,6 +1085,50 @@ async function main() {
   const trail = new TrailRenderer(skin.accent);
   world.scene.add(trail.line);
 
+  // Speed lines (attached to camera area)
+  const speedLines = new SpeedLines();
+  world.scene.add(speedLines.group);
+
+  // Orbit ring visualization
+  const orbitVis = buildOrbitRing();
+  world.scene.add(orbitVis.group);
+
+  // Callout text state
+  let calloutText = '';
+  let calloutTimer = 0;
+
+  function showCallout(text: string, duration = 3) {
+    calloutText = text;
+    calloutTimer = duration;
+  }
+
+  // Check callout triggers
+  function checkCallouts() {
+    const f = game.flight;
+    const fire = (trigger: string) => {
+      const c = game.callouts.find(x => x.trigger === trigger && !x.fired);
+      if (c) { c.fired = true; showCallout(c.message); }
+    };
+
+    if (f.altitude > 10 && f.velocity > 10) fire('liftoff');
+    if (f.altitude >= 10000) fire('altitude_10km');
+    if (f.altitude >= 50000) fire('altitude_50km');
+    if (f.altitude >= 100000) fire('karman_line');
+    if (f.fuel <= 50 && f.fuel > 0) fire('fuel_50');
+    if (f.fuel <= 20 && f.fuel > 0) fire('fuel_20');
+    if (f.fuel <= 5 && f.fuel > 0) fire('fuel_5');
+    const target = game.currentMission.target * 1000;
+    if (target > 0 && f.altitude >= target * 0.5) fire('orbit_50pct');
+    if (target > 0 && f.altitude >= target * 0.9) fire('orbit_90pct');
+    if (game.maxG >= 5) fire('high_g');
+
+    // Max-Q: peak dynamic pressure (roughly 10-30km altitude at high speed)
+    const altKm = f.altitude / 1000;
+    const atmDensity = Math.exp(-altKm / 8.5);
+    const dynP = 0.5 * atmDensity * f.velocity * f.velocity * 0.001;
+    if (dynP > 50 && altKm > 8 && altKm < 40) fire('max_q');
+  }
+
   // Toast state
   let toastText = '';
   let toastTimer = 0;
@@ -937,6 +1145,24 @@ async function main() {
     rocketGroup.position.set(0, 0.1, -4);
     world.scene.add(rocketGroup);
     trail.clear();
+    // Clear debris
+    for (const d of game.stageDebris) world.scene.remove(d.group);
+    game.stageDebris = [];
+  }
+
+  function spawnStageDebris() {
+    const s = game.skins[game.currentSkinIndex];
+    const debris = buildStageDebris(s);
+    debris.position.copy(rocketGroup.position);
+    debris.position.y -= 0.3;
+    world.scene.add(debris);
+    game.stageDebris.push({
+      group: debris,
+      vy: -1.5 - Math.random() * 0.5,
+      vx: (Math.random() - 0.5) * 0.5,
+      rot: (Math.random() - 0.5) * 3,
+      life: 4,
+    });
   }
 
   function applyTheme() {
@@ -965,9 +1191,22 @@ async function main() {
     game.flight = game.resetFlight();
     game.maxG = 0;
     game.smoothAngle = true;
+    game.cameraShakeIntensity = 0;
+    game.speedLineIntensity = 0;
     countdownValue = 5;
     setState('countdown');
     audio.playSfx('gameStart');
+  }
+
+  function startTutorial() {
+    game.tutorialMode = true;
+    game.tutorialStep = 0;
+    game.missionIndex = 0;
+    game.currentMission = MISSIONS[0]; // Low Orbit for tutorial
+    game.config.stages = 2;
+    game.config.fuelType = 'standard';
+    rebuildRocket();
+    startCountdown();
   }
 
   function startFlight() {
@@ -1039,6 +1278,11 @@ async function main() {
     game.throttleChanged = false;
     game.altitudeDropped = false;
     game.peakAltBeforeDrop = 0;
+    game.tutorialMode = false;
+    game.tutorialStep = 0;
+    // Clear debris
+    for (const d of game.stageDebris) world.scene.remove(d.group);
+    game.stageDebris = [];
     setState('gameover');
   }
 
@@ -1063,6 +1307,62 @@ async function main() {
 
       // Toast timer
       if (toastTimer > 0) toastTimer -= dt;
+
+      // Callout timer
+      if (calloutTimer > 0) calloutTimer -= dt;
+
+      // Update stage debris
+      for (let i = game.stageDebris.length - 1; i >= 0; i--) {
+        const d = game.stageDebris[i];
+        d.life -= dt;
+        if (d.life <= 0) {
+          world.scene.remove(d.group);
+          game.stageDebris.splice(i, 1);
+          continue;
+        }
+        d.group.position.y += d.vy * dt;
+        d.group.position.x += d.vx * dt;
+        d.group.rotation.x += d.rot * dt;
+        d.group.rotation.z += d.rot * 0.5 * dt;
+        d.vy -= 2 * dt; // gravity
+        // Fade out
+        d.group.traverse((child) => {
+          if ((child as Mesh).material && 'opacity' in (child as Mesh).material) {
+            ((child as Mesh).material as MeshBasicMaterial).opacity = d.life / 4;
+          }
+        });
+      }
+
+      // Camera shake decay
+      if (game.cameraShakeIntensity > 0) {
+        game.cameraShakeIntensity *= 0.92;
+        if (game.cameraShakeIntensity < 0.001) game.cameraShakeIntensity = 0;
+      }
+
+      // Speed lines
+      if (game.state === 'flying') {
+        const velNorm = Math.min(1, game.flight.velocity / 5000);
+        game.speedLineIntensity = velNorm > 0.3 ? (velNorm - 0.3) / 0.7 : 0;
+      } else {
+        game.speedLineIntensity = 0;
+      }
+      speedLines.update(game.speedLineIntensity, dt);
+
+      // Orbit ring visualization
+      if (game.state === 'flying' && game.currentMission.target > 0) {
+        const progress = Math.min(1, game.flight.altitude / (game.currentMission.target * 1000));
+        const ringOpacity = progress > 0.3 ? (progress - 0.3) * 1.4 : 0;
+        (orbitVis.ring.material as MeshBasicMaterial).opacity = ringOpacity * 0.6;
+        (orbitVis.glow.material as MeshBasicMaterial).opacity = ringOpacity * 0.3;
+        // Pulse when close
+        if (progress > 0.8) {
+          const pulse = 0.5 + 0.5 * Math.sin(time * 4);
+          (orbitVis.ring.material as MeshBasicMaterial).opacity = ringOpacity * (0.4 + pulse * 0.6);
+        }
+        orbitVis.group.visible = true;
+      } else {
+        orbitVis.group.visible = false;
+      }
 
       // Animate floating decorations
       for (const child of envGroup.children) {
@@ -1120,6 +1420,11 @@ async function main() {
             audio.playSfx('separation');
             particles.burst(rocketGroup.position.x, rocketGroup.position.y - 0.5, rocketGroup.position.z, 15, '#ff8800', 2, 0.6);
             showToast('Stage ' + f.stage + ' separation!');
+            spawnStageDebris();
+            game.cameraShakeIntensity = 0.3;
+            // Fire callout
+            const sc = game.callouts.find(x => x.trigger === 'separation' && !x.fired);
+            if (sc) { sc.fired = true; showCallout(sc.message); }
           }
         }
         if (kb.getKeyDown('Escape') || kb.getKeyDown('KeyP')) {
@@ -1147,6 +1452,10 @@ async function main() {
               audio.playSfx('separation');
               particles.burst(rocketGroup.position.x, rocketGroup.position.y - 0.5, rocketGroup.position.z, 15, '#ff8800', 2, 0.6);
               showToast('Stage ' + f.stage + ' separation!');
+              spawnStageDebris();
+              game.cameraShakeIntensity = 0.3;
+              const sc = game.callouts.find(x => x.trigger === 'separation' && !x.fired);
+              if (sc) { sc.fired = true; showCallout(sc.message); }
             }
           }
           if (right.getButtonDown(InputComponent.B_Button)) {
@@ -1254,6 +1563,63 @@ async function main() {
         // Trail
         trail.addPoint(rocketGroup.position.x, rocketGroup.position.y, rocketGroup.position.z);
 
+        // Camera shake during flight
+        if (game.cameraShakeIntensity > 0.01) {
+          const shk = game.cameraShakeIntensity;
+          rocketGroup.position.x += (Math.random() - 0.5) * shk * 0.1;
+          rocketGroup.position.y += (Math.random() - 0.5) * shk * 0.05;
+        }
+        // Add shake on high thrust
+        if (f.throttle > 80 && f.fuel > 0 && f.altitude < 50000) {
+          game.cameraShakeIntensity = Math.max(game.cameraShakeIntensity, 0.05 * (f.throttle / 100));
+        }
+
+        // Re-entry physics (for Re-entry Run mission)
+        if (game.currentMission.name === 'Re-entry Run') {
+          const re = game.reentry;
+          if (f.velocity < 0) re.descending = true;
+          if (re.descending && f.altitude < 100000 && f.altitude > 0) {
+            // Heat builds with speed and atmosphere density
+            const heatRate = Math.abs(f.velocity) * atmDensity * 0.02;
+            re.heat = Math.min(100, re.heat + heatRate * dt);
+            re.temperature = 300 + re.heat * 30; // Up to 3300K
+            if (re.heat > re.peakHeat) re.peakHeat = re.heat;
+            // Shield degrades at high heat
+            if (re.heat > 60) {
+              re.shieldHP -= (re.heat - 60) * 0.05 * dt;
+            }
+            // Shield failure = mission fail
+            if (re.shieldHP <= 0) {
+              audio.playSfx('explosion');
+              particles.burst(rocketGroup.position.x, rocketGroup.position.y, rocketGroup.position.z, 30, '#ff2200', 5, 1.5);
+              showToast('Heat shield failure!');
+              endFlight(false);
+              return;
+            }
+            // Success: survived to ground
+            if (f.altitude <= 500 && Math.abs(f.velocity) < 100) {
+              showToast('Safe re-entry!');
+              endFlight(true);
+              return;
+            }
+          }
+        }
+
+        // Check mission control callouts
+        checkCallouts();
+
+        // Tutorial step check
+        if (game.tutorialMode && game.tutorialStep < TUTORIAL_STEPS.length) {
+          const step = TUTORIAL_STEPS[game.tutorialStep];
+          if (step.check(game)) {
+            game.tutorialStep++;
+            if (game.tutorialStep < TUTORIAL_STEPS.length) {
+              showToast('Step complete!');
+              audio.playSfx('achievement');
+            }
+          }
+        }
+
         // Fuel warning
         if (f.fuel <= 10 && f.fuel > 0 && Math.floor(f.missionTime * 2) % 2 === 0) {
           // visual warning handled in HUD
@@ -1295,6 +1661,7 @@ async function main() {
     'title', 'modes', 'difficulty', 'hud', 'throttle', 'countdown',
     'pause', 'gameover', 'leaderboard', 'achievements', 'settings',
     'help', 'toast', 'stats', 'skins', 'telemetry', 'weather', 'career', 'altimeter',
+    'tutorial', 'orbit-info', 'callout', 'reentry',
   ];
 
   const panelEntities: Record<string, any> = {};
@@ -1335,6 +1702,12 @@ async function main() {
   panelEntities['career'] = createWorldPanel('./ui/career.json', 0, 1.6, -2, 0.55, 0.9);
   panelEntities['altimeter'] = createFollowerPanel('./ui/altimeter.json', -0.32, 0.05, -0.5, 0.15, 0.25);
 
+  // New panels
+  panelEntities['tutorial'] = createFollowerPanel('./ui/tutorial.json', 0, 0.2, -0.6, 0.35, 0.15);
+  panelEntities['orbit-info'] = createFollowerPanel('./ui/orbit-info.json', 0.35, 0.05, -0.5, 0.2, 0.18);
+  panelEntities['callout'] = createFollowerPanel('./ui/callout.json', 0, 0.25, -0.6, 0.35, 0.08);
+  panelEntities['reentry'] = createFollowerPanel('./ui/reentry.json', 0.35, -0.15, -0.5, 0.2, 0.18);
+
   // Follower panels (HUDs)
   panelEntities['hud'] = createFollowerPanel('./ui/hud.json', 0.3, -0.12, -0.5, 0.4, 0.2);
   panelEntities['throttle'] = createFollowerPanel('./ui/throttle.json', -0.3, -0.15, -0.5, 0.18, 0.08);
@@ -1361,6 +1734,10 @@ async function main() {
     weather: { required: [PanelUI, PanelDocument], where: [eq(PanelUI, 'config', './ui/weather.json')] },
     career: { required: [PanelUI, PanelDocument], where: [eq(PanelUI, 'config', './ui/career.json')] },
     altimeter: { required: [PanelUI, PanelDocument], where: [eq(PanelUI, 'config', './ui/altimeter.json')] },
+    tutorial: { required: [PanelUI, PanelDocument], where: [eq(PanelUI, 'config', './ui/tutorial.json')] },
+    orbitInfo: { required: [PanelUI, PanelDocument], where: [eq(PanelUI, 'config', './ui/orbit-info.json')] },
+    calloutPanel: { required: [PanelUI, PanelDocument], where: [eq(PanelUI, 'config', './ui/callout.json')] },
+    reentry: { required: [PanelUI, PanelDocument], where: [eq(PanelUI, 'config', './ui/reentry.json')] },
   }) {
     private docs: Record<string, UIKitDocument> = {};
 
@@ -1407,6 +1784,7 @@ async function main() {
           this.bindButton('title', 'btn-weather', () => { audio.playSfx('click'); setState('weather'); });
           this.bindButton('title', 'btn-career', () => { audio.playSfx('click'); setState('career'); });
           this.bindButton('title', 'btn-leaderboard', () => { audio.playSfx('click'); setState('leaderboard'); });
+          this.bindButton('title', 'btn-tutorial', () => { audio.playSfx('click'); startTutorial(); });
           break;
 
         case 'modes':
@@ -1509,6 +1887,13 @@ async function main() {
         case 'leaderboard':
           this.bindButton('leaderboard', 'btn-back-lb', () => { audio.playSfx('click'); setState('title'); });
           break;
+
+        case 'tutorial':
+          this.bindButton('tutorial', 'btn-skip-tut', () => {
+            audio.playSfx('click');
+            game.tutorialMode = false;
+          });
+          break;
       }
     }
 
@@ -1536,6 +1921,10 @@ async function main() {
         weather: s === 'weather',
         career: s === 'career',
         leaderboard: s === 'leaderboard',
+        tutorial: s === 'flying' && game.tutorialMode,
+        'orbit-info': s === 'flying' && game.currentMission.target > 0 && game.flight.altitude > 50000,
+        callout: calloutTimer > 0 && s === 'flying',
+        reentry: s === 'flying' && game.currentMission.name === 'Re-entry Run' && game.reentry.descending,
       };
       for (const [name, entity] of Object.entries(panelEntities)) {
         if (entity.object3D) entity.object3D.visible = vis[name] ?? false;
@@ -1551,6 +1940,24 @@ async function main() {
         this.setText('hud', 'time-value', f.missionTime.toFixed(1) + 's');
         this.setText('hud', 'target-value', game.currentMission.target + ' km');
         this.setText('hud', 'mission-label', game.currentMission.name);
+        // G-force display
+        const gForce = Math.abs(f.acceleration) / 9.81;
+        this.setText('hud', 'gforce-value', gForce.toFixed(1) + ' G');
+        // Progress percentage
+        if (game.currentMission.target > 0) {
+          const pct = Math.min(100, Math.floor((f.altitude / (game.currentMission.target * 1000)) * 100));
+          this.setText('hud', 'progress-value', pct + '%');
+        } else {
+          this.setText('hud', 'progress-value', '---');
+        }
+        // Fuel warning
+        if (f.fuel <= 10 && f.fuel > 0) {
+          this.setText('hud', 'fuel-warn', 'LOW FUEL!');
+        } else if (f.fuel <= 0) {
+          this.setText('hud', 'fuel-warn', 'NO FUEL');
+        } else {
+          this.setText('hud', 'fuel-warn', '');
+        }
 
         // Throttle bar
         const pct = Math.floor(f.throttle);
@@ -1717,6 +2124,51 @@ async function main() {
             this.setText('leaderboard', `lb-entry-${i}`, (i + 1) + '. ---');
           }
         }
+      }
+
+      // Tutorial panel
+      if (game.tutorialMode && s === 'flying') {
+        const step = TUTORIAL_STEPS[Math.min(game.tutorialStep, TUTORIAL_STEPS.length - 1)];
+        this.setText('tutorial', 'tut-step', step.title);
+        this.setText('tutorial', 'tut-desc', step.desc);
+        this.setText('tutorial', 'tut-progress', (game.tutorialStep) + ' / ' + TUTORIAL_STEPS.length + ' steps');
+      }
+
+      // Orbit info panel
+      if (s === 'flying' && game.currentMission.target > 0 && f.altitude > 50000) {
+        const targetAltM = game.currentMission.target * 1000;
+        // Simplified orbital mechanics display
+        const altKm = f.altitude / 1000;
+        const orbitVelNeeded = 7800 * Math.sqrt(6371 / (6371 + altKm));
+        const apoapsis = f.maxAltitude / 1000;
+        const periapsis = Math.max(0, altKm - (apoapsis - altKm) * 0.5);
+        const eccentricity = apoapsis > 0 ? Math.abs(apoapsis - periapsis) / (apoapsis + periapsis + 0.01) : 0;
+        const orbStatus = f.altitude >= targetAltM * 0.9 ? 'Near Orbit!'
+          : f.altitude >= targetAltM * 0.5 ? 'Approaching'
+          : f.altitude >= 100000 ? 'Sub-orbital'
+          : 'Ascending';
+
+        this.setText('orbitInfo', 'orb-apo', apoapsis.toFixed(0) + ' km');
+        this.setText('orbitInfo', 'orb-peri', periapsis.toFixed(0) + ' km');
+        this.setText('orbitInfo', 'orb-vel', orbitVelNeeded.toFixed(0) + ' m/s');
+        this.setText('orbitInfo', 'orb-ecc', eccentricity.toFixed(3));
+        this.setText('orbitInfo', 'orb-status', orbStatus);
+      }
+
+      // Callout panel
+      if (calloutTimer > 0 && s === 'flying') {
+        this.setText('calloutPanel', 'callout-text', calloutText);
+      }
+
+      // Re-entry panel
+      if (s === 'flying' && game.currentMission.name === 'Re-entry Run' && game.reentry.descending) {
+        const re = game.reentry;
+        this.setText('reentry', 're-heat', re.heat.toFixed(0) + '%');
+        this.setText('reentry', 're-shield', re.shieldHP.toFixed(0) + '%');
+        this.setText('reentry', 're-descent', Math.abs(f.velocity).toFixed(0) + ' m/s');
+        this.setText('reentry', 're-temp', re.temperature.toFixed(0) + ' K');
+        const status = re.heat > 80 ? 'CRITICAL' : re.heat > 50 ? 'WARNING' : 'NOMINAL';
+        this.setText('reentry', 're-status', status);
       }
     }
   }

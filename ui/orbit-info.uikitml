@@ -1,0 +1,24 @@
+<container flexDirection="column" gap="3" padding="6" backgroundColor="#0a0a1a80" borderRadius="6" borderColor="#9966ff" borderWidth="1">
+  <text fontSize="8" fontWeight="bold" color="#9966ff">ORBIT STATUS</text>
+  <container flexDirection="row" gap="6">
+    <container flexDirection="column" gap="1">
+      <text fontSize="7" color="#668888">APOAPSIS</text>
+      <text name="orb-apo" fontSize="9" fontWeight="bold" color="#44ff44">0 km</text>
+    </container>
+    <container flexDirection="column" gap="1">
+      <text fontSize="7" color="#668888">PERIAPSIS</text>
+      <text name="orb-peri" fontSize="9" fontWeight="bold" color="#ff8844">0 km</text>
+    </container>
+  </container>
+  <container flexDirection="row" gap="6">
+    <container flexDirection="column" gap="1">
+      <text fontSize="7" color="#668888">ORB VEL</text>
+      <text name="orb-vel" fontSize="9" fontWeight="bold" color="#ffcc00">0 m/s</text>
+    </container>
+    <container flexDirection="column" gap="1">
+      <text fontSize="7" color="#668888">ECCENTR</text>
+      <text name="orb-ecc" fontSize="9" fontWeight="bold" color="#aaaacc">0.000</text>
+    </container>
+  </container>
+  <text name="orb-status" fontSize="8" fontWeight="bold" color="#00ffff">Sub-orbital</text>
+</container>

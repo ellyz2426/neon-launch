@@ -1,0 +1,11 @@
+
+> neon-launch@1.0.0 dev:runtime
+> vite
+
+🚀 Generating initial UIKitML files for dev server...
+👁️  UIKitML file watcher started - monitoring for changes...
+
+  VITE v7.3.3  ready in 2352 ms
+
+  ➜  Local:   http://localhost:8081/
+  ➜  Network: http://198.19.0.2:8081/

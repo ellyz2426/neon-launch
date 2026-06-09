@@ -1,44 +1,213 @@
 {
   "element": {
-    "sourceTag": "container",
+    "sourceTag": "panel",
     "type": "custom",
     "children": [
       {
-        "sourceTag": "text",
+        "sourceTag": "container",
         "type": "custom",
         "children": [
-          "LEADERBOARD"
+          {
+            "sourceTag": "text",
+            "type": "custom",
+            "children": [
+              "FLIGHT LOG"
+            ],
+            "properties": {
+              "fontsize": "12",
+              "fontweight": "bold",
+              "color": "#44ddff"
+            },
+            "dataUid": "uid-3"
+          },
+          {
+            "sourceTag": "text",
+            "type": "custom",
+            "children": [
+              "Recent launches (newest first)"
+            ],
+            "properties": {
+              "fontsize": "7",
+              "color": "#668888"
+            },
+            "dataUid": "uid-4"
+          },
+          {
+            "sourceTag": "container",
+            "type": "custom",
+            "children": [
+              {
+                "sourceTag": "text",
+                "type": "custom",
+                "children": [
+                  "1. ---"
+                ],
+                "properties": {
+                  "id": "lb-entry-0",
+                  "fontsize": "8",
+                  "color": "#ffffff"
+                },
+                "dataUid": "uid-6"
+              },
+              {
+                "sourceTag": "text",
+                "type": "custom",
+                "children": [
+                  "2. ---"
+                ],
+                "properties": {
+                  "id": "lb-entry-1",
+                  "fontsize": "8",
+                  "color": "#ffffff"
+                },
+                "dataUid": "uid-7"
+              },
+              {
+                "sourceTag": "text",
+                "type": "custom",
+                "children": [
+                  "3. ---"
+                ],
+                "properties": {
+                  "id": "lb-entry-2",
+                  "fontsize": "8",
+                  "color": "#ffffff"
+                },
+                "dataUid": "uid-8"
+              },
+              {
+                "sourceTag": "text",
+                "type": "custom",
+                "children": [
+                  "4. ---"
+                ],
+                "properties": {
+                  "id": "lb-entry-3",
+                  "fontsize": "8",
+                  "color": "#ffffff"
+                },
+                "dataUid": "uid-9"
+              },
+              {
+                "sourceTag": "text",
+                "type": "custom",
+                "children": [
+                  "5. ---"
+                ],
+                "properties": {
+                  "id": "lb-entry-4",
+                  "fontsize": "8",
+                  "color": "#ffffff"
+                },
+                "dataUid": "uid-10"
+              },
+              {
+                "sourceTag": "text",
+                "type": "custom",
+                "children": [
+                  "6. ---"
+                ],
+                "properties": {
+                  "id": "lb-entry-5",
+                  "fontsize": "8",
+                  "color": "#dddddd"
+                },
+                "dataUid": "uid-11"
+              },
+              {
+                "sourceTag": "text",
+                "type": "custom",
+                "children": [
+                  "7. ---"
+                ],
+                "properties": {
+                  "id": "lb-entry-6",
+                  "fontsize": "8",
+                  "color": "#dddddd"
+                },
+                "dataUid": "uid-12"
+              },
+              {
+                "sourceTag": "text",
+                "type": "custom",
+                "children": [
+                  "8. ---"
+                ],
+                "properties": {
+                  "id": "lb-entry-7",
+                  "fontsize": "8",
+                  "color": "#dddddd"
+                },
+                "dataUid": "uid-13"
+              },
+              {
+                "sourceTag": "text",
+                "type": "custom",
+                "children": [
+                  "9. ---"
+                ],
+                "properties": {
+                  "id": "lb-entry-8",
+                  "fontsize": "8",
+                  "color": "#bbbbbb"
+                },
+                "dataUid": "uid-14"
+              },
+              {
+                "sourceTag": "text",
+                "type": "custom",
+                "children": [
+                  "10. ---"
+                ],
+                "properties": {
+                  "id": "lb-entry-9",
+                  "fontsize": "8",
+                  "color": "#bbbbbb"
+                },
+                "dataUid": "uid-15"
+              }
+            ],
+            "properties": {
+              "flexdirection": "column",
+              "gap": "3",
+              "margintop": "4"
+            },
+            "dataUid": "uid-5"
+          },
+          {
+            "sourceTag": "text",
+            "type": "custom",
+            "children": [
+              "BACK"
+            ],
+            "properties": {
+              "id": "btn-back-lb",
+              "fontsize": "10",
+              "color": "#44ddff",
+              "fontweight": "bold",
+              "padding": "6",
+              "borderradius": "4",
+              "bordercolor": "#44ddff66",
+              "borderwidth": "1",
+              "cursor": "pointer",
+              "margintop": "4"
+            },
+            "dataUid": "uid-16"
+          }
         ],
         "properties": {
-          "fontsize": "18",
-          "fontweight": "bold",
-          "color": "#00ffff"
+          "flexdirection": "column",
+          "gap": "4",
+          "padding": "10",
+          "backgroundcolor": "#0a0a1aee",
+          "borderradius": "8",
+          "bordercolor": "#44ddff44",
+          "borderwidth": "1"
         },
         "dataUid": "uid-2"
-      },
-      {
-        "sourceTag": "text",
-        "type": "custom",
-        "children": [
-          "Coming soon"
-        ],
-        "properties": {
-          "fontsize": "10",
-          "color": "#668888"
-        },
-        "dataUid": "uid-3"
       }
     ],
-    "properties": {
-      "flexdirection": "column",
-      "alignitems": "center",
-      "gap": "6",
-      "padding": "16",
-      "backgroundcolor": "#0a0a1a",
-      "borderradius": "12",
-      "bordercolor": "#00ffff",
-      "borderwidth": "1"
-    },
+    "properties": {},
     "dataUid": "uid-1"
   },
   "classes": {},
@@ -49,8 +218,8 @@
         "column": 0
       },
       "end": {
-        "line": 3,
-        "column": 12
+        "line": 18,
+        "column": 8
       }
     },
     "uid-2": {
@@ -59,18 +228,148 @@
         "column": 2
       },
       "end": {
-        "line": 1,
-        "column": 74
+        "line": 17,
+        "column": 14
       }
     },
     "uid-3": {
       "start": {
         "line": 2,
-        "column": 2
+        "column": 4
       },
       "end": {
         "line": 2,
-        "column": 56
+        "column": 75
+      }
+    },
+    "uid-4": {
+      "start": {
+        "line": 3,
+        "column": 4
+      },
+      "end": {
+        "line": 3,
+        "column": 76
+      }
+    },
+    "uid-5": {
+      "start": {
+        "line": 4,
+        "column": 4
+      },
+      "end": {
+        "line": 15,
+        "column": 16
+      }
+    },
+    "uid-6": {
+      "start": {
+        "line": 5,
+        "column": 6
+      },
+      "end": {
+        "line": 5,
+        "column": 70
+      }
+    },
+    "uid-7": {
+      "start": {
+        "line": 6,
+        "column": 6
+      },
+      "end": {
+        "line": 6,
+        "column": 70
+      }
+    },
+    "uid-8": {
+      "start": {
+        "line": 7,
+        "column": 6
+      },
+      "end": {
+        "line": 7,
+        "column": 70
+      }
+    },
+    "uid-9": {
+      "start": {
+        "line": 8,
+        "column": 6
+      },
+      "end": {
+        "line": 8,
+        "column": 70
+      }
+    },
+    "uid-10": {
+      "start": {
+        "line": 9,
+        "column": 6
+      },
+      "end": {
+        "line": 9,
+        "column": 70
+      }
+    },
+    "uid-11": {
+      "start": {
+        "line": 10,
+        "column": 6
+      },
+      "end": {
+        "line": 10,
+        "column": 70
+      }
+    },
+    "uid-12": {
+      "start": {
+        "line": 11,
+        "column": 6
+      },
+      "end": {
+        "line": 11,
+        "column": 70
+      }
+    },
+    "uid-13": {
+      "start": {
+        "line": 12,
+        "column": 6
+      },
+      "end": {
+        "line": 12,
+        "column": 70
+      }
+    },
+    "uid-14": {
+      "start": {
+        "line": 13,
+        "column": 6
+      },
+      "end": {
+        "line": 13,
+        "column": 70
+      }
+    },
+    "uid-15": {
+      "start": {
+        "line": 14,
+        "column": 6
+      },
+      "end": {
+        "line": 14,
+        "column": 71
+      }
+    },
+    "uid-16": {
+      "start": {
+        "line": 16,
+        "column": 4
+      },
+      "end": {
+        "line": 16,
+        "column": 186
       }
     }
   }

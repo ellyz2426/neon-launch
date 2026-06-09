@@ -1,0 +1,78 @@
+
+> neon-launch@1.0.0 dev:runtime
+> vite
+
+🚀 Generating initial UIKitML files for dev server...
+👁️  UIKitML file watcher started - monitoring for changes...
+
+  VITE v7.3.3  ready in 20677 ms
+
+  ➜  Local:   http://localhost:8081/
+  ➜  Network: http://198.19.0.2:8081/
+➕ UIKitML file add: ui/callout.uikitml
+➕ UIKitML file add: ui/tutorial.uikitml
+➕ UIKitML file add: ui/orbit-info.uikitml
+➕ UIKitML file add: ui/reentry.uikitml
+✅ UIKitML file recompiled: reentry.uikitml
+6:26:06 PM [vite] (client) page reload src/index.ts
+6:26:11 PM [vite] (client) page reload src/index.ts
+6:26:25 PM [vite] (client) page reload src/index.ts
+6:26:43 PM [vite] (client) page reload src/index.ts
+6:26:56 PM [vite] (client) page reload src/index.ts
+6:27:05 PM [vite] (client) page reload src/index.ts
+6:27:30 PM [vite] (client) page reload src/index.ts
+6:27:38 PM [vite] (client) page reload src/index.ts
+6:27:53 PM [vite] (client) page reload src/index.ts
+6:28:03 PM [vite] (client) page reload src/index.ts
+6:28:12 PM [vite] (client) page reload src/index.ts
+6:28:29 PM [vite] (client) page reload src/index.ts
+6:28:36 PM [vite] (client) page reload src/index.ts
+6:28:44 PM [vite] (client) page reload src/index.ts
+6:28:51 PM [vite] (client) page reload src/index.ts
+[browser] [PanelUISystem] Error loading panel for entity 16: SyntaxError: Unexpected token '<', "<!DOCTYPE "... is not valid JSON
+[browser] [PanelUISystem] Error loading panel for entity 17: SyntaxError: Unexpected token '<', "<!DOCTYPE "... is not valid JSON
+[browser] [PanelUISystem] Error loading panel for entity 18: SyntaxError: Unexpected token '<', "<!DOCTYPE "... is not valid JSON
+6:29:01 PM [vite] (client) page reload src/index.ts
+[browser] [PanelUISystem] Error loading panel for entity 16: SyntaxError: Unexpected token '<', "<!DOCTYPE "... is not valid JSON
+[browser] [PanelUISystem] Error loading panel for entity 17: SyntaxError: Unexpected token '<', "<!DOCTYPE "... is not valid JSON
+[browser] [PanelUISystem] Error loading panel for entity 18: SyntaxError: Unexpected token '<', "<!DOCTYPE "... is not valid JSON
+[browser] [PanelUISystem] Error loading panel for entity 16: SyntaxError: Unexpected token '<', "<!DOCTYPE "... is not valid JSON
+[browser] [PanelUISystem] Error loading panel for entity 17: SyntaxError: Unexpected token '<', "<!DOCTYPE "... is not valid JSON
+[browser] [PanelUISystem] Error loading panel for entity 18: SyntaxError: Unexpected token '<', "<!DOCTYPE "... is not valid JSON
+6:29:13 PM [vite] (client) page reload src/index.ts
+[browser] [PanelUISystem] Error loading panel for entity 16: SyntaxError: Unexpected token '<', "<!DOCTYPE "... is not valid JSON
+[browser] [PanelUISystem] Error loading panel for entity 17: SyntaxError: Unexpected token '<', "<!DOCTYPE "... is not valid JSON
+[browser] [PanelUISystem] Error loading panel for entity 18: SyntaxError: Unexpected token '<', "<!DOCTYPE "... is not valid JSON
+6:29:37 PM [vite] (client) page reload src/index.ts
+6:29:43 PM [vite] (client) page reload src/index.ts
+[browser] [PanelUISystem] Error loading panel for entity 16: SyntaxError: Unexpected token '<', "<!DOCTYPE "... is not valid JSON
+[browser] [PanelUISystem] Error loading panel for entity 17: SyntaxError: Unexpected token '<', "<!DOCTYPE "... is not valid JSON
+[browser] [PanelUISystem] Error loading panel for entity 18: SyntaxError: Unexpected token '<', "<!DOCTYPE "... is not valid JSON
+6:29:48 PM [vite] (client) page reload src/index.ts
+[browser] [PanelUISystem] Error loading panel for entity 16: SyntaxError: Unexpected token '<', "<!DOCTYPE "... is not valid JSON
+[browser] [PanelUISystem] Error loading panel for entity 17: SyntaxError: Unexpected token '<', "<!DOCTYPE "... is not valid JSON
+[browser] [PanelUISystem] Error loading panel for entity 18: SyntaxError: Unexpected token '<', "<!DOCTYPE "... is not valid JSON
+📝 UIKitML file change: ui/title.uikitml
+✅ UIKitML file recompiled: title.uikitml
+[browser] [PanelUISystem] Error loading panel for entity 16: SyntaxError: Unexpected token '<', "<!DOCTYPE "... is not valid JSON
+[browser] [PanelUISystem] Error loading panel for entity 17: SyntaxError: Unexpected token '<', "<!DOCTYPE "... is not valid JSON
+[browser] [PanelUISystem] Error loading panel for entity 18: SyntaxError: Unexpected token '<', "<!DOCTYPE "... is not valid JSON
+[browser] [PanelUISystem] Error loading panel for entity 16: SyntaxError: Unexpected token '<', "<!DOCTYPE "... is not valid JSON
+[browser] [PanelUISystem] Error loading panel for entity 17: SyntaxError: Unexpected token '<', "<!DOCTYPE "... is not valid JSON
+[browser] [PanelUISystem] Error loading panel for entity 18: SyntaxError: Unexpected token '<', "<!DOCTYPE "... is not valid JSON
+
+🥽 IWSDK Dev Summary (Development):
+  - Device: metaQuest3
+  - Runtime injected: 1116.7KB
+  - Activation mode: localhost
+  - AI: agent mode (WebSocket at /__iwer_mcp)
+  - Note: Runtime only activates on localhost/local networks
+
+
+🥽 IWSDK Dev Summary (Development):
+  - Device: metaQuest3
+  - Runtime injected: 1116.7KB
+  - Activation mode: localhost
+  - AI: agent mode (WebSocket at /__iwer_mcp)
+  - Note: Runtime only activates on localhost/local networks
+

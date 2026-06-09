@@ -1,0 +1,4 @@
+<container flexDirection="column" alignItems="center" padding="6" backgroundColor="#001a2a90" borderRadius="8" borderColor="#44ddff" borderWidth="1">
+  <text name="callout-label" fontSize="7" color="#668888">MISSION CONTROL</text>
+  <text name="callout-text" fontSize="9" fontWeight="bold" color="#44ddff">All systems nominal</text>
+</container>

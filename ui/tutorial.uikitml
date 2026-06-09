@@ -1,0 +1,7 @@
+<container flexDirection="column" alignItems="center" gap="5" padding="14" backgroundColor="#0a0a1a" borderRadius="12" borderColor="#44ddff" borderWidth="1">
+  <text fontSize="16" fontWeight="bold" color="#44ddff">TUTORIAL</text>
+  <text name="tut-step" fontSize="11" fontWeight="bold" color="#00ffff">Step 1: Throttle Up</text>
+  <text name="tut-desc" fontSize="9" color="#aaaacc">Press W or push thumbstick up to increase throttle. Get it above 70%.</text>
+  <text name="tut-progress" fontSize="9" color="#44ff44">0 / 6 steps</text>
+  <text name="btn-skip-tut" fontSize="10" color="#888888" backgroundColor="#111122" padding="5" borderRadius="4" borderColor="#888888" borderWidth="1" cursor="pointer">SKIP TUTORIAL</text>
+</container>

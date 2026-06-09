@@ -1,0 +1,154 @@
+{
+  "element": {
+    "sourceTag": "container",
+    "type": "custom",
+    "children": [
+      {
+        "sourceTag": "text",
+        "type": "custom",
+        "children": [
+          "TUTORIAL"
+        ],
+        "properties": {
+          "fontsize": "16",
+          "fontweight": "bold",
+          "color": "#44ddff"
+        },
+        "dataUid": "uid-2"
+      },
+      {
+        "sourceTag": "text",
+        "type": "custom",
+        "children": [
+          "Step 1: Throttle Up"
+        ],
+        "properties": {
+          "name": "tut-step",
+          "fontsize": "11",
+          "fontweight": "bold",
+          "color": "#00ffff"
+        },
+        "dataUid": "uid-3"
+      },
+      {
+        "sourceTag": "text",
+        "type": "custom",
+        "children": [
+          "Press W or push thumbstick up to increase throttle. Get it above 70%."
+        ],
+        "properties": {
+          "name": "tut-desc",
+          "fontsize": "9",
+          "color": "#aaaacc"
+        },
+        "dataUid": "uid-4"
+      },
+      {
+        "sourceTag": "text",
+        "type": "custom",
+        "children": [
+          "0 / 6 steps"
+        ],
+        "properties": {
+          "name": "tut-progress",
+          "fontsize": "9",
+          "color": "#44ff44"
+        },
+        "dataUid": "uid-5"
+      },
+      {
+        "sourceTag": "text",
+        "type": "custom",
+        "children": [
+          "SKIP TUTORIAL"
+        ],
+        "properties": {
+          "name": "btn-skip-tut",
+          "fontsize": "10",
+          "color": "#888888",
+          "backgroundcolor": "#111122",
+          "padding": "5",
+          "borderradius": "4",
+          "bordercolor": "#888888",
+          "borderwidth": "1",
+          "cursor": "pointer"
+        },
+        "dataUid": "uid-6"
+      }
+    ],
+    "properties": {
+      "flexdirection": "column",
+      "alignitems": "center",
+      "gap": "5",
+      "padding": "14",
+      "backgroundcolor": "#0a0a1a",
+      "borderradius": "12",
+      "bordercolor": "#44ddff",
+      "borderwidth": "1"
+    },
+    "dataUid": "uid-1"
+  },
+  "classes": {},
+  "ranges": {
+    "uid-1": {
+      "start": {
+        "line": 0,
+        "column": 0
+      },
+      "end": {
+        "line": 6,
+        "column": 12
+      }
+    },
+    "uid-2": {
+      "start": {
+        "line": 1,
+        "column": 2
+      },
+      "end": {
+        "line": 1,
+        "column": 71
+      }
+    },
+    "uid-3": {
+      "start": {
+        "line": 2,
+        "column": 2
+      },
+      "end": {
+        "line": 2,
+        "column": 98
+      }
+    },
+    "uid-4": {
+      "start": {
+        "line": 3,
+        "column": 2
+      },
+      "end": {
+        "line": 3,
+        "column": 129
+      }
+    },
+    "uid-5": {
+      "start": {
+        "line": 4,
+        "column": 2
+      },
+      "end": {
+        "line": 4,
+        "column": 75
+      }
+    },
+    "uid-6": {
+      "start": {
+        "line": 5,
+        "column": 2
+      },
+      "end": {
+        "line": 5,
+        "column": 188
+      }
+    }
+  }
+}

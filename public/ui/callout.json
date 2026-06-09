@@ -1,0 +1,78 @@
+{
+  "element": {
+    "sourceTag": "container",
+    "type": "custom",
+    "children": [
+      {
+        "sourceTag": "text",
+        "type": "custom",
+        "children": [
+          "MISSION CONTROL"
+        ],
+        "properties": {
+          "name": "callout-label",
+          "fontsize": "7",
+          "color": "#668888"
+        },
+        "dataUid": "uid-2"
+      },
+      {
+        "sourceTag": "text",
+        "type": "custom",
+        "children": [
+          "All systems nominal"
+        ],
+        "properties": {
+          "name": "callout-text",
+          "fontsize": "9",
+          "fontweight": "bold",
+          "color": "#44ddff"
+        },
+        "dataUid": "uid-3"
+      }
+    ],
+    "properties": {
+      "flexdirection": "column",
+      "alignitems": "center",
+      "padding": "6",
+      "backgroundcolor": "#001a2a90",
+      "borderradius": "8",
+      "bordercolor": "#44ddff",
+      "borderwidth": "1"
+    },
+    "dataUid": "uid-1"
+  },
+  "classes": {},
+  "ranges": {
+    "uid-1": {
+      "start": {
+        "line": 0,
+        "column": 0
+      },
+      "end": {
+        "line": 3,
+        "column": 12
+      }
+    },
+    "uid-2": {
+      "start": {
+        "line": 1,
+        "column": 2
+      },
+      "end": {
+        "line": 1,
+        "column": 80
+      }
+    },
+    "uid-3": {
+      "start": {
+        "line": 2,
+        "column": 2
+      },
+      "end": {
+        "line": 2,
+        "column": 101
+      }
+    }
+  }
+}
