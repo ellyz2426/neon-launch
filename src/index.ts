@@ -187,6 +187,10 @@ const MISSIONS: Mission[] = [
   { name: 'Fuel Challenge', target: 400, payload: 'satellite', difficulty: 'Hard', description: 'Orbit with 50%+ fuel left' },
   { name: 'Heavy Launch', target: 300, payload: 'station', difficulty: 'Hard', description: 'Heavy payload to low orbit' },
   { name: 'Re-entry Run', target: 0, payload: 'crew', difficulty: 'Expert', description: 'Survive atmospheric re-entry' },
+  { name: 'Micro-G Lab', target: 250, payload: 'satellite', difficulty: 'Easy', description: 'Micro-gravity research at 250km' },
+  { name: 'Debris Dodge', target: 350, payload: 'satellite', difficulty: 'Medium', description: 'Navigate past Kessler debris to 350km' },
+  { name: 'Rescue Mission', target: 420, payload: 'crew', difficulty: 'Hard', description: 'Emergency crew rescue at ISS orbit' },
+  { name: 'Mars Transfer', target: 25000, payload: 'probe', difficulty: 'Expert', description: 'Trans-Mars injection burn' },
 ];
 
 const ACHIEVEMENTS: Achievement[] = [
@@ -261,6 +265,13 @@ const ACHIEVEMENTS: Achievement[] = [
   { id: 'career_half', name: 'Halfway There', desc: 'Unlock 8 career missions', unlocked: false },
   { id: 'combo_weather_heavy', name: 'Iron Will', desc: 'Heavy launch in storm weather', unlocked: false },
   { id: 'two_hundred_launches', name: 'Legend', desc: '200 launches completed', unlocked: false },
+  { id: 'mars_transfer', name: 'Mars Bound', desc: 'Complete Mars Transfer mission', unlocked: false },
+  { id: 'rescue_hero', name: 'Rescue Hero', desc: 'Complete Rescue Mission', unlocked: false },
+  { id: 'micro_g', name: 'Scientist', desc: 'Complete Micro-G Lab mission', unlocked: false },
+  { id: 'debris_dodge', name: 'Dodge Master', desc: 'Complete Debris Dodge mission', unlocked: false },
+  { id: 'all_themes_used', name: 'World Traveler', desc: 'Use all arena themes', unlocked: false },
+  { id: 'speed_orbit_45s', name: 'Lightning Fast', desc: 'Reach orbit in under 45s', unlocked: false },
+  { id: 'all_fuel_types', name: 'Fuel Expert', desc: 'Orbit with each fuel type', unlocked: false },
 ];
 
 const ROCKET_SKINS: RocketSkin[] = [
@@ -291,6 +302,10 @@ const ARENA_THEMES: ArenaTheme[] = [
   { name: 'Arctic Launch', grid: '#88ccff', accent: '#aaddff', bg: '#0a0f15', fog: '#0a0f15', wall: '#152535', sky: '#0a1a2a', glow: '#88ccff' },
   { name: 'Desert Pad', grid: '#cc8844', accent: '#ddaa66', bg: '#151008', fog: '#151008', wall: '#2a2010', sky: '#221a08', glow: '#cc8844' },
   { name: 'Ocean Platform', grid: '#2288cc', accent: '#33aadd', bg: '#050a10', fog: '#050a10', wall: '#0a1a2a', sky: '#061525', glow: '#2288cc' },
+  { name: 'Midnight Launch', grid: '#4444cc', accent: '#5555ee', bg: '#050510', fog: '#050510', wall: '#0a0a2a', sky: '#050522', glow: '#4444cc' },
+  { name: 'Volcanic Base', grid: '#dd4422', accent: '#ff6644', bg: '#150805', fog: '#150805', wall: '#2a1008', sky: '#221005', glow: '#dd4422' },
+  { name: 'Forest Clearing', grid: '#228844', accent: '#33aa55', bg: '#050f08', fog: '#050f08', wall: '#0a200f', sky: '#081a0a', glow: '#228844' },
+  { name: 'Neon City', grid: '#ff44ff', accent: '#ff66ff', bg: '#100510', fog: '#100510', wall: '#2a0a2a', sky: '#220822', glow: '#ff44ff' },
 ];
 
 const LEVEL_TITLES = [
@@ -520,6 +535,12 @@ class GameStateManager {
     check('career_half', this.careerUnlocked >= 8);
     check('combo_weather_heavy', this.currentMission.payload === 'station' && this.weather.name === 'Storm' && f.altitude >= this.currentMission.target * 1000 && this.currentMission.target > 0);
     check('two_hundred_launches', this.totalLaunches >= 200);
+    check('mars_transfer', this.currentMission.name === 'Mars Transfer' && f.altitude >= 25000000);
+    check('rescue_hero', this.currentMission.name === 'Rescue Mission' && f.altitude >= 420000);
+    check('micro_g', this.currentMission.name === 'Micro-G Lab' && f.altitude >= 250000);
+    check('debris_dodge', this.currentMission.name === 'Debris Dodge' && f.altitude >= 350000);
+    check('all_themes_used', this.themesUsed.size >= this.themes.length);
+    check('speed_orbit_45s', f.altitude >= this.currentMission.target * 1000 && f.missionTime < 45 && this.currentMission.target > 0);
     return unlocked;
   }
 
@@ -2141,6 +2162,19 @@ async function main() {
         const grade = f.score >= 80000 ? 'S' : f.score >= 50000 ? 'A' : f.score >= 30000 ? 'B' : f.score >= 15000 ? 'C' : f.score >= 5000 ? 'D' : 'F';
         this.setText('gameover', 'go-grade', grade);
         this.setText('gameover', 'go-xp', '+' + (Math.floor(f.score / 10) + (success ? 100 : 20)) + ' XP');
+        // Score breakdown
+        const altScore = Math.floor(f.maxAltitude / 100);
+        const velScore = Math.floor(f.maxVelocity / 10);
+        const fuelScore = Math.floor(f.fuel * 50);
+        const weatherBonus = game.weather.windSpeed > 0 ? Math.floor(game.weather.windSpeed * 10) : 0;
+        const diffMult = game.difficulty === 0 ? 0.7 : game.difficulty === 2 ? 1.5 : 1.0;
+        this.setText('gameover', 'go-break-alt', 'Altitude: +' + altScore);
+        this.setText('gameover', 'go-break-vel', 'Velocity: +' + velScore);
+        this.setText('gameover', 'go-break-fuel', 'Fuel bonus: +' + fuelScore);
+        this.setText('gameover', 'go-break-weather', 'Weather: +' + weatherBonus);
+        this.setText('gameover', 'go-break-diff', 'Difficulty: x' + diffMult.toFixed(1));
+        this.setText('gameover', 'go-break-maxq', 'Max-Q: ' + f.maxQ.toFixed(1) + ' kPa');
+        this.setText('gameover', 'go-break-maxg', 'Max G: ' + game.maxG.toFixed(1));
       }
 
       // Update title

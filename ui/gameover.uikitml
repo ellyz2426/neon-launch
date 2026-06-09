@@ -31,6 +31,16 @@
       <text name="go-grade" fontSize="14" fontWeight="bold" color="#9966ff">F</text>
     </container>
     <text name="go-xp" fontSize="10" color="#44ddff">+0 XP</text>
+    <container flexDirection="column" gap="2" marginTop="4" padding="4" backgroundColor="#0a0a2a" borderRadius="4">
+      <text fontSize="8" fontWeight="bold" color="#668888">SCORE BREAKDOWN</text>
+      <text name="go-break-alt" fontSize="8" color="#44ff44">Altitude: +0</text>
+      <text name="go-break-vel" fontSize="8" color="#ffcc00">Velocity: +0</text>
+      <text name="go-break-fuel" fontSize="8" color="#ff6633">Fuel bonus: +0</text>
+      <text name="go-break-weather" fontSize="8" color="#44ddff">Weather: +0</text>
+      <text name="go-break-diff" fontSize="8" color="#9966ff">Difficulty: x1.0</text>
+      <text name="go-break-maxq" fontSize="8" color="#aaaacc">Max-Q: 0 kPa</text>
+      <text name="go-break-maxg" fontSize="8" color="#ff4444">Max G: 0.0</text>
+    </container>
   </container>
   <container flexDirection="row" gap="8" marginTop="8">
     <text name="btn-relaunch" fontSize="14" color="#00ffff" backgroundColor="#002a2a" padding="8" borderRadius="6" borderColor="#00ffff" borderWidth="1" cursor="pointer">RELAUNCH</text>
