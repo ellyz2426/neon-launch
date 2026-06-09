@@ -358,3 +358,19 @@
     at main (http://localhost:8081/src/index.ts?t=1781038452821:2052:33)
 8:54:58 PM [vite] (client) page reload src/index.ts
 8:55:05 PM [vite] (client) page reload src/index.ts
+
+🥽 IWSDK Dev Summary (Development):
+  - Device: metaQuest3
+  - Runtime injected: 1116.7KB
+  - Activation mode: localhost
+  - AI: agent mode (WebSocket at /__iwer_mcp)
+  - Note: Runtime only activates on localhost/local networks
+
+
+🥽 IWSDK Dev Summary (Development):
+  - Device: metaQuest3
+  - Runtime injected: 1116.7KB
+  - Activation mode: localhost
+  - AI: agent mode (WebSocket at /__iwer_mcp)
+  - Note: Runtime only activates on localhost/local networks
+
