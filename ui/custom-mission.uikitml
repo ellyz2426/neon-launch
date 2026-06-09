@@ -1,0 +1,20 @@
+<container flexDirection="column" alignItems="center" gap="6" padding="14" backgroundColor="#0a0a1a" borderRadius="12" borderColor="#ff8800" borderWidth="1">
+  <text fontSize="16" fontWeight="bold" color="#ff8800">CUSTOM MISSION</text>
+  <container flexDirection="column" gap="4">
+    <text fontSize="10" color="#aaaacc">Target Altitude (km):</text>
+    <container flexDirection="row" gap="6" alignItems="center">
+      <text name="btn-alt-dn" fontSize="12" color="#ff4444" backgroundColor="#1a0000" padding="5" borderRadius="4" borderColor="#ff4444" borderWidth="1" cursor="pointer">-100</text>
+      <text name="custom-alt" fontSize="14" fontWeight="bold" color="#44ff44">500</text>
+      <text name="btn-alt-up" fontSize="12" color="#44ff44" backgroundColor="#001a00" padding="5" borderRadius="4" borderColor="#44ff44" borderWidth="1" cursor="pointer">+100</text>
+    </container>
+    <text fontSize="10" color="#aaaacc">Payload:</text>
+    <container flexDirection="row" gap="4">
+      <text name="btn-pay-sat" fontSize="10" color="#00ffff" backgroundColor="#001a2a" padding="5" borderRadius="4" borderColor="#00ffff" borderWidth="1" cursor="pointer">SATELLITE</text>
+      <text name="btn-pay-crew" fontSize="10" color="#ffcc00" backgroundColor="#1a1a00" padding="5" borderRadius="4" borderColor="#ffcc00" borderWidth="1" cursor="pointer">CREW</text>
+      <text name="btn-pay-heavy" fontSize="10" color="#ff6633" backgroundColor="#1a0a00" padding="5" borderRadius="4" borderColor="#ff6633" borderWidth="1" cursor="pointer">HEAVY</text>
+    </container>
+    <text name="custom-payload" fontSize="10" color="#668888">satellite</text>
+  </container>
+  <text name="btn-custom-launch" fontSize="14" fontWeight="bold" color="#ff8800" backgroundColor="#1a0f00" padding="8" borderRadius="6" borderColor="#ff8800" borderWidth="2" cursor="pointer">LAUNCH CUSTOM</text>
+  <text name="btn-back-custom" fontSize="10" color="#888888" backgroundColor="#111111" padding="5" borderRadius="4" borderColor="#888888" borderWidth="1" cursor="pointer">BACK</text>
+</container>

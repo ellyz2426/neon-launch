@@ -15,3 +15,34 @@
 6:34:21 PM [vite] (client) page reload src/index.ts
 📝 UIKitML file change: ui/gameover.uikitml
 ✅ UIKitML file recompiled: gameover.uikitml
+➕ UIKitML file add: ui/custom-mission.uikitml
+✅ UIKitML file recompiled: custom-mission.uikitml
+6:35:48 PM [vite] (client) page reload src/index.ts
+6:35:53 PM [vite] (client) page reload src/index.ts
+6:36:00 PM [vite] (client) page reload src/index.ts
+6:36:06 PM [vite] (client) page reload src/index.ts
+6:36:11 PM [vite] (client) page reload src/index.ts
+6:36:48 PM [vite] (client) page reload src/index.ts
+6:36:54 PM [vite] (client) page reload src/index.ts
+6:37:04 PM [vite] (client) page reload src/index.ts
+6:37:14 PM [vite] (client) page reload src/index.ts
+📝 UIKitML file change: ui/title.uikitml
+✅ UIKitML file recompiled: title.uikitml
+6:37:29 PM [vite] (client) page reload src/index.ts
+6:37:36 PM [vite] (client) page reload src/index.ts
+
+🥽 IWSDK Dev Summary (Development):
+  - Device: metaQuest3
+  - Runtime injected: 1116.7KB
+  - Activation mode: localhost
+  - AI: agent mode (WebSocket at /__iwer_mcp)
+  - Note: Runtime only activates on localhost/local networks
+
+
+🥽 IWSDK Dev Summary (Development):
+  - Device: metaQuest3
+  - Runtime injected: 1116.7KB
+  - Activation mode: localhost
+  - AI: agent mode (WebSocket at /__iwer_mcp)
+  - Note: Runtime only activates on localhost/local networks
+

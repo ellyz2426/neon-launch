@@ -13,5 +13,6 @@
     <text name="btn-settings" fontSize="12" color="#aaaacc" backgroundColor="#111122" padding="6" borderRadius="6" borderColor="#aaaacc" borderWidth="1" cursor="pointer">SETTINGS</text>
     <text name="btn-help" fontSize="12" color="#6688aa" backgroundColor="#0a0a1a" padding="6" borderRadius="6" borderColor="#6688aa" borderWidth="1" cursor="pointer">HELP</text>
     <text name="btn-tutorial" fontSize="12" color="#44ddff" backgroundColor="#001a22" padding="6" borderRadius="6" borderColor="#44ddff" borderWidth="1" cursor="pointer">TUTORIAL</text>
+    <text name="btn-custom" fontSize="12" color="#ff8800" backgroundColor="#1a0f00" padding="6" borderRadius="6" borderColor="#ff8800" borderWidth="1" cursor="pointer">CUSTOM MISSION</text>
   </container>
 </container>

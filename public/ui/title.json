@@ -236,6 +236,25 @@
               "cursor": "pointer"
             },
             "dataUid": "uid-15"
+          },
+          {
+            "sourceTag": "text",
+            "type": "custom",
+            "children": [
+              "CUSTOM MISSION"
+            ],
+            "properties": {
+              "name": "btn-custom",
+              "fontsize": "12",
+              "color": "#ff8800",
+              "backgroundcolor": "#1a0f00",
+              "padding": "6",
+              "borderradius": "6",
+              "bordercolor": "#ff8800",
+              "borderwidth": "1",
+              "cursor": "pointer"
+            },
+            "dataUid": "uid-16"
           }
         ],
         "properties": {
@@ -266,7 +285,7 @@
         "column": 0
       },
       "end": {
-        "line": 16,
+        "line": 17,
         "column": 12
       }
     },
@@ -306,7 +325,7 @@
         "column": 2
       },
       "end": {
-        "line": 15,
+        "line": 16,
         "column": 14
       }
     },
@@ -408,6 +427,16 @@
       "end": {
         "line": 14,
         "column": 185
+      }
+    },
+    "uid-16": {
+      "start": {
+        "line": 15,
+        "column": 4
+      },
+      "end": {
+        "line": 15,
+        "column": 189
       }
     }
   }

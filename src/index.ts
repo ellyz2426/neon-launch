@@ -37,7 +37,7 @@ import {
 // TYPES & CONSTANTS
 // ============================================================================
 
-type GameState = 'title' | 'config' | 'preflight' | 'countdown' | 'flying' | 'orbit' | 'gameover' | 'achievements' | 'stats' | 'settings' | 'help' | 'skins' | 'modes' | 'difficulty' | 'weather' | 'career' | 'leaderboard' | 'tutorial';
+type GameState = 'title' | 'config' | 'preflight' | 'countdown' | 'flying' | 'orbit' | 'gameover' | 'achievements' | 'stats' | 'settings' | 'help' | 'skins' | 'modes' | 'difficulty' | 'weather' | 'career' | 'leaderboard' | 'tutorial' | 'custom-mission';
 
 // Tutorial steps
 interface TutorialStep {
@@ -274,6 +274,10 @@ const ROCKET_SKINS: RocketSkin[] = [
   { name: 'Meteor Gold', body: '#cc8800', accent: '#ffcc00', flame: '#ffaa00', unlockCondition: '100 launches', unlocked: false },
   { name: 'Shadow Black', body: '#222222', accent: '#666666', flame: '#ff4444', unlockCondition: 'Hurricane orbit', unlocked: false },
   { name: 'Aurora', body: '#44ddaa', accent: '#22ffcc', flame: '#00ff88', unlockCondition: 'Level 40', unlocked: false },
+  { name: 'Deep Ocean', body: '#1a4466', accent: '#2288bb', flame: '#44aadd', unlockCondition: 'Complete 15 missions', unlocked: false },
+  { name: 'Sunset Blaze', body: '#cc4400', accent: '#ff8833', flame: '#ffcc44', unlockCondition: '200 launches', unlocked: false },
+  { name: 'Neon Matrix', body: '#112211', accent: '#33ff33', flame: '#88ff88', unlockCondition: 'Score 100k', unlocked: false },
+  { name: 'Royal Gold', body: '#aa8833', accent: '#ffdd44', flame: '#ffee88', unlockCondition: 'All milestones in one flight', unlocked: false },
 ];
 
 const ARENA_THEMES: ArenaTheme[] = [
@@ -357,6 +361,8 @@ class GameStateManager {
   stageDebris: StageDebris[] = [];
   cameraShakeIntensity = 0;
   speedLineIntensity = 0;
+  customAltitude = 500;
+  customPayload = 'satellite';
 
   constructor() {
     this.config = { stages: 2, payload: 'satellite', fuelType: 'standard' };
@@ -525,6 +531,10 @@ class GameStateManager {
     if (this.skins[9]) this.skins[9].unlocked = this.totalLaunches >= 100;
     if (this.skins[10]) this.skins[10].unlocked = this.achievements.find(a => a.id === 'hurricane_hero')?.unlocked ?? false;
     if (this.skins[11]) this.skins[11].unlocked = this.level >= 40;
+    if (this.skins[12]) this.skins[12].unlocked = this.missionsCompleted.size >= 15;
+    if (this.skins[13]) this.skins[13].unlocked = this.totalLaunches >= 200;
+    if (this.skins[14]) this.skins[14].unlocked = this.bestScore >= 100000;
+    if (this.skins[15]) this.skins[15].unlocked = this.milestoneTriggered.size >= 9;
   }
 
   save() {
@@ -1689,7 +1699,7 @@ async function main() {
     'title', 'modes', 'difficulty', 'hud', 'throttle', 'countdown',
     'pause', 'gameover', 'leaderboard', 'achievements', 'settings',
     'help', 'toast', 'stats', 'skins', 'telemetry', 'weather', 'career', 'altimeter',
-    'tutorial', 'orbit-info', 'callout', 'reentry',
+    'tutorial', 'orbit-info', 'callout', 'reentry', 'custom-mission',
   ];
 
   const panelEntities: Record<string, any> = {};
@@ -1735,6 +1745,7 @@ async function main() {
   panelEntities['orbit-info'] = createFollowerPanel('./ui/orbit-info.json', 0.35, 0.05, -0.5, 0.2, 0.18);
   panelEntities['callout'] = createFollowerPanel('./ui/callout.json', 0, 0.25, -0.6, 0.35, 0.08);
   panelEntities['reentry'] = createFollowerPanel('./ui/reentry.json', 0.35, -0.15, -0.5, 0.2, 0.18);
+  panelEntities['custom-mission'] = createWorldPanel('./ui/custom-mission.json', 0, 1.6, -2, 0.5, 0.7);
 
   // Follower panels (HUDs)
   panelEntities['hud'] = createFollowerPanel('./ui/hud.json', 0.3, -0.12, -0.5, 0.4, 0.2);
@@ -1766,6 +1777,7 @@ async function main() {
     orbitInfo: { required: [PanelUI, PanelDocument], where: [eq(PanelUI, 'config', './ui/orbit-info.json')] },
     calloutPanel: { required: [PanelUI, PanelDocument], where: [eq(PanelUI, 'config', './ui/callout.json')] },
     reentry: { required: [PanelUI, PanelDocument], where: [eq(PanelUI, 'config', './ui/reentry.json')] },
+    customMission: { required: [PanelUI, PanelDocument], where: [eq(PanelUI, 'config', './ui/custom-mission.json')] },
   }) {
     private docs: Record<string, UIKitDocument> = {};
 
@@ -1813,6 +1825,7 @@ async function main() {
           this.bindButton('title', 'btn-career', () => { audio.playSfx('click'); setState('career'); });
           this.bindButton('title', 'btn-leaderboard', () => { audio.playSfx('click'); setState('leaderboard'); });
           this.bindButton('title', 'btn-tutorial', () => { audio.playSfx('click'); startTutorial(); });
+          this.bindButton('title', 'btn-custom', () => { audio.playSfx('click'); setState('custom-mission'); });
           break;
 
         case 'modes':
@@ -1922,6 +1935,34 @@ async function main() {
             game.tutorialMode = false;
           });
           break;
+
+        case 'custom-mission':
+          this.bindButton('customMission', 'btn-alt-up', () => {
+            game.customAltitude = Math.min(20000, game.customAltitude + 100);
+            audio.playSfx('click');
+          });
+          this.bindButton('customMission', 'btn-alt-dn', () => {
+            game.customAltitude = Math.max(100, game.customAltitude - 100);
+            audio.playSfx('click');
+          });
+          this.bindButton('customMission', 'btn-pay-sat', () => { game.customPayload = 'satellite'; audio.playSfx('click'); });
+          this.bindButton('customMission', 'btn-pay-crew', () => { game.customPayload = 'crew'; audio.playSfx('click'); });
+          this.bindButton('customMission', 'btn-pay-heavy', () => { game.customPayload = 'station'; audio.playSfx('click'); });
+          this.bindButton('customMission', 'btn-custom-launch', () => {
+            audio.playSfx('click');
+            game.currentMission = {
+              name: 'Custom: ' + game.customAltitude + 'km',
+              target: game.customAltitude,
+              payload: game.customPayload,
+              difficulty: 'Custom',
+              description: 'Custom mission to ' + game.customAltitude + 'km',
+            };
+            game.config.payload = game.customPayload;
+            rebuildRocket();
+            setState('difficulty');
+          });
+          this.bindButton('customMission', 'btn-back-custom', () => { audio.playSfx('click'); setState('title'); });
+          break;
       }
     }
 
@@ -1953,6 +1994,7 @@ async function main() {
         'orbit-info': s === 'flying' && game.currentMission.target > 0 && game.flight.altitude > 50000,
         callout: calloutTimer > 0 && s === 'flying',
         reentry: s === 'flying' && game.currentMission.name === 'Re-entry Run' && game.reentry.descending,
+        'custom-mission': s === 'custom-mission',
       };
       for (const [name, entity] of Object.entries(panelEntities)) {
         if (entity.object3D) entity.object3D.visible = vis[name] ?? false;
@@ -2202,6 +2244,12 @@ async function main() {
         this.setText('reentry', 're-temp', re.temperature.toFixed(0) + ' K');
         const status = re.heat > 80 ? 'CRITICAL' : re.heat > 50 ? 'WARNING' : 'NOMINAL';
         this.setText('reentry', 're-status', status);
+      }
+
+      // Custom mission panel
+      if (s === 'custom-mission') {
+        this.setText('customMission', 'custom-alt', game.customAltitude + ' km');
+        this.setText('customMission', 'custom-payload', game.customPayload);
       }
     }
   }
