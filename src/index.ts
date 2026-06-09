@@ -107,6 +107,8 @@ interface FlightData {
   thrust: number;
   mass: number;
   gravity: number;
+  maxQ: number;       // max dynamic pressure
+  currentQ: number;   // current dynamic pressure
 }
 
 interface Mission {
@@ -421,6 +423,8 @@ class GameStateManager {
       thrust: 2000 * thrustMult,
       mass: (baseMass + payloadMass) * fuelMult,
       gravity: 9.81,
+      maxQ: 0,
+      currentQ: 0,
     };
   }
 
@@ -874,6 +878,60 @@ function buildHolodeck(theme: ArenaTheme): Group {
 // ROCKET BUILDER
 // ============================================================================
 
+// ============================================================================
+// STARFIELD SYSTEM
+// ============================================================================
+
+class Starfield {
+  stars: Mesh[] = [];
+  group: Group;
+
+  constructor() {
+    this.group = new Group();
+    const starGeo = new SphereGeometry(0.01, 4, 4);
+    for (let i = 0; i < 200; i++) {
+      const brightness = 0.3 + Math.random() * 0.7;
+      const mat = new MeshBasicMaterial({
+        color: 0xffffff,
+        transparent: true,
+        blending: AdditiveBlending,
+        opacity: brightness * 0.6,
+      });
+      const star = new Mesh(starGeo, mat);
+      star.position.set(
+        (Math.random() - 0.5) * 30,
+        5 + Math.random() * 20,
+        (Math.random() - 0.5) * 30,
+      );
+      star.userData.twinklePhase = Math.random() * Math.PI * 2;
+      star.userData.twinkleSpeed = 1 + Math.random() * 2;
+      star.userData.baseBrightness = brightness;
+      star.scale.setScalar(0.5 + Math.random() * 1.5);
+      this.group.add(star);
+      this.stars.push(star);
+    }
+    this.group.visible = false;
+  }
+
+  update(altitude: number, time: number) {
+    // Stars appear as altitude increases (above 50km)
+    const altKm = altitude / 1000;
+    const visibility = Math.min(1, Math.max(0, (altKm - 30) / 70));
+    this.group.visible = visibility > 0.01;
+
+    if (!this.group.visible) return;
+
+    for (const star of this.stars) {
+      const twinkle = 0.5 + 0.5 * Math.sin(time * star.userData.twinkleSpeed + star.userData.twinklePhase);
+      (star.material as MeshBasicMaterial).opacity = star.userData.baseBrightness * visibility * twinkle;
+    }
+  }
+}
+
+// ============================================================================
+// ROCKET BUILDER
+// ============================================================================
+
 function buildRocket(skin: RocketSkin, stages: number): Group {
   const rocket = new Group();
   const bodyColor = new Color(skin.body);
@@ -1126,6 +1184,10 @@ async function main() {
   // Orbit ring visualization
   const orbitVis = buildOrbitRing();
   world.scene.add(orbitVis.group);
+
+  // Starfield (appears at high altitude)
+  const starfield = new Starfield();
+  world.scene.add(starfield.group);
 
   // Callout text state
   let calloutText = '';
@@ -1398,6 +1460,23 @@ async function main() {
         orbitVis.group.visible = false;
       }
 
+      // Starfield update
+      if (game.state === 'flying') {
+        starfield.update(game.flight.altitude, time);
+        // Dynamic sky: darken as altitude increases
+        const altKm = game.flight.altitude / 1000;
+        const skyDarken = Math.min(1, altKm / 100);
+        const theme = game.themes[game.currentThemeIndex];
+        const baseFog = new Color(theme.fog);
+        const spaceFog = new Color(0x000005);
+        const currentFog = baseFog.clone().lerp(spaceFog, skyDarken);
+        if (world.scene.fog) {
+          (world.scene.fog as Fog).color.copy(currentFog);
+        }
+      } else {
+        starfield.group.visible = false;
+      }
+
       // Animate floating decorations
       for (const child of envGroup.children) {
         if (child.userData.floatSpeed) {
@@ -1509,6 +1588,10 @@ async function main() {
         const atmDensity = Math.exp(-altKm / 8.5); // exponential atmosphere
         const grav = f.gravity * Math.pow(6371 / (6371 + altKm), 2); // inverse square
         const drag = 0.5 * atmDensity * f.dragCoeff * f.velocity * f.velocity * 0.001;
+
+        // Track dynamic pressure
+        f.currentQ = 0.5 * atmDensity * f.velocity * f.velocity * 0.001;
+        if (f.currentQ > f.maxQ) f.maxQ = f.currentQ;
 
         // Weather effects (diminish with altitude)
         const weatherFactor = Math.max(0, 1 - altKm / 100); // weather fades above 100km
